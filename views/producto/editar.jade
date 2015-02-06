@@ -1,0 +1,17 @@
+extends ../layout
+block content
+    h1 Editar Producto
+    form(role='form', method='post', action='/producto/#{dato.id_producto}/editar')
+        fieldset
+            legend Editar Producto
+            div.form-group
+                label Descripción del Producto Actual: #{dato[0].desc_producto}
+                input(name='desc_producto', class='form-control')
+                label Número de Grupo Actual: #{dato[0].num_grupo}
+                //input(name='num_grupo', class='form-control')
+                select.radio(name="num_grupo")
+                    if (lista)
+                        each grupo in lista
+                            option(value=grupo.num_grupo, selected) #{grupo.num_grupo} -> #{grupo.desc_grupo}
+            button.btn.btn-primary(type='submit') Editar
+            button.btn.btn-default(type='reset') Borrar
