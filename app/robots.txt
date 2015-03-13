@@ -1,4 +1,4 @@
 # robotstxt.org
 #robots
-
+1
 User-agent: *
