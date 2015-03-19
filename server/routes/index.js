@@ -94,3 +94,24 @@ exports.insertarProducto = function(req,res){
     //console.log("Número de grupo = "+id_grupo+" , descripcion "+desc_prod);
   });
 }
+
+//++++++++++++++++++++++ELIMINAR UN PRODUCTO.++++++++++++++++++++++++++++++
+exports.eliminarProducto = function(req, res){
+  data_producto.connect();
+  console.log("id de producto: " + req.query._id);
+  try{
+    data_producto.db_eliminar(req.query._id, function(bandera){
+      /*if (bandera){
+        res.redirect('producto/index.jade');
+      }else{
+        console.log('No sirve el método eliminar de producto.js.');
+      }*/
+      console.log("Bandera: "+bandera);
+      res.end();
+    });
+  }catch (e){
+    Console.log('Error: '+ e);
+  }
+}
+
+
