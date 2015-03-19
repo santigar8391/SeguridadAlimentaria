@@ -113,5 +113,3 @@ exports.eliminarProducto = function(req, res){
     Console.log('Error: '+ e);
   }
 }
-
-

@@ -2,9 +2,17 @@
 
 angular.module('proyectoSaludApp')
   .controller('ProductoCtrl', function ($scope, $http, ModalService){
-    $http.get('/api/producto').success(function(awesomeThings) {
+
+      $http.get('/api/producto').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
     });
+
+      $scope.update = function(){
+        $http.get('/api/producto').success(function(awesomeThings) {
+          $scope.awesomeThings = awesomeThings;
+        });
+        $scope.$apply();
+      }
 
       var removeTemplate = '<button type="submit" class="btn btn-default btn-sm" ng-click="removeRow($index)"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </button>';
       $scope.seleccion = [];
@@ -43,6 +51,7 @@ angular.module('proyectoSaludApp')
             //$scope.message = "You said " + result;
             if(result=='Si'){
                 $scope.eliminarProducto($scope.seleccion[0].id_producto);
+                $scope.update();
             }
             if(result=='No'){
               alert("NO elimina!!")
@@ -63,6 +72,7 @@ angular.module('proyectoSaludApp')
           modal.close.then(function(result) {
             console.log(result);
             $scope.saveProducto(result._num_grupo, result._descripcion);
+            $scope.update();
           });
         });
     };

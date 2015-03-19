@@ -40,17 +40,6 @@ app.post('/api/producto/editar/', routes.editarProducto);
 app.get('/api/grupo', routes.getlistadoGrupo);
 app.post('/api/producto/guardar', routes.insertarProducto);
 app.post('/api/producto/eliminar', routes.eliminarProducto);
-/*
-app.get('/', cproducto.index);
-app.get('/producto', cproducto.get_listado);
-app.get('/grupo', cproducto.get_listadoGrupo);
-app.post('/guardar/producto', cproducto.insertarProducto);
-app.post('/editar', cproducto.editar);
-app.delete('/eliminar/:id_producto', cproducto.eliminar);
-app.delete('/eliminar/', cproducto.eliminar);
-*/
-
-
 
 //app.use('*', controllerProducto.index);
 //app.use('/users', users);
