@@ -55,7 +55,6 @@ INSERT INTO producto (id_grupo, desc_producto) VALUES
 ('G01', 'Vísceras'),
 ('G01', 'Hígado'),
 ('G01', 'Otros');
-;
 
 -- CONSULTAS
 
