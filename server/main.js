@@ -39,6 +39,7 @@ app.get('/api/producto', routes.getlistado);
 app.post('/api/producto/editar/', routes.editarProducto);
 app.get('/api/grupo', routes.getlistadoGrupo);
 app.post('/api/producto/guardar', routes.insertarProducto);
+app.post('/api/producto/eliminar', routes.eliminarProducto);
 /*
 app.get('/', cproducto.index);
 app.get('/producto', cproducto.get_listado);

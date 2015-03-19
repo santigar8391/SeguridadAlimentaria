@@ -84,15 +84,5 @@ body {
   width: 700px;
   height: 300px;
 }
-.ngRow.even{
-  background: #ffffff;
-}
-.ngRow.odd{
-  background: lightgoldenrodyellow;
-}
-
-.modal-body input{
-  display: block;
-}
 
 
