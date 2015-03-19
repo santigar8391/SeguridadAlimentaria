@@ -78,11 +78,11 @@ body {
   }
 }
 
-/*ESTILO PARA EL GRID OPTIONS*/
-.gridStyles {
-  border: 3px;
-  width: 700px;
-  height: 300px;
-}
+  /* Estilo para grid options */
+  .gridStyles {
+    border: 3px;
+    width: 700px;
+    height: 300px;
+  }
 
 

@@ -1,0 +1,14 @@
+div.modal.fade
+  div.modal-dialog
+    div.modal-content
+      div.modal-header
+        button.close(type="button", ng-click="close('Cancel')", data-dismiss="modal", aria-hidden="true")&times;
+        h1 Agregar Frecuencia
+
+      div.modal-body
+        label Descripción:
+        input(type="text", ng-model="frecuencia_descripcion")
+        label Grupo:
+        input(type="text", ng-model="frecuencia_coeficiente")
+        button.btn.btn-success(ng-click="asignar_datos()") Guardar
+        button.btn.btn-danger(type="button", ng-click="close('CLOSED')", data-dismiss="modal", aria-hidden="true")&times; Cancelar
