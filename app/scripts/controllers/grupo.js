@@ -13,6 +13,6 @@ angular.module('proyectoSaludApp')
     $scope.guardarProducto = function () {
         close({_num_grupo: $scope.nuevoProductoNumGrupo, _descripcion: $scope.nuevoProductoDescripcion}, 500);
     }
-//---------------------------------------------------------
+//----------------------------------------------------------
 
   });

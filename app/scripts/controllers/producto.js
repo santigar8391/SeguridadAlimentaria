@@ -51,7 +51,7 @@ angular.module('proyectoSaludApp')
           });
         });
       };
-      //----------------------------------------------------------
+      //-----------------------------------------------------------
 
     $scope.mostrarModal = function() {
       $scope.nuevoProducto = {};
