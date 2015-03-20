@@ -8,8 +8,7 @@ angular.module('proyectoSaludApp')
         $scope.nuevoProductoNumGrupo = awesomeThings[0].num_grupo;
         });
 //-----------------GUARDAR PRODUCTO------------------------
-    var _num_grupo= null;
-    var _descripcion = null;
+
     $scope.guardarProducto = function () {
         close({_num_grupo: $scope.nuevoProductoNumGrupo, _descripcion: $scope.nuevoProductoDescripcion}, 500);
     }
