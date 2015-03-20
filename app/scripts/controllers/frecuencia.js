@@ -1,8 +1,14 @@
 'use strict';
 
-angular.module('proyectoSaludApp')
-  .controller('FrecuenciaCtrl', function ($scope, $http, close) {
+angular.module('proyectoSaludApp').controller('FrecuenciaNuevaCtrl', function ($scope, $http, close){
+  $scope.asignar_datos = function () {
+    close({_frecuenciadescripcion: $scope.frecuenciadescripcion, _frecuenciacoeficiente: $scope.frecuenciacoeficiente}, 500);
+  };
+});
 
+angular.module('proyectoSaludApp').controller('FrecuenciaCtrl', function ($scope, $http) {
+
+  /* Mostar listado de frecuencias */
     //Se asigna un listado de datos de la base de datos al ejecutar la ruta
     $http.get('/api/frecuencia').success(function(datos) {
       $scope.lista = datos;
@@ -34,22 +40,18 @@ angular.module('proyectoSaludApp')
     ]};
 
 
-    var _frecuencia_descripcion= null;
-    var _frecuencia_coeficiente = null;
+  /* Insertar un elemento en frecuencia */
 
-    $scope.asignar_datos = function () {
-      close({_frecuencia_descripcion: $scope.frecuencia_descripcion, _frecuencia_coeficiente: $scope.frecuencia_coeficiente}, 500);
-    };
 
     $scope.mostrar_modal = function() {
       ModalService.showModal({
-        templateUrl: 'views/frecuencia_insertar.html'
-        //controller: "FrecuenciaCtrl"
+        templateUrl: 'views/frecuencia_insertar.html',
+        controller: "FrecuenciaNuevaCtrl"
       }).then(function (modal) {
         modal.element.modal();
         modal.close.then(function(result) {
           console.log(result);
-          $scope.insertar_elemento(result._frecuencia_descripcion, result._frecuencia_coeficiente);
+          $scope.insertar_elemento(result._frecuenciadescripcion, result._frecuenciacoeficiente);
         });
       });
     };
@@ -60,8 +62,8 @@ angular.module('proyectoSaludApp')
         url: '/api/frecuencia/guardar',
         params:
         {
-          _frecuencia_descripcion: descripcion,
-          _frecuencia_coeficiente: coeficiente
+          _frecuenciadescripcion: descripcion,
+          _frecuenciacoeficiente: coeficiente
         }
       }).success(function(data) {
         //aqui un mensaje
@@ -70,5 +72,8 @@ angular.module('proyectoSaludApp')
       });
     };
 
+});
 
-  });
+
+
+

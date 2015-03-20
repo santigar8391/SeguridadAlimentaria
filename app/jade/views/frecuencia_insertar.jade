@@ -7,8 +7,9 @@ div.modal.fade
 
       div.modal-body
         label Descripción:
-        input(type="text", ng-model="frecuencia_descripcion")
-        label Grupo:
-        input(type="text", ng-model="frecuencia_coeficiente")
+        input(type="text", ng-model="frecuenciadescripcion")
+        label Coeficiente:
+        input(type="text", ng-model="frecuenciacoeficiente")
+      div.modal-footer
         button.btn.btn-success(ng-click="asignar_datos()") Guardar
         button.btn.btn-danger(type="button", ng-click="close('CLOSED')", data-dismiss="modal", aria-hidden="true")&times; Cancelar
