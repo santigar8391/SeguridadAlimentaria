@@ -43,6 +43,7 @@ angular.module('proyectoSaludApp')
             //$scope.message = "You said " + result;
             if(result=='Si'){
                 $scope.eliminarProducto($scope.seleccion[0].id_producto);
+                $scope.update();
             }
             if(result=='No'){
               alert("NO elimina!!")
@@ -63,6 +64,7 @@ angular.module('proyectoSaludApp')
           modal.close.then(function(result) {
             console.log(result);
             $scope.saveProducto(result._num_grupo, result._descripcion);
+            $scope.update();
           });
         });
     };
@@ -121,6 +123,14 @@ angular.module('proyectoSaludApp')
               //$scope.mostrarProducto();
             });
       }
+
+    //Funcion para traer los datos actualizados
+    $scope.update = function(){
+      $http.get('/api/producto').success(function(awesomeThings) {
+        $scope.awesomeThings = awesomeThings;
+      });
+    }
+
   });
 
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('proyectoSaludApp')
-  .controller('FrecuenciaCtrl', function ($scope, $http, close) {
+  .controller('FrecuenciaCtrl', function ($scope, $http, ModalService){//, close) {
 
     //Se asigna un listado de datos de la base de datos al ejecutar la ruta
     $http.get('/api/frecuencia').success(function(datos) {
@@ -34,34 +34,33 @@ angular.module('proyectoSaludApp')
     ]};
 
 
-    var _frecuencia_descripcion= null;
-    var _frecuencia_coeficiente = null;
+    var _frecuenciaDescripcion= null;
+    var _frecuenciaCoeficiente = null;
 
-    $scope.asignar_datos = function () {
-      close({_frecuencia_descripcion: $scope.frecuencia_descripcion, _frecuencia_coeficiente: $scope.frecuencia_coeficiente}, 500);
-    };
 
-    $scope.mostrar_modal = function() {
+
+    $scope.mostrarModal = function() {
       ModalService.showModal({
-        templateUrl: 'views/frecuencia_insertar.html'
-        //controller: "FrecuenciaCtrl"
+        templateUrl: 'views/frecuencia_insertar.html',
+        controller: "NuevaFrecuenciaCtrl"
       }).then(function (modal) {
         modal.element.modal();
         modal.close.then(function(result) {
           console.log(result);
-          $scope.insertar_elemento(result._frecuencia_descripcion, result._frecuencia_coeficiente);
+          $scope.insertarElemento(result._frecuenciaDescripcion, result._frecuenciaCoeficiente);
+          $scope.update();
         });
       });
     };
 
-    $scope.insertar_elemento = function (descripcion, coeficiente){
+    $scope.insertarElemento = function (descripcion, coeficiente){
       $http({
         method: 'POST',
         url: '/api/frecuencia/guardar',
         params:
         {
-          _frecuencia_descripcion: descripcion,
-          _frecuencia_coeficiente: coeficiente
+          _frecuenciaDescripcion: descripcion,
+          _frecuenciaCoeficiente: coeficiente
         }
       }).success(function(data) {
         //aqui un mensaje
@@ -70,5 +69,23 @@ angular.module('proyectoSaludApp')
       });
     };
 
+//Funcion para traer los datos actualizados de las frecuencias, utilizado despues de insertar y eliminar...
+    $scope.update = function(){
+      $http.get('/api/frecuencia').success(function(datos) {
+        $scope.lista = datos;
+      });
+    }
+  });
 
+
+//Controlador para obtener datos de la ventana modal frecuencia_insertar...
+angular.module('proyectoSaludApp')
+  .controller('NuevaFrecuenciaCtrl', function ($scope, $http, close) {
+
+    $scope.asignarDatos = function () {
+      close({
+        _frecuenciaDescripcion: $scope.frecuenciaDescripcion,
+        _frecuenciaCoeficiente: $scope.frecuenciaCoeficiente
+      }, 500);
+    };
   });
