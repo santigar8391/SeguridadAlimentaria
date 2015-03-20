@@ -1,14 +1,8 @@
 'use strict';
 
-angular.module('proyectoSaludApp').controller('FrecuenciaNuevaCtrl', function ($scope, $http, close){
-  $scope.asignar_datos = function () {
-    close({_frecuenciadescripcion: $scope.frecuenciadescripcion, _frecuenciacoeficiente: $scope.frecuenciacoeficiente}, 500);
-  };
-});
+angular.module('proyectoSaludApp')
+  .controller('FrecuenciaCtrl', function ($scope, $http, ModalService){//, close) {
 
-angular.module('proyectoSaludApp').controller('FrecuenciaCtrl', function ($scope, $http) {
-
-  /* Mostar listado de frecuencias */
     //Se asigna un listado de datos de la base de datos al ejecutar la ruta
     $http.get('/api/frecuencia').success(function(datos) {
       $scope.lista = datos;
@@ -21,49 +15,47 @@ angular.module('proyectoSaludApp').controller('FrecuenciaCtrl', function ($scope
     //Se crea la tabla grid (ng-grid) con sus datos y configuraciones
     //Mostrar Listado
     $scope.listado = {
-    data: 'lista',
-    selectedItems: $scope.seleccion,
-    enableRowSelection: true,
-    showGroupPanel: false,
-    showFooter: true,
-    enableCellEdit: true,
-    showSelectionCheckbox: false,
-    enableColumnResize: true,
-    enableColumnReordering: true,
-    enableRowReordering: true,
-    multiSelect: false,
-    columnDefs: [
-      {field: 'int_id', displayName: 'Id', enableCellEdit: false},
-      {field: 'str_descripcion', displayName: 'Descripción'},
-      {field: 'flt_coeficiente', displayName: 'Coeficiente', enableCellEdit: false},
-      {field: 'remove', displayName:'Acción', cellTemplate: removeTemplate , enableCellEdit: false}
-    ]};
+      data: 'lista',
+      selectedItems: $scope.seleccion,
+      enableRowSelection: true,
+      showGroupPanel: false,
+      showFooter: true,
+      enableCellEdit: true,
+      showSelectionCheckbox: false,
+      enableColumnResize: true,
+      enableColumnReordering: true,
+      enableRowReordering: true,
+      multiSelect: false,
+      columnDefs: [
+        {field: 'int_id', displayName: 'Id', enableCellEdit: false},
+        {field: 'str_descripcion', displayName: 'Descripción'},
+        {field: 'flt_coeficiente', displayName: 'Coeficiente', enableCellEdit: false},
+        {field: 'remove', displayName:'Acción', cellTemplate: removeTemplate , enableCellEdit: false}
+      ]};
 
 
-  /* Insertar un elemento en frecuencia */
-
-
-    $scope.mostrar_modal = function() {
+    $scope.mostrarModal = function() {
       ModalService.showModal({
         templateUrl: 'views/frecuencia_insertar.html',
-        controller: "FrecuenciaNuevaCtrl"
+        controller: "NuevaFrecuenciaCtrl"
       }).then(function (modal) {
         modal.element.modal();
         modal.close.then(function(result) {
           console.log(result);
-          $scope.insertar_elemento(result._frecuenciadescripcion, result._frecuenciacoeficiente);
+          $scope.insertarElemento(result._frecuenciaDescripcion, result._frecuenciaCoeficiente);
+          $scope.update();
         });
       });
     };
 
-    $scope.insertar_elemento = function (descripcion, coeficiente){
+    $scope.insertarElemento = function (descripcion, coeficiente){
       $http({
         method: 'POST',
         url: '/api/frecuencia/guardar',
         params:
         {
-          _frecuenciadescripcion: descripcion,
-          _frecuenciacoeficiente: coeficiente
+          _frecuenciaDescripcion: descripcion,
+          _frecuenciaCoeficiente: coeficiente
         }
       }).success(function(data) {
         //aqui un mensaje
@@ -72,7 +64,27 @@ angular.module('proyectoSaludApp').controller('FrecuenciaCtrl', function ($scope
       });
     };
 
-});
+//Funcion para traer los datos actualizados de las frecuencias, utilizado despues de insertar y eliminar...
+    $scope.update = function(){
+      $http.get('/api/frecuencia').success(function(datos) {
+        $scope.lista = datos;
+      });
+    }
+  });
+
+
+//Controlador para obtener datos de la ventana modal frecuencia_insertar...
+angular.module('proyectoSaludApp')
+  .controller('NuevaFrecuenciaCtrl', function ($scope, $http, close) {
+
+    $scope.asignarDatos = function () {
+      close({
+        _frecuenciaDescripcion: $scope.frecuenciaDescripcion,
+        _frecuenciaCoeficiente: $scope.frecuenciaCoeficiente
+      }, 500);
+    };
+  });
+
 
 
 
