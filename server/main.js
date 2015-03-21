@@ -13,6 +13,7 @@ var router = express.Router();
 
 var routes = require('./routes');
 var model_frecuencia = require('./routes/model_frecuencia');
+var model_unidad = require('./routes/model_unidad');
 //var users = require('./routes/users');
 //var producto = require('./routes/producto');
 //var cproducto = require('./routes/controllerProducto');
@@ -44,6 +45,11 @@ app.post('/api/producto/eliminar', routes.eliminarProducto);
 
 app.get('/api/frecuencia', model_frecuencia.getlistado);
 app.post('/api/frecuencia/guardar', model_frecuencia.insertar);
+
+app.get('/api/unidad', model_unidad.getlistado);
+app.post('/api/unidad/guardar', model_unidad.insertar);
+
+
 /*
 app.get('/', cproducto.index);
 app.get('/producto', cproducto.get_listado);

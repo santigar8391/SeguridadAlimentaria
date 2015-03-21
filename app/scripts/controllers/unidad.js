@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('proyectoSaludApp')
-  .controller('FrecuenciaCtrl', function ($scope, $http, ModalService){//, close) {
+  .controller('UnidadCtrl', function ($scope, $http, ModalService){//, close) {
 
     //Se asigna un listado de datos de la base de datos al ejecutar la ruta
-    $http.get('/api/frecuencia').success(function(datos) {
+    $http.get('/api/unidad').success(function(datos) {
       $scope.lista = datos;
     });
 
@@ -34,10 +34,16 @@ angular.module('proyectoSaludApp')
       ]};
 
 
+    $scope.save = function(unidad){
+      console.log(unidad);
+    }
+
+
+
     $scope.mostrarModal = function() {
       ModalService.showModal({
-        templateUrl: 'views/frecuencia_insertar.html',
-        controller: "NuevaFrecuenciaCtrl"
+        templateUrl: 'views/unidad_insertar.html',
+        controller: "NuevaUnidadCtrl"
       }).then(function (modal) {
         modal.element.modal();
         modal.close.then(function(result) {
@@ -51,7 +57,7 @@ angular.module('proyectoSaludApp')
     $scope.insertarElemento = function (descripcion, coeficiente){
       $http({
         method: 'POST',
-        url: '/api/frecuencia/guardar',
+        url: '/api/unidad/guardar',
         params:
         {
           _frecuenciaDescripcion: descripcion,
@@ -66,7 +72,7 @@ angular.module('proyectoSaludApp')
 
 //Funcion para traer los datos actualizados de las frecuencias, utilizado despues de insertar y eliminar...
     $scope.update = function(){
-      $http.get('/api/frecuencia').success(function(datos) {
+      $http.get('/api/unidad').success(function(datos) {
         $scope.lista = datos;
       });
     }
@@ -75,7 +81,7 @@ angular.module('proyectoSaludApp')
 
 //Controlador para obtener datos de la ventana modal frecuencia_insertar...
 angular.module('proyectoSaludApp')
-  .controller('NuevaFrecuenciaCtrl', function ($scope, $http, close) {
+  .controller('NuevaUnidadCtrl', function ($scope, $http, close) {
 
     $scope.asignarDatos = function () {
       close({

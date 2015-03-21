@@ -28,6 +28,10 @@ angular.module('proyectoSaludApp', [
         templateUrl: 'views/frecuencia.html',
         controller: 'FrecuenciaCtrl'
       })
+      .when('/unidad',{
+        templateUrl: 'views/unidad.html',
+        controller: 'UnidadCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
