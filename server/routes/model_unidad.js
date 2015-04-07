@@ -1,10 +1,10 @@
 'use strict';
-var data_frecuencia = require('../../model/data_frecuencia.js');
+var data_unidad = require('../../model/data_unidad.js');
 
 /* obtiene el listado de todos los elementos de la tabla "frecuencia" en un objeto JSON */
 exports.getlistado = function (req, res) {
-  data_frecuencia.connect();
-  data_frecuencia.db_get_listado(function (datos) {
+  data_unidad.connect();
+  data_unidad.db_get_listado(function (datos) {
     res.json(datos);
   });
 };

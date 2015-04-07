@@ -1,16 +1,32 @@
 .hero-unit
-  h1 Inicio
-  p Seguridad Alimentaria
-  ul
-      li Jade
-      li(ng-repeat="thing in awesomeThings") {{thing}}
-  p installed.
-  h3 Enjoy coding! - Yeoman
+  #myCarousel.carousel.slider(data-interval='3000', data-ride='carousel')
+    ol.carousel-indicators
+      li.active(data-target='#myCarousel', data-slide-to='0')
+      li(data-target='#myCarousel', data-slide-to='1')
+      li(data-target='#myCarousel', data-slide-to='2')
+    .carousel-inner
+      .item.active
+        img.img-responsive(ng-src="{{slider[0].image}}")
+        .carousel-caption
+          p {{slider[0].title}}
+      .item
+        img.img-responsive(ng-src="{{slider[1].image}}")
+        .carousel-caption
+          p {{slider[1].title}}
+      .item
+        img.img-responsive(ng-src="{{slider[2].image}}")
+        .carousel-caption
+          p {{slider[2].title}}
+    a.carousel-control.left(href='#myCarousel', data-slide='prev')
+      span.glyphicon.glyphicon-chevron-left
+    a.carousel-control.right(href='#myCarousel', data-slide='next')
+      span.glyphicon.glyphicon-chevron-right
 
-  a(href="#/producto") Producto
-  br
-  a(href="#/grupo") Grupo
-  br
-  a(href="#/frecuencia") Frecuencia de compra
-  br
-  a(href="#/unidad") Unidad de Medida
+  .container
+    a(href="#/producto") Producto
+    br
+    a(href="#/grupo") Grupo
+    br
+    a(href="#/frecuencia") Frecuencia de compra
+    br
+    a(href="#/unidad") Unidad de Medida

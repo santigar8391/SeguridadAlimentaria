@@ -9,7 +9,7 @@ exports.connect = function() {
     host: '127.0.0.1',
     user: 'root',
     password: 'H3rm3sSanch3z',
-    db: 'proyectoSeguridad'
+    db: 'proyectoseguridad'
   });
   client.on('connect', function() { console.log('Client connected'); }
   ).on('error', function(err) { console.log('Client error: ' + err); }

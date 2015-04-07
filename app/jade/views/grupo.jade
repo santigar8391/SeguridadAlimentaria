@@ -1,5 +1,33 @@
-p This is the grupo view.
-ul
-  li Jade
-  li(ng-repeat="thing in awesomeThings") {{thing.num_grupo}}
-a(href="#/producto") PRODUCTO...!!!
+.hero-unit
+  .container
+    h1 GRUPOS
+    a.btn.btn-default.pull-right(href="", ng-click="collapseAll()") Mostrar en linea
+    a.btn.btn-default.pull-right(href="", ng-click="expandAll()") Mostrar Desplegado
+    a.btn.btn-default.pull-right(href="", ng-click="getRootNodesScope()") GetRootNodesScope
+    br
+    br
+    script(type='text/ng-template', id='nodes_renderer.html')
+      .input-group
+        .input-group-addon
+          i.glyphicon.glyphicon-th-list
+        .tree-node.tree-node-content(ui-tree-handle="")
+          a.btn.btn-success.btn-xs(ng-if="node.nodes && node.nodes.length > 0", data-nodrag="", ng-click="toggle(this)")
+            span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}")
+          | {{node.title}}
+          a.pull-right.btn.btn-danger.btn-xs(data-nodrag="", ng-click="remove(this)")
+            span.glyphicon.glyphicon-remove
+          a.pull-right.btn.btn-danger.btn-xs(data-nodrag="", ng-click="newItem(this)")
+            span.glyphicon.glyphicon-plus
+          a.pull-right.btn.btn-primary.btn-xs(data-nodrag="", ng-click="newSubItem(this)", style="margin-right: 8px;")
+            span.glyphicon.glyphicon-plus
+        ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
+          li(ng-repeat="node in node.nodes", ui-tree-node="", ng-include="'nodes_renderer.html'")
+
+    #tree-root(ui-tree="")
+      ol(ui-tree-nodes="", ng-model="data")
+        li(ng-repeat="node in data", ui-tree-node="", ng-include="'nodes_renderer.html'")
+    h3 Data binding
+      .info {{info}}
+      pre.code.
+        {{ data | json }}
+

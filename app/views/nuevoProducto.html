@@ -10,7 +10,7 @@
         <label>Descripción:</label>
         <input/><br/><br/>
         <label>Grupo:</label>
-        <select ng-model="nuevoProductoNumGrupo" ng-options="g.num_grupo as g.desc_grupo for g in awesomeThings"></select>
+        <select ng-model="nuevoProductoNumGrupo" ng-options="g.int_id as g.str_descripcion for g in awesomeThings"></select>
       </div>
       <div class="modal-footer">
         <button ng-click="guardarProducto()" class="btn btn-success">Guardar</button>

@@ -1,6 +1,25 @@
 
-<p>This is the grupo view.</p>
-<ul>
-  <li>Jade</li>
-  <li ng-repeat="thing in awesomeThings">{{thing.num_grupo}}</li>
-</ul><a href="#/producto">PRODUCTO...!!!</a>
+<div class="hero-unit">
+  <div class="container">
+    <h1>GRUPOS</h1><a href="" ng-click="collapseAll()" class="btn btn-default pull-right">Mostrar en linea</a><a href="" ng-click="expandAll()" class="btn btn-default pull-right">Mostrar Desplegado</a><a href="" ng-click="getRootNodesScope()" class="btn btn-default pull-right">GetRootNodesScope</a><br/><br/>
+    <script type="text/ng-template" id="nodes_renderer.html">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></div>
+        <div ui-tree-handle="" class="tree-node tree-node-content"><a ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" data-nodrag="" ng-click="toggle(this)" class="btn btn-success btn-xs"><span ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}" class="glyphicon"></span></a>{{node.title}}<a data-nodrag="" ng-click="remove(this)" class="pull-right btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a><a data-nodrag="" ng-click="newItem(this)" class="pull-right btn btn-danger btn-xs"><span class="glyphicon glyphicon-plus"></span></a><a data-nodrag="" ng-click="newSubItem(this)" style="margin-right: 8px;" class="pull-right btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span></a></div>
+        <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+          <li ng-repeat="node in node.nodes" ui-tree-node="" ng-include="'nodes_renderer.html'"></li>
+        </ol>
+      </div>
+    </script>
+    <div id="tree-root" ui-tree="">
+      <ol ui-tree-nodes="" ng-model="data">
+        <li ng-repeat="node in data" ui-tree-node="" ng-include="'nodes_renderer.html'"></li>
+      </ol>
+    </div>
+    <h3>Data binding
+      <div class="info">{{info}}</div>
+      <pre class="code">{{ data | json }}
+</pre>
+    </h3>
+  </div>
+</div>

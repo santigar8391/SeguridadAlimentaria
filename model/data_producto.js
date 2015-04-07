@@ -9,7 +9,7 @@ exports.connect = function() {
         host: '127.0.0.1',
         user: 'root',
         password: 'H3rm3sSanch3z',
-        db: 'proyectoSeguridad'
+        db: 'proyectoseguridad'
     });
     client.on('connect', function() { console.log('Client connected'); }
     ).on('error', function(err) { console.log('Client error: ' + err); }
@@ -19,8 +19,8 @@ exports.connect = function() {
 // obtiene todos los elementos de la tabla "producto"
 exports.db_get_listado = function(cb) {
     var data = [];
-    client.query("SELECT id_producto, desc_producto, num_grupo FROM producto INNER JOIN grupo "+
-                "ON producto.id_grupo = grupo.id_grupo ORDER BY id_producto;")
+      client.query("SELECT producto.int_id, producto.str_descripcion as Producto, grupo.str_descripcion as Grupo, int_id_unidad, flt_min, flt_max " +
+      "FROM producto INNER JOIN grupo ON producto.int_id_grupo = grupo.int_id ORDER BY producto.int_id LIMIT 0 , 30;")
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);

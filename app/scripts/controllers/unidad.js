@@ -34,6 +34,10 @@ angular.module('proyectoSaludApp')
       ]};
 
 
+    $scope.removeRow = function(index) {
+      alert(index.entity);
+    }
+
     $scope.save = function(unidad){
       console.log(unidad);
     }

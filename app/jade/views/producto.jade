@@ -1,9 +1,63 @@
 .hero-unit
-  h1 PRODUCTOS
-  div.gridStyles(ng-grid="gridOptions")
-  br
-  legend Agregar nuevo producto
-  button.col-md-12.btn-success.btn.pull-left(type="submit", ng-click="mostrarModal()") Nuevo*
+  .container
+    h1 PRODUCTOS
+    div.gridStyles(ng-grid="gridOptions")
+    legend Agregar nuevo producto
+    //button.col-md-12.btn-success.btn.pull-left(type="submit", ng-click="mostrarModal()") Nuevo*
+    button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="modal", data-target="#nuevoProductoModal")
+      i.glyphicon.glyphicon-plus-sign
+      | Nuevo
 
+  //Formulario para Ingreso nuevo producto
+  #nuevoProductoModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal")
+            span(aria-hidden="true") &#215;
+            span.sr-only Close
+          h4#myModalLabel.modal-title Nuevo Producto.
+          p#myModalLabel.modal-title Todos los campos son requeridos.
+        .modal-body
+          //Aqui va el contenido pricipal - Ingreso de propiedades del producto.
+          form#nuevoProductoForm(name="nuevoProductoForm")
+            //Input de la descripcion del producto
+            .form-group(ng-class="{'has-error': nuevoProductoForm.descripcion.$invalid && nuevoProductoForm.descripcion.$dirty}")
+              label(for="descripcion") Descripción
+              .input-group
+                .input-group-addon
+                  i.glyphicon.glyphicon-bookmark
+                input.form-control(type="text", name="descripcion", ng-required="true", id="descripcion", ng-model="productoNuevo.descripcion", placeholder="Ingrese la descripcion del producto")
+                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoProductoForm.descripcion.$invalid && nuevoProductoForm.descripcion.$dirty")
+              span.help-block(ng-if="nuevoProductoForm.descripcion.$invalid && nuevoProductoForm.descripcion.$dirty") Campo inválido.
 
+            //Input de numero float - peso minimo
+            .form-group(ng-class="{'has-error': nuevoProductoForm.numMinimo.$invalid && nuevoProductoForm.numMinimo.$dirty}")
+              label(for="numMinimo") Peso mínimo
+              .input-group
+                .input-group-addon
+                  i.glyphicon.glyphicon-scale
+                input.form.form-group-sm(type="number", name="numMinimo", id="numMinimo", ng-required="true", min="0", max="99", ng-model="productoNuevo.numMinimo", placeholder="Peso mínimo...")
+                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoProductoForm.numMinimo.$invalid && nuevoProductoForm.numMinimo.$dirty")
+              span.help-block(ng-if="nuevoProductoForm.numMinimo.$invalid && nuevoProductoForm.numMinimo.$dirty") Mínimo inválido.
 
+            //Input de numero float - peso máximo
+            .form-group(ng-class="{'has-error': nuevoProductoForm.numMaximo.$invalid && nuevoProductoForm.numMaximo.$dirty}")
+              label(for="numMaximo") Peso máximo.
+              .input-group
+                .input-group-addon
+                  i.glyphicon.glyphicon-scale
+                input.form.form-group-sm(type="number", name="numMaximo", id="numMaximo", ng-required="true", min="0", max="99", ng-model="productoNuevo.numMaximo", placeholder="Peso máximo...")
+                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoProductoForm.numMaximo.$invalid && nuevoProductoForm.numMaximo.$dirty")
+              span.help-block(ng-if="nuevoProductoForm.numMaximo.$invalid && nuevoProductoForm.numMaximo.$dirty") Máximo inválido.
+
+            //Select de grupo
+            .form-group
+              label(for="numGrupo") Grupo
+              .input-group
+                .input-group-addon
+                  i.glyphicon.glyphicon-th-list
+                select.form-control(ng-model="productoNuevo.numGrupo", ng-options="grupo.title for grupo in dataGrupo", id="numGrupo")
+        .modal-footer
+          button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+          button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="tester(productoNuevo)") Guardar

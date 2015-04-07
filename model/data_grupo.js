@@ -11,7 +11,7 @@ exports.connect = function() {
         host: '127.0.0.1',
         user: 'root',
         password: 'H3rm3sSanch3z',
-        db: 'proyectoSeguridad'
+        db: 'proyectoseguridad'
     });
     client.on('connect', function() { console.log('Client connected'); }
     ).on('error', function(err) { console.log('Client error: ' + err); }
@@ -21,7 +21,7 @@ exports.connect = function() {
 // obtiene todos los elementos de la tabla "grupo"
 exports.db_get_listado = function(cb) {
     var data = [];
-    client.query("SELECT id_grupo, num_grupo, desc_grupo FROM grupo;")
+    client.query("SELECT int_id as id, int_id_padre, int_tiene_hijos, flt_numero, str_descripcion as title, str_estado FROM grupoRecursivo;")
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);

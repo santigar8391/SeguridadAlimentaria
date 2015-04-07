@@ -1,43 +1,45 @@
 .hero-unit
-  h1 FRECUENCIA
-  div.gridStyles(ng-grid="listado")
-  button.btn.btn-primary.btn-xs.pull-right(type="button", data-toggle="modal", data-target="#NuevaUnidadModal")
-    i.glyphicon.glyphicon-plus-sign
-    |  Nueva Unidad
-  br
-  legend Agregar nueva frecuencia
-  button.col-md-5.btn-success.btn.pull-right(type="submit", ng-click="mostrarModal()") Nuevo*
-  br
-  br
-  // Bookmark form
-  #NuevaUnidadModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type="button", data-dismiss="modal")
-            span(aria-hidden="true") &#215;
-            span.sr-only Close
-          h4#myModalLabel.modal-title Nueva Unidad
-        .modal-body
-          // Main content here
-          form#NuevaUnidadForm
-          p Por favor ingrese la descripción y el coeficiente de la nueva unidad, todos los campos son requeridos.
-          .form-group(ng-class="{'has-error':NuevaUnidadForm.descripcion.$invalid && NuevaUnidadForm.descripcion.$dirty}")
-            label(for="descripcion") Descripción:
-            .input-group
-              .input-group-addon
-                i.glyphicon.glyphicon-tags
-              input#descripcion.form-control(type="text", ng-model="unidad.descripcion", ng-required="true", name="descripcion", placeholder="Ingrese la descripción o nombre")
-              span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="NuevaUnidadForm.descripcion.$invalid && NuevaUnidadForm.descripcion.$dirty")
-                span.help-block(ng-if="NuevaUnidadForm.descripcion.$invalid && NuevaUnidadForm.descripcion.$dirty") La descripci&#243;n es requerida.
-          .form-group
-            label(for="coeficiente") Coeficiente
-            .input-group
-              .input-group-addon
-                i.glyphicon.glyphicon-tags
-              input#coeficiente.form-control(type="number", ng-model="unidad.coeficiente", ng-required="true", name="coeficiente", placeholder="Ingrese el coeficiente")
-        .modal-footer
-          button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
-          button.btn.btn-primary(ng-click="save(unidad)", type="button") Guardar Cambios
+  .container
+    h1 UNIDAD DE MEDIDA
+    div.gridStyles(ng-grid="listado")
+    legend Agregar nueva unidad de medida
+    //button.col-md-5.btn-success.btn.pull-right(type="submit", ng-click="mostrarModal()") Nuevo*
+    button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="modal", data-target="#nuevaUnidadModal")
+      i.glyphicon.glyphicon-plus-sign
+      | Nueva
 
+    //Formulario para Ingreso nueva unidad
+    #nuevaUnidadModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal")
+              span(aria-hidden="true") &#215;
+              span.sr-only Close
+            h4#myModalLabel.modal-title Nueva Unidad.
+            p#myModalLabel.modal-title Todos los campos son requeridos.
+          .modal-body
+            //Aqui va el contenido pricipal - Ingreso de propiedades de la unidad.
+            form#nuevaUnidadForm(name="nuevaUnidadForm")
+              //Input de la descripcion de la unidad.
+              .form-group(ng-class="{'has-error': nuevaUnidadForm.descripcion.$invalid && nuevaUnidadForm.descripcion.$dirty}")
+                label(for="descripcion") Descripción
+                .input-group
+                  .input-group-addon
+                    i.glyphicon.glyphicon-bookmark
+                  input.form-control(type="text", name="descripcion", ng-required="true", id="descripcion", ng-model="unidadNueva.descripcion", placeholder="Ingrese la descripcion de la unidad")
+                  span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevaUnidadForm.descripcion.$invalid && nuevaUnidadForm.descripcion.$dirty")
+                span.help-block(ng-if="nuevaUnidadForm.descripcion.$invalid && nuevaUnidadForm.descripcion.$dirty") Campo inválido.
 
+              //Input coeficiente de multiplicacion
+              .form-group(ng-class="{'has-error': nuevaUnidadForm.numCoeficiente.$invalid && nuevaUnidadForm.numCoeficiente.$dirty}")
+                label(for="numCoeficiente") Coeficiente de multiplicación
+                .input-group
+                  .input-group-addon
+                    i.glyphicon.glyphicon-scale
+                  input.form.form-group-sm(type="number", name="numCoeficiente", id="numCoeficiente", ng-required="true", min="0", max="99", ng-model="unidadNueva.numCoeficiente", placeholder="Coeficiente de multiplicación")
+                  span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevaUnidadForm.numCoeficiente.$invalid && nuevaUnidadForm.numCoeficiente.$dirty")
+                span.help-block(ng-if="nuevaUnidadForm.numCoeficiente.$invalid && nuevaUnidadForm.numCoeficiente.$dirty") Coeficiente inválido.
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+            button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="") Guardar

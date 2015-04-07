@@ -1,10 +1,17 @@
 'use strict';
 
 angular.module('proyectoSaludApp')
-  .controller('ProductoCtrl', function ($scope, $http, ModalService){
+  .controller('ProductoCtrl', function ($scope, $http, MyAPIService){
     $http.get('/api/producto').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
-    });
+      MyAPIService.getData();
+    })
+
+
+    $scope.dataGrupo = MyAPIService.data();
+
+
+    //alert(JSON.stringify($scope.dataGrupo));
 
       var removeTemplate = '<button type="submit" class="btn btn-default btn-sm" ng-click="removeRow($index)"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </button>';
       $scope.seleccion = [];
@@ -13,7 +20,7 @@ angular.module('proyectoSaludApp')
       data: 'awesomeThings',
       selectedItems: $scope.seleccion,
       enableRowSelection: true,
-      showGroupPanel: true,
+      //showGroupPanel: true,
       showFooter: true,
       enableCellEdit: true,
       showSelectionCheckbox: true,
@@ -22,15 +29,19 @@ angular.module('proyectoSaludApp')
       enableRowReordering: true,
       multiSelect: false,
       columnDefs: [
-        {field: 'id_producto', displayName: 'id', enableCellEdit: false},
-        {field: 'desc_producto', displayName: 'Descripcion'},
-        {field: 'num_grupo', displayName: 'Grupo', enableCellEdit: false},
+        {field: 'int_id', displayName: 'id', enableCellEdit: false},
+        {field: 'Producto', displayName: 'Descripcion'},
+        {field: 'Grupo', displayName: 'Grupo', enableCellEdit: false},
         {field: 'remove', displayName:'Acción', cellTemplate: removeTemplate , enableCellEdit: false}
     ]};
 
 
       //---------------------------------------------------------
       $scope.removeRow = function(index) {
+        alert(JSON.stringify(index));
+        //$scope.eliminarProducto(index[0].int_id);
+        //$scope.update();
+        /*
         ModalService.showModal({
           templateUrl: 'views/confirmacionTemplate.html',
           controller: "ConfirmacionCtrl",
@@ -42,8 +53,7 @@ angular.module('proyectoSaludApp')
           modal.close.then(function(result) {
             //$scope.message = "You said " + result;
             if(result=='Si'){
-                $scope.eliminarProducto($scope.seleccion[0].id_producto);
-                $scope.update();
+
             }
             if(result=='No'){
               alert("NO elimina!!")
@@ -51,6 +61,7 @@ angular.module('proyectoSaludApp')
 
           });
         });
+        */
       };
       //-----------------------------------------------------------
 
@@ -131,8 +142,31 @@ angular.module('proyectoSaludApp')
       });
     }
 
+    $scope.tester = function(productoNuevo){
+      console.log(productoNuevo);
+    }
   });
 
+//-------------------------------------------------------------------
+angular.module('proyectoSaludApp')
+  .service('MyAPIService', function($http){
+    var myData="viendo que pasa";
+
+     return {
+     getData: function(){
+
+     $http.get('/api/grupo')
+     .success(function(data, status, config, headers){
+          myData = data;
+         //return myData;
+     })
+     .error(function(){
+     console.log("hay error en el service factory");//handler errors here
+     });
+     },
+     data: function() { return myData; }
+     };
+  });
 
 //-----------MENSAJE DE CONFIRMACION-elimina un producto--------------
 angular.module('proyectoSaludApp').controller('ConfirmacionCtrl', function($scope, close, _descripcion) {

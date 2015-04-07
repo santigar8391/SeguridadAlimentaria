@@ -11,13 +11,15 @@ html.no-js
     title salud publica
     meta(name="description", content="")
     meta(name="viewport", content="width=device-width")
-    // Place favicon.ico and apple-touch-icon.png in the root directory
 
-    // build:css(.tmp) styles/main.css
-    link(rel="stylesheet", href="bower_components/bootstrap/dist/css/bootstrap.css")
+    //Place favicon.ico and apple-touch-icon.png in the root directory
+    //build:css(.tmp) styles/main.css
+    link(rel="stylesheet", href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css")
+    link(rel="stylesheet", href="bower_components/bootstrap/dist/css/bootstrap.min.css")
     link(rel="stylesheet", href="bower_components/ng-grid/ng-grid.min.css")
     link(rel="stylesheet", href="bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css")
     link(rel="stylesheet", href="styles/style.css")
+    link(rel="stylesheet", href="styles/demo.css")
     link(rel="stylesheet", href="styles/main.css")
     // endbuild
     //- build:head
@@ -31,35 +33,34 @@ html.no-js
       <![endif]
 
     // Add your site or application content here
-    seccion
-      div.header
-        div.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
-          div.container
-            div.navbar-header
-              button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#js-navbar-collapse') NO SE COMO HACERLE FUNCIONAR
-                span.sr-only Toggle navigation
-                span.icon-bar
-                span.icon-bar
-                span.icon-bar
-              a.navbar-brand(href='#/') Seguridad Alimentaria
-            div.collapse.navbar-collapse
-              ul.nav.navbar-nav
-                li.active
-                  a(href='#/') Home
-                li
-                  a(href='#/about') About
-                li
-                  a(href='#/contact') Contact
+    //seccion
+    div.header
+      div.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+        div.container-fluid
+          div.navbar-header
+            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#js-navbar-collapse') NO SE COMO HACERLE FUNCIONAR
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            a.navbar-brand(href='#/') Seguridad Alimentaria
+          div.collapse.navbar-collapse
+            ul.nav.navbar-nav
+              li.active
+                a(href='#/') Home
+              li
+                a(href='#/about') About
+              li
+                a(href='#/contact') Contact
+
 
     seccion.container
-      div.container(ng-view)
-        a(href="#/producto") producto
+      div(ng-view)
 
     div.footer
       div.container
         p
           span.glyphicon.glyphicon-heart _Proyecto_Seguridad_Alimentaria
-
 
     // Google Analytics: change UA-XXXXX-X to be your site's ID.
     script.
@@ -68,12 +69,10 @@ html.no-js
       g.src='//www.google-analytics.com/ga.js';
       s.parentNode.insertBefore(g,s)}(document,'script'));
 
-
-    script(src="bower_components/jquery/dist/jquery.min.js")
-    script(src="bower_components/jquery/jquery.js")
-    script(src="bower_components/jquery-ui/jquery-ui.min.js")
     script(src="bower_components/angular/angular.js")
-
+    script(src="bower_components/jquery/dist/jquery.min.js")
+    //script(src="bower_components/jquery/jquery.js")
+    script(src="bower_components/jquery-ui/jquery-ui.min.js")
 
     // build:js scripts/modules.js
     script(src="bower_components/angular-animate/angular-animate.js")
@@ -84,6 +83,7 @@ html.no-js
     script(src="bower_components/angular-sanitize/angular-sanitize.js")
     script(src="bower_components/angular-modal-service/dst/angular-modal-service.min.js")
     script(src="bower_components/angular-touch/angular-touch.js")
+    script(src="bower_components/angular-ui-tree/dist/angular-ui-tree.js")
     script(src="bower_components/ng-grid/ng-grid-2.0.14.min.js")
     // endbuild
 

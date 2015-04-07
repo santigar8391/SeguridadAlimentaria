@@ -11,7 +11,7 @@ exports.getlistado = function (req, res) {
 
 /* inserta un nuevo elemento en la tabla "frecuencia" */
 exports.insertar = function(req,res){
-  data_frecuencia.connect();
+  data_frecuencia.connect();   
   var descripcion = req.query._frecuenciaDescripcion;
   var coeficiente = req.query._frecuenciaCoeficiente;
   data_frecuencia.db_insertar(descripcion, coeficiente,function(bandera) {

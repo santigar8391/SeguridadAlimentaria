@@ -8,7 +8,8 @@ angular.module('proyectoSaludApp', [
   'ngSanitize',
   'ngTouch',
   'ngGrid',
-  'angularModalService'
+  'angularModalService',
+  'ui.tree'
 ])
   .config(function ($routeProvider) {
     $routeProvider

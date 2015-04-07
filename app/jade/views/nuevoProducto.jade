@@ -11,7 +11,7 @@ div.modal.fade
         br
         br
         label Grupo:
-        select(ng-model="nuevoProductoNumGrupo", ng-options="g.num_grupo as g.desc_grupo for g in awesomeThings")
+        select(ng-model="nuevoProductoNumGrupo", ng-options="g.int_id as g.str_descripcion for g in awesomeThings")
       div.modal-footer
         button.btn.btn-success(ng-click="guardarProducto()") Guardar
         button.btn.btn-danger(type="button", ng-click="close('CLOSED')", data-dismiss="modal", aria-hidden="true")&times; Cancelar

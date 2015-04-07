@@ -9,7 +9,7 @@ exports.connect = function() {
     host: '127.0.0.1',
     user: 'root',
     password: 'H3rm3sSanch3z',
-    db: 'proyectoSeguridad'
+    db: 'proyectoseguridad'
   });
   client.on('connect', function() { console.log('Client connected'); }
   ).on('error', function(err) { console.log('Client error: ' + err); }
@@ -19,7 +19,7 @@ exports.connect = function() {
 // obtiene todos los elementos de la tabla "frecuencia"
 exports.db_get_listado = function(cb) {
   var data = [];
-  client.query("SELECT int_id, str_descripcion, flt_coeficiente FROM frecuencia ORDER BY flt_coeficiente desc;")
+  client.query("SELECT int_id, str_descripcion, flt_coeficiente, str_estado FROM unidad ORDER BY flt_coeficiente desc;")
     .on('result', function(res) {
       res.on('row', function(row) {
         data.push(row);
@@ -33,7 +33,7 @@ exports.db_get_listado = function(cb) {
     })
     .on('end', function() {
       cb(data);
-      console.log('Obtención de listado datos desde "data_frecuencia" CORRECTA');
+      console.log('Obtención de listado datos desde "data_unidad" CORRECTA');
     });
 };
 

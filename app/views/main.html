@@ -1,11 +1,28 @@
 
 <div class="hero-unit">
-  <h1>Inicio</h1>
-  <p>Seguridad Alimentaria</p>
-  <ul>
-    <li>Jade</li>
-    <li ng-repeat="thing in awesomeThings">{{thing}}</li>
-  </ul>
-  <p>installed.</p>
-  <h3>Enjoy coding! - Yeoman</h3><a href="#/producto">Producto</a><br/><a href="#/grupo">Grupo</a><br/><a href="#/frecuencia">Frecuencia de compra</a><br/><a href="#/unidad">Unidad de Medida</a>
+  <div id="myCarousel" data-interval="3000" data-ride="carousel" class="carousel slider">
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="item active"><img ng-src="{{slider[0].image}}" class="img-responsive"/>
+        <div class="carousel-caption">
+          <p>{{slider[0].title}}</p>
+        </div>
+      </div>
+      <div class="item"><img ng-src="{{slider[1].image}}" class="img-responsive"/>
+        <div class="carousel-caption">
+          <p>{{slider[1].title}}</p>
+        </div>
+      </div>
+      <div class="item"><img ng-src="{{slider[2].image}}" class="img-responsive"/>
+        <div class="carousel-caption">
+          <p>{{slider[2].title}}</p>
+        </div>
+      </div>
+    </div><a href="#myCarousel" data-slide="prev" class="carousel-control left"><span class="glyphicon glyphicon-chevron-left"></span></a><a href="#myCarousel" data-slide="next" class="carousel-control right"><span class="glyphicon glyphicon-chevron-right"></span></a>
+  </div>
+  <div class="container"><a href="#/producto">Producto</a><br/><a href="#/grupo">Grupo</a><br/><a href="#/frecuencia">Frecuencia de compra</a><br/><a href="#/unidad">Unidad de Medida</a></div>
 </div>
