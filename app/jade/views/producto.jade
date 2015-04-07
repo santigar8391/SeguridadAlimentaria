@@ -3,10 +3,13 @@
     h1 PRODUCTOS
     div.gridStyles(ng-grid="gridOptions")
     legend Agregar nuevo producto
-    //button.col-md-12.btn-success.btn.pull-left(type="submit", ng-click="mostrarModal()") Nuevo*
     button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="modal", data-target="#nuevoProductoModal")
       i.glyphicon.glyphicon-plus-sign
       | Nuevo
+
+    button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="modal", data-target="#eliminarProductoModal")
+      i.glyphicon.glyphicon-remove-sign
+      | Eliminar
 
   //Formulario para Ingreso nuevo producto
   #nuevoProductoModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
@@ -61,3 +64,21 @@
         .modal-footer
           button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
           button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="tester(productoNuevo)") Guardar
+
+  //Formulario para verificacion de la eliminacion de un producto
+  #eliminarProductoModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type="button", data-dismiss="modal")
+            span(aria-hidden="true") &#215;
+            span.sr-only Close
+          h4#myModalLabel.modal-title Eliminar Producto.
+        .modal-body
+          p ¿Esta seguro que desea eliminar el producto
+            strong
+              | {{seleccion[0].Producto}}
+            | ?
+        .modal-footer
+          button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+          button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="removeRow('si')") Eliminar

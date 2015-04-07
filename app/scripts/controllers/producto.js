@@ -6,8 +6,12 @@ angular.module('proyectoSaludApp')
       $scope.awesomeThings = awesomeThings;
       $scope.dataGrupo = MyAPIService.query();
     })
+//button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="modal", data-target="#eliminarProductoModal")
+      var removeTemplate =
+//'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#eliminarProductoModal" ng-click="removeRow($index)"> ' +
+'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#eliminarProductoModal" ng-click="removeIndex($index)"> ' +
+'<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </button>';
 
-      var removeTemplate = '<button type="submit" class="btn btn-default btn-sm" ng-click="removeRow($index)"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </button>';
       $scope.seleccion = [];
 
     $scope.gridOptions = {
@@ -17,7 +21,7 @@ angular.module('proyectoSaludApp')
       //showGroupPanel: true,
       showFooter: true,
       enableCellEdit: true,
-      showSelectionCheckbox: true,
+      //showSelectionCheckbox: true,
       enableColumnResize: true,
       enableColumnReordering: true,
       enableRowReordering: true,
@@ -31,34 +35,17 @@ angular.module('proyectoSaludApp')
 
 
       //---------------------------------------------------------
-      $scope.removeRow = function(index) {
-        alert(JSON.stringify(index));
-        //$scope.eliminarProducto(index[0].int_id);
-        //$scope.update();
-        /*
-        ModalService.showModal({
-          templateUrl: 'views/confirmacionTemplate.html',
-          controller: "ConfirmacionCtrl",
-          inputs:{
-            _descripcion: "ID: " + $scope.seleccion[0].id_producto + " -  Descripcion: " + $scope.seleccion[0].desc_producto
-          }
-        }).then(function(modal) {
-          modal.element.modal();
-          modal.close.then(function(result) {
-            //$scope.message = "You said " + result;
-            if(result=='Si'){
+        $scope.removeIndex = function(){
+          $scope.objetoFila = this.row.rowIndex;
+        }
 
-            }
-            if(result=='No'){
-              alert("NO elimina!!")
-            }
+        $scope.removeRow = function() {
+          $scope.eliminarProducto($scope.seleccion[0].int_id);
+          $scope.gridOptions.selectItem($scope.objetoFila, false);
+          $scope.awesomeThings.splice($scope.objetoFila, 1);
 
-          });
-        });
-        */
-      };
-      //-----------------------------------------------------------
-
+        };
+  //-------------------------------------
     $scope.mostrarModal = function() {
       $scope.nuevoProducto = {};
         ModalService.showModal({

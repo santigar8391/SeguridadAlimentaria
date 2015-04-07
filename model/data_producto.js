@@ -53,7 +53,7 @@ exports.db_insertar = function(id_grupo, desc_producto, cb) {
 
 // elimina un elemento de la tabla "producto" de acuerdo a su "id_producto"
 exports.db_eliminar = function(id_producto, cb) {
-    client.query("DELETE FROM producto WHERE id_producto = :var_id_producto;",
+    client.query("DELETE FROM producto WHERE int_id = :var_id_producto;",
         {var_id_producto: id_producto})
             .on('error', function(err) {
                 console.log('Result error: ' + inspect(err));
