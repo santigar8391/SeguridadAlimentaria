@@ -4,14 +4,8 @@ angular.module('proyectoSaludApp')
   .controller('ProductoCtrl', function ($scope, $http, MyAPIService){
     $http.get('/api/producto').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
-      MyAPIService.getData();
+      $scope.dataGrupo = MyAPIService.query();
     })
-
-
-    $scope.dataGrupo = MyAPIService.data();
-
-
-    //alert(JSON.stringify($scope.dataGrupo));
 
       var removeTemplate = '<button type="submit" class="btn btn-default btn-sm" ng-click="removeRow($index)"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </button>';
       $scope.seleccion = [];
@@ -149,6 +143,11 @@ angular.module('proyectoSaludApp')
 
 //-------------------------------------------------------------------
 angular.module('proyectoSaludApp')
+    .factory('MyAPIService', function($resource) {
+      return $resource('/api/grupo'); // Note the full endpoint address
+    });
+
+ /*
   .service('MyAPIService', function($http){
     var myData="viendo que pasa";
 
@@ -167,6 +166,7 @@ angular.module('proyectoSaludApp')
      data: function() { return myData; }
      };
   });
+  */
 
 //-----------MENSAJE DE CONFIRMACION-elimina un producto--------------
 angular.module('proyectoSaludApp').controller('ConfirmacionCtrl', function($scope, close, _descripcion) {
