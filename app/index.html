@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>salud publica</title>
+    <title>Seguridad Alimentaria</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!--Place favicon.ico and apple-touch-icon.png in the root directory-->
@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.min.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css">
+    <link rel="stylesheet" href="styles/social-buttons-3.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/demo.css">
     <link rel="stylesheet" href="styles/main.css">
@@ -30,28 +31,64 @@
     <![endif]-->
     <!-- Add your site or application content here-->
     <!--seccion-->
-    <div class="header">
-      <div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+    <div>
+      <nav role="navigation" class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
           <div class="navbar-header">
-            <button type="button" data-toggle="collapse" data-target="#js-navbar-collapse" class="navbar-toggle collapsed">NO SE COMO HACERLE FUNCIONAR<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#/" class="navbar-brand">Seguridad Alimentaria</a>
+            <button type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#/" class="navbar-brand">Seguridad Alimentaria</a>
           </div>
-          <div class="collapse navbar-collapse">
+          <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Home</a></li>
-              <li><a href="#/about">About</a></li>
-              <li><a href="#/contact">Contact</a></li>
+              <li class="active"><a href="#/"><span class="glyphicon glyphicon-home">&nbsp;Home</span><span class="sr-only">(current)</span></a></li>
+              <li><a href="#/about">Acerca de</a></li>
+              <li><a href="#/contact"><span class="glyphicon glyphicon-phone-alt">&nbsp;Contactenos</span></a></li>
+              <li class="dropdown"><a href="#/" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Acciones<span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                  <li><a href="#/producto">Producto</a></li>
+                  <li><a href="#/grupo">Grupo</a></li>
+                  <li><a href="#/frecuencia">Frecuencia de compra</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#/unidad">Unidad de medida</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Salir</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form class="navbar-form navbar-left">
+              <div class="row">
+                <div class="col-lg-10">
+                  <div class="input-group">
+                    <input type="text" placeholder="Buscar..." class="form-control"><span class="input-group-btn">
+                      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button></span>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#">Registrarse</a></li>
+              <li class="dropdown"><a href="#/" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Usuario&nbsp;<span class="glyphicon glyphicon-user"></span><span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Ver perfil</a></li>
+                  <li><a href="#">Seguridad</a></li>
+                  <li><a href="#">Configuraciones</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Cerrar Sesión</a></li>
+                </ul>
+              </li>
             </ul>
           </div>
         </div>
-      </div>
+      </nav>
+      <!-- /.navbar-collapse-->
     </div>
+    <!-- /.container-fluid-->
     <seccion class="container">
       <div ng-view></div>
     </seccion>
     <div class="footer">
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart">_Proyecto_Seguridad_Alimentaria</span></p>
+        <p>© Copyright 2011 Headlamp Creative&nbsp;&nbsp;//&nbsp;&nbsp;Hosted by<a href="www.espoch.edu.ec">ESPOCH</a></p>
+        <button class="btn btn-facebook"><i class="fa fa-facebook">| Connect with Facebook</i></button>
       </div>
     </div>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.-->
