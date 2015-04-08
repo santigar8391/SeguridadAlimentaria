@@ -21,7 +21,7 @@ exports.db_get_listado = function(cb) {
     var data = [];
       client.query("SELECT producto.int_id, producto.str_descripcion as Producto, grupo.str_descripcion as Grupo, unidad.str_descripcion " +
       "as Unidad_medida, flt_min, flt_max FROM producto INNER JOIN grupo ON producto.int_id_grupo = grupo.int_id " +
-      "INNER JOIN unidad On producto.int_id_unidad = unidad.int_id ORDER BY producto.int_id LIMIT 0 , 30;")
+      "INNER JOIN unidad On producto.int_id_unidad = unidad.int_id WHERE producto.str_estado = 'Activo' ORDER BY producto.int_id LIMIT 0 , 30;")
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);
@@ -58,8 +58,10 @@ exports.db_insertar = function(productoNuevo, cb) {
 
 // elimina un elemento de la tabla "producto" de acuerdo a su "id_producto"
 exports.db_eliminar = function(id_producto, cb) {
-    client.query("DELETE FROM producto WHERE int_id = :var_id_producto;",
-        {var_id_producto: id_producto})
+    //client.query("DELETE FROM producto WHERE int_id = :var_id_producto;",
+    client.query("UPDATE producto SET str_estado = ? WHERE int_id = ?;",
+        ["Inactivo" ,id_producto])
+        //{var_id_producto: id_producto})
             .on('error', function(err) {
                 console.log('Result error: ' + inspect(err));
             })
@@ -90,13 +92,10 @@ exports.db_get_elemento_by_id = function(id_producto, cb) {
         });
 }
 
-exports.db_actualizar = function (id_grupo, desc_prod, id_producto, cb){
-    console.log("--> Mirando lo ultimo!!--> "+id_grupo+ desc_prod +id_producto);
-    client.query("UPDATE producto SET id_grupo = ?, desc_producto= ? WHERE id_producto = ?;",[id_grupo, desc_prod, id_producto])
-    //client.query("UPDATE producto SET id_grupo = ?, desc_producto= ? WHERE id_producto = :var_id_producto;",[id_grupo, desc_prod], {var_id_producto:id_producto})
-    //client.query("INSERT INTO producto (id_grupo, desc_producto) VALUES (?, ?);",[id_grupo, desc_producto])
-    //var pq = client.prepare('UPDATE producto SET id_grupo = :var_id_grupo, desc_producto = :var_desc_producto WHERE id_producto = :var_id_producto;');
-    //client.query(pq({ var_id_grupo: id_grupo, var_desc_producto: desc_prod, var_id_producto: id_producto}))
+exports.db_actualizar = function (productoEditar, cb){
+    console.log("SI LLEGA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    client.query("UPDATE producto SET int_id_grupo = ?, int_id_unidad = ?, str_descripcion = ?, flt_min = ?, flt_max = ? WHERE int_id = ?;",
+        [productoEditar._num_grupo, productoEditar._num_unidad, productoEditar._descripcion, productoEditar._flt_min, productoEditar._flt_max, productoEditar._id])
         .on('error', function(err) {
             console.log('Result error: ' + inspect(err));
         })

@@ -4,6 +4,7 @@ angular.module('proyectoSaludApp')
   .controller('ProductoCtrl', function ($scope, $http, MyAPIService, MyAPIServiceUnidad){
     $http.get('/api/producto').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
+        console.log($scope.awesomeThings);
       $scope.dataGrupo = MyAPIService.query();
       $scope.dataUnidad = MyAPIServiceUnidad.query();
     })
@@ -18,10 +19,10 @@ angular.module('proyectoSaludApp')
       {
           int_id: "",
           descripcion: "",
-          grupo: "",
-          unidad: "",
-          flt_min: "",
-          flt_max: ""
+          numGrupo: "",
+          numUnidad: "",
+          numMinimo: "",
+          numMaximo: ""
       };
     $scope.gridOptions = {
       data: 'awesomeThings',
@@ -30,7 +31,7 @@ angular.module('proyectoSaludApp')
       //showGroupPanel: true,
       showFooter: true,
       //enableCellEdit: true,
-      //showSelectionCheckbox: true,
+      showSelectionCheckbox: true,
       enableColumnResize: true,
       enableColumnReordering: true,
       enableRowReordering: true,
@@ -38,13 +39,13 @@ angular.module('proyectoSaludApp')
       afterSelectionChange: function (theRow, evt) {
           $scope.editarproducto.int_id = parseInt(theRow.entity.int_id);
           $scope.editarproducto.descripcion = theRow.entity.Producto;
-          $scope.editarproducto.grupo = theRow.entity.Grupo;
-          $scope.editarproducto.flt_min = parseFloat(theRow.entity.flt_min);
-          $scope.editarproducto.flt_max = parseFloat(theRow.entity.flt_max);
-          $scope.editarproducto.unidad = theRow.entity.Unidad_medida;
+          $scope.editarproducto.numGrupo = theRow.entity.Grupo;
+          $scope.editarproducto.numMinimo = parseFloat(theRow.entity.flt_min);
+          $scope.editarproducto.numMaximo = parseFloat(theRow.entity.flt_max);
+          $scope.editarproducto.numUnidad = theRow.entity.Unidad_medida;
         },
       columnDefs: [
-        {field: 'int_id', displayName: 'Id'},
+//        {field: 'int_id', displayName: 'Id'},
         {field: 'Producto', displayName: 'Descripcion'},
         {field: 'Grupo', displayName: 'Grupo'},
         {field: 'Unidad_medida', displayName: 'Medida'},
@@ -71,50 +72,41 @@ angular.module('proyectoSaludApp')
           $scope.awesomeThings.splice($scope.objetoFila, 1);
 
         };
-  //-------------------------------------
-
-  //-------------------------------------
+  //--------------ngGridEventEndCellEdit-----------------------
 /*
-    $scope.mostrarModal = function() {
-      $scope.nuevoProducto = {};
-        ModalService.showModal({
-          templateUrl: 'views/nuevoProducto.html',
-          controller: "GrupoCtrl"
-        }).then(function (modal) {
-          modal.element.modal();
-          modal.close.then(function(result) {
-            console.log(result);
-            $scope.saveProducto(result._num_grupo, result._descripcion);
-            $scope.update();
-          });
-        });
-    };
-
       $scope.$on('ngGridEventEndCellEdit', function(evt){
       $scope.editarProducto(evt.targetScope.row.entity.id_producto, evt.targetScope.row.entity.desc_producto, evt.targetScope.row.entity.num_grupo);
       });
 
 */
-    $scope.editarProducto = function(id, descripcion, num_grupo){
+    $scope.editar = function(productoEditar){
       //----------AQUI VA UNA ADVERTENCIAS
       $http({
         method:'POST',
         url: '/api/producto/editar/',
         params:{
-          _id: id,
-          _descripcion: descripcion,
-          _num_grupo: num_grupo
+          _id: productoEditar.int_id,
+        _descripcion: productoEditar.descripcion,
+        _num_grupo: productoEditar.numGrupo.id,
+        _num_unidad: productoEditar.numUnidad.int_id,
+        _flt_min: productoEditar.numMinimo,
+        _flt_max:productoEditar.numMaximo
         }
       }).success(function(data){
-
+          $scope.update();
       }).error(function(){
         console.log("Error en el controller producto !!!!");
       });
     };
-
+//-----------------------------------------------------------
+    $scope.agregarItem = function(productoNuevo) {
+        $scope.awesomeThings.push({int_id:"0", Producto:
+            productoNuevo.descripcion, Grupo:productoNuevo.numGrupo.title, Unidad_medida:
+            productoNuevo.numUnidad.str_descripcion, flt_min:productoNuevo.numMinimo, flt_max:productoNuevo.numMaximo});
+    };
+//-----------------------------------------------------------
     $scope.guardar = function (productoNuevo){
-      //var objetoUnidad = productoNuevo.unidad;
-        console.log(productoNuevo);
+        //$scope.agregarItem(productoNuevo);
         $http({
         method: 'POST',
         url: '/api/producto/guardar',
@@ -128,6 +120,7 @@ angular.module('proyectoSaludApp')
         }
       }).success(function(data) {
         //aqui un mensaje
+            $scope.update();
       }).error(function() {
         //aqui un mensaje
       });
@@ -155,7 +148,7 @@ angular.module('proyectoSaludApp')
       $http.get('/api/producto').success(function(awesomeThings) {
         $scope.awesomeThings = awesomeThings;
       });
-    }
+    };
 
     $scope.tester = function(productoNuevo){
       console.log(productoNuevo);
@@ -172,4 +165,3 @@ angular.module('proyectoSaludApp')
     .factory('MyAPIServiceUnidad', function($resource) {
         return $resource('/api/unidad');
     });
-

@@ -41,7 +41,6 @@ console.log("__dirname = ", path.resolve(__dirname));
 app.get('/api/awesomeThings', routes.awesomeThings);
 app.get('/api/producto', routes.getlistado);
 app.post('/api/producto/editar/', routes.editarProducto);
-//app.get('/api/grupo', routes.getlistadoGrupo);
 app.get('/api/grupo', model_grupo.getlistadoGrupo);
 app.post('/api/producto/guardar', routes.insertarProducto);
 app.post('/api/producto/eliminar', routes.eliminarProducto);

@@ -105,7 +105,7 @@
                 .input-group-addon
                   i.glyphicon.glyphicon-bookmark
                 input.form-control(type="text", name="descripcion", ng-required="true", id="descripcion", ng-model="editarproducto.descripcion")
-                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoProductoForm.descripcion.$invalid && nuevoProductoForm.descripcion.$dirty")
+                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarProductoForm.descripcion.$invalid && editarProductoForm.descripcion.$dirty")
               span.help-block(ng-if="editarProductoForm.descripcion.$invalid && editarProductoForm.descripcion.$dirty") Campo inválido.
 
             //Select de grupo
@@ -114,7 +114,7 @@
               .input-group
                 .input-group-addon
                   i.glyphicon.glyphicon-th-list
-                select.form-control(ng-model="editarproducto.grupo", ng-options="grupo.title for grupo in dataGrupo", id="numGrupo")
+                select.form-control(ng-model="editarproducto.numGrupo", ng-options="grupo.title for grupo in dataGrupo", id="numGrupo")
 
             //Select de unidad
             .form-group
@@ -122,27 +122,27 @@
               .input-group
                 .input-group-addon
                   i.glyphicon.glyphicon-th-list
-                select.form-control(ng-model="editarproducto.unidad", ng-options="unidad.str_descripcion for unidad in dataUnidad", id="numUnidad")
+                select.form-control(ng-model="editarproducto.numUnidad", ng-options="unidad.str_descripcion for unidad in dataUnidad", id="numUnidad")
 
             //Input de numero float - peso minimo
-            .form-group(ng-class="{'has-error': nuevoProductoForm.numMinimo.$invalid && nuevoProductoForm.numMinimo.$dirty}")
+            .form-group(ng-class="{'has-error': editarProductoForm.numMinimo.$invalid && editarProductoForm.numMinimo.$dirty}")
               label(for="numMinimo") Peso mínimo
               .input-group
                 .input-group-addon
                   i.glyphicon.glyphicon-scale
-                input.form.form-group-sm(type="number", name="numMinimo", id="numMinimo", ng-required="true", min="0", max="99", ng-model="editarproducto.flt_min", placeholder="Peso mínimo...")
-                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoProductoForm.numMinimo.$invalid && nuevoProductoForm.numMinimo.$dirty")
-              span.help-block(ng-if="nuevoProductoForm.numMinimo.$invalid && nuevoProductoForm.numMinimo.$dirty") Mínimo inválido.
+                input.form.form-group-sm(type="number", name="numMinimo", id="numMinimo", ng-required="true", min="0", max="99", ng-model="editarproducto.numMinimo", placeholder="Peso mínimo...")
+                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarProductoForm.numMinimo.$invalid && editarProductoForm.numMinimo.$dirty")
+              span.help-block(ng-if="editarProductoForm.numMinimo.$invalid && editarProductoForm.numMinimo.$dirty") Mínimo inválido.
 
             //Input de numero float - peso máximo
-            .form-group(ng-class="{'has-error': nuevoProductoForm.numMaximo.$invalid && nuevoProductoForm.numMaximo.$dirty}")
+            .form-group(ng-class="{'has-error': editarProductoForm.numMaximo.$invalid && editarProductoForm.numMaximo.$dirty}")
               label(for="numMaximo") Peso máximo.
               .input-group
                 .input-group-addon
                   i.glyphicon.glyphicon-scale
-                input.form.form-group-sm(type="number", name="numMaximo", id="numMaximo", ng-required="true", min="0", max="99", ng-model="editarproducto.flt_max", placeholder="Peso máximo...")
-                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoProductoForm.numMaximo.$invalid && nuevoProductoForm.numMaximo.$dirty")
-              span.help-block(ng-if="nuevoProductoForm.numMaximo.$invalid && nuevoProductoForm.numMaximo.$dirty") Máximo inválido.
+                input.form.form-group-sm(type="number", name="numMaximo", id="numMaximo", ng-required="true", min="0", max="99", ng-model="editarproducto.numMaximo", placeholder="Peso máximo...")
+                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarProductoForm.numMaximo.$invalid && editarProductoForm.numMaximo.$dirty")
+              span.help-block(ng-if="editarProductoForm.numMaximo.$invalid && editarProductoForm.numMaximo.$dirty") Máximo inválido.
         .modal-footer
           button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
-          button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="tester(productoNuevo)") Guardar
+          button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="editar(editarproducto)") Guardar

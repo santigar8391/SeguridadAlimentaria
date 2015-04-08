@@ -102,7 +102,7 @@
               <label for="descripcion">Descripción</label>
               <div class="input-group">
                 <div class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></div>
-                <input type="text" name="descripcion" ng-required="true" id="descripcion" ng-model="editarproducto.descripcion" class="form-control"/><span ng-if="nuevoProductoForm.descripcion.$invalid &amp;&amp; nuevoProductoForm.descripcion.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <input type="text" name="descripcion" ng-required="true" id="descripcion" ng-model="editarproducto.descripcion" class="form-control"/><span ng-if="editarProductoForm.descripcion.$invalid &amp;&amp; editarProductoForm.descripcion.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
               </div><span ng-if="editarProductoForm.descripcion.$invalid &amp;&amp; editarProductoForm.descripcion.$dirty" class="help-block">Campo inválido.</span>
             </div>
             <!--Select de grupo-->
@@ -110,7 +110,7 @@
               <label for="numGrupo">Grupo</label>
               <div class="input-group">
                 <div class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></div>
-                <select ng-model="editarproducto.grupo" ng-options="grupo.title for grupo in dataGrupo" id="numGrupo" class="form-control"></select>
+                <select ng-model="editarproducto.numGrupo" ng-options="grupo.title for grupo in dataGrupo" id="numGrupo" class="form-control"></select>
               </div>
             </div>
             <!--Select de unidad-->
@@ -118,30 +118,30 @@
               <label for="numUnidad">Unidad de medida</label>
               <div class="input-group">
                 <div class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></div>
-                <select ng-model="editarproducto.unidad" ng-options="unidad.str_descripcion for unidad in dataUnidad" id="numUnidad" class="form-control"></select>
+                <select ng-model="editarproducto.numUnidad" ng-options="unidad.str_descripcion for unidad in dataUnidad" id="numUnidad" class="form-control"></select>
               </div>
             </div>
             <!--Input de numero float - peso minimo-->
-            <div ng-class="{'has-error': nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty}" class="form-group">
+            <div ng-class="{'has-error': editarProductoForm.numMinimo.$invalid &amp;&amp; editarProductoForm.numMinimo.$dirty}" class="form-group">
               <label for="numMinimo">Peso mínimo</label>
               <div class="input-group">
                 <div class="input-group-addon"><i class="glyphicon glyphicon-scale"></i></div>
-                <input type="number" name="numMinimo" id="numMinimo" ng-required="true" min="0" max="99" ng-model="editarproducto.flt_min" placeholder="Peso mínimo..." class="form form-group-sm"/><span ng-if="nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
-              </div><span ng-if="nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty" class="help-block">Mínimo inválido.</span>
+                <input type="number" name="numMinimo" id="numMinimo" ng-required="true" min="0" max="99" ng-model="editarproducto.numMinimo" placeholder="Peso mínimo..." class="form form-group-sm"/><span ng-if="editarProductoForm.numMinimo.$invalid &amp;&amp; editarProductoForm.numMinimo.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </div><span ng-if="editarProductoForm.numMinimo.$invalid &amp;&amp; editarProductoForm.numMinimo.$dirty" class="help-block">Mínimo inválido.</span>
             </div>
             <!--Input de numero float - peso máximo-->
-            <div ng-class="{'has-error': nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$dirty}" class="form-group">
+            <div ng-class="{'has-error': editarProductoForm.numMaximo.$invalid &amp;&amp; editarProductoForm.numMaximo.$dirty}" class="form-group">
               <label for="numMaximo">Peso máximo.</label>
               <div class="input-group">
                 <div class="input-group-addon"><i class="glyphicon glyphicon-scale"></i></div>
-                <input type="number" name="numMaximo" id="numMaximo" ng-required="true" min="0" max="99" ng-model="editarproducto.flt_max" placeholder="Peso máximo..." class="form form-group-sm"/><span ng-if="nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
-              </div><span ng-if="nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$dirty" class="help-block">Máximo inválido.</span>
+                <input type="number" name="numMaximo" id="numMaximo" ng-required="true" min="0" max="99" ng-model="editarproducto.numMaximo" placeholder="Peso máximo..." class="form form-group-sm"/><span ng-if="editarProductoForm.numMaximo.$invalid &amp;&amp; editarProductoForm.numMaximo.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </div><span ng-if="editarProductoForm.numMaximo.$invalid &amp;&amp; editarProductoForm.numMaximo.$dirty" class="help-block">Máximo inválido.</span>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" data-dismiss="modal" class="btn btn-default">Cancelar</button>
-          <button type="button" data-dismiss="modal" ng-click="tester(productoNuevo)" class="btn btn-primary">Guardar</button>
+          <button type="button" data-dismiss="modal" ng-click="editar(editarproducto)" class="btn btn-primary">Guardar</button>
         </div>
       </div>
     </div>
