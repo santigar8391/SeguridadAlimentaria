@@ -19,8 +19,9 @@ exports.connect = function() {
 // obtiene todos los elementos de la tabla "producto"
 exports.db_get_listado = function(cb) {
     var data = [];
-      client.query("SELECT producto.int_id, producto.str_descripcion as Producto, grupo.str_descripcion as Grupo, int_id_unidad, flt_min, flt_max " +
-      "FROM producto INNER JOIN grupo ON producto.int_id_grupo = grupo.int_id ORDER BY producto.int_id LIMIT 0 , 30;")
+      client.query("SELECT producto.int_id, producto.str_descripcion as Producto, grupo.str_descripcion as Grupo, unidad.str_descripcion " +
+      "as Unidad_medida, flt_min, flt_max FROM producto INNER JOIN grupo ON producto.int_id_grupo = grupo.int_id " +
+      "INNER JOIN unidad On producto.int_id_unidad = unidad.int_id ORDER BY producto.int_id LIMIT 0 , 30;")
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);
@@ -40,8 +41,12 @@ exports.db_get_listado = function(cb) {
 }
 
 // inserta un nuevo producto en la tabla "producto"
-exports.db_insertar = function(id_grupo, desc_producto, cb) {
-    client.query("INSERT INTO producto (id_grupo, desc_producto) VALUES (?, ?);",[id_grupo, desc_producto])
+//exports.db_insertar = function(id_grupo, desc_producto, cb) {
+exports.db_insertar = function(productoNuevo, cb) {
+    //INSERT INTO producto (int_id_grupo, int_id_unidad, str_descripcion, flt_min, flt_max, str_estado) VALUES
+    //(1, 1, 'Borrego', 4.5, 10.5, 'Activo')
+    client.query("INSERT INTO producto (int_id_grupo, int_id_unidad, str_descripcion, flt_min, flt_max, str_estado) VALUES (?, ?, ?, ?, ?, ?);",
+        [productoNuevo._num_grupo, productoNuevo._num_unidad, productoNuevo._descripcion, productoNuevo._flt_min, productoNuevo._flt_max, "Activo"])
         .on('error', function(err) {
             console.log('Result error: ' + inspect(err));
         })

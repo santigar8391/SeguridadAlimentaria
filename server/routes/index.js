@@ -69,16 +69,18 @@ exports.insertarProducto = function(req,res){
   data_producto.connect();
   data_grupo.connect();
   var desc_prod = req.query._descripcion;
-  var id_grupo;
-  console.log(req.query._num_grupo+desc_prod);
+  var id_grupo = req.query._num_grupo;
+  console.log(req.query);
+/*
   data_grupo.db_get_listado(function(datos){
     for (var i in datos) {
       if (datos[i].num_grupo == req.query._num_grupo)
         id_grupo = datos[i].id_grupo;
     }
-    console.log("Número de grupo = "+id_grupo+" , descripcion "+desc_prod);
+  */
+    //console.log("Número de grupo = "+id_grupo+" , descripcion "+desc_prod);
     try{
-      data_producto.db_insertar(id_grupo, desc_prod,function(bandera){
+      data_producto.db_insertar(req.query,function(bandera){
         /*if (bandera){
           res.redirect('producto/index.jade');
         }else{
@@ -93,8 +95,8 @@ exports.insertarProducto = function(req,res){
       console.log("Número de grupo = "+id_grupo+" , descripcion "+desc_prod);
     }
     //console.log("Número de grupo = "+id_grupo+" , descripcion "+desc_prod);
-  });
-}
+//  });
+};
 
 //++++++++++++++++++++++ELIMINAR UN PRODUCTO.++++++++++++++++++++++++++++++
 exports.eliminarProducto = function(req, res){

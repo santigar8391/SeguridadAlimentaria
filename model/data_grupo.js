@@ -21,7 +21,7 @@ exports.connect = function() {
 // obtiene todos los elementos de la tabla "grupo"
 exports.db_get_listado = function(cb) {
     var data = [];
-    client.query("SELECT int_id as id, int_id_padre, int_tiene_hijos, flt_numero, str_descripcion as title, str_estado FROM grupoRecursivo;")
+    client.query("SELECT int_id as id, int_id_padre, flt_numero, str_descripcion as title, str_estado FROM grupo;")
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);

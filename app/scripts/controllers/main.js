@@ -10,15 +10,15 @@ angular.module('proyectoSaludApp')
 
     $scope.slider = [
       {
-        title: "Lorem ipsum dolor sit amet consectetur&mldr",
+        title: "Naturaleza",
         image: baseUrl+"/nature/"
       },
       {
-        title: "Lorem ipsum dolor sit amet consectetur&mldr",
+        title: "Buena Alimentacion",
         image: baseUrl+"/food/"
       },
       {
-        title: "Lorem ipsum dolor sit amet consectetur&mldr",
+        title: "Deporte es vida",
         image: baseUrl+"/sports/"
       }
     ];
