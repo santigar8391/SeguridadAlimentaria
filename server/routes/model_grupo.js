@@ -12,6 +12,13 @@ var childrens=[];
 //Nombre de la variable
 var childrenNombre = 'nodes';
 
+exports.getlistado = function(req, res, next) {
+  data_grupo.connect();
+  data_grupo.db_get_listado(function (datos) {
+    res.json(datos);
+  });
+};
+
 exports.getlistadoGrupo = function(req, res, next) {
   data_grupo.connect();
   data_grupo.db_get_listado(function (datos) {
@@ -39,7 +46,7 @@ exports.getlistadoGrupo = function(req, res, next) {
     }
     res.json(json);
   });
-}
+};
 var json=[];
 // Recursividad para comprobar los children
 var loopChildrens = function(rows, parent, bandera){

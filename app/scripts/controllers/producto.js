@@ -3,18 +3,24 @@
 angular.module('proyectoSaludApp')
   .controller('ProductoCtrl', function ($scope, $http, MyAPIService, MyAPIServiceUnidad){
     $http.get('/api/producto').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-        console.log($scope.awesomeThings);
-      $scope.dataGrupo = MyAPIService.query();
-      $scope.dataUnidad = MyAPIServiceUnidad.query();
-    })
+      //Obtenemos todos los productos
+        $scope.awesomeThings = awesomeThings;
+      //Datos de todos los grupos
+        $scope.dataGrupo = MyAPIService.query();
+      //Datos de todas las unidades de medida
+        $scope.dataUnidad = MyAPIServiceUnidad.query();
+    });
+        //Template para visualizar los botones de editar y eliminar para cada registro de productos
       var removeTemplate =
       '<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#editarProductoModal" ng-click="indexProductoEditar($index)"> ' +
       '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </button>' +
       '<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#eliminarProductoModal" ng-click="indexProducto($index)"> ' +
       '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </button>';
 
+    //Este array contiene productos que han sido seleccionados con click en la fila de la tabla con ng-grid de productos en la vista
       $scope.seleccion = [];
+    //Este es un objeto con campos necesarios para recoger los datos a ser editados y se modificaran a medida que los editen.
+        //(Se utilizara en la funcion edicion!)
       $scope.editarproducto =
       {
           int_id: "",
@@ -24,6 +30,8 @@ angular.module('proyectoSaludApp')
           numMinimo: "",
           numMaximo: ""
       };
+
+    //Este es un conjunto de parametros de comportamiento del ng-grid
     $scope.gridOptions = {
       data: 'awesomeThings',
       selectedItems: $scope.seleccion,
@@ -54,18 +62,22 @@ angular.module('proyectoSaludApp')
         {field: 'remove', displayName:'Acción', cellTemplate: removeTemplate}
     ]};
 
-      //---------------------------------------------------------
+      //Funcion que permite identificar la fila que esta siendo afectada con un click (en la fila o el boton del trash) para la eliminacion
+      // Su index dentro de la tabla del ng-grid en la vista
         $scope.indexProducto = function(){
           $scope.objetoFila = this.row.rowIndex;
             console.log($scope.seleccion);
-        }
+        };
 
-
+        //Funcion que permite identificar la fila que esta siendo afectada con un click (en la fila o el boton del edit) para la eliminacion
+        // Su index dentro de la tabla del ng-grid en la vista
       $scope.indexProductoEditar = function(){
           $scope.objetoFila = this.row.rowIndex;
           console.log($scope.seleccion[0]);
-      }
+      };
 
+        //Funcion intermedia que elimina en la vista la fila y llama tambien a la funcion eliminarProducto() que elimina de la base de datos
+        //de forma logica.
         $scope.removeRow = function() {
           $scope.eliminarProducto($scope.seleccion[0].int_id);
           $scope.gridOptions.selectItem($scope.objetoFila, false);
@@ -79,8 +91,9 @@ angular.module('proyectoSaludApp')
       });
 
 */
+    //Funcion que prepara las cabeceras con los parametros del producto editado y luego las envia a editar
+    // (Contiene la funcion de update() para actualizar los datos de la vista)
     $scope.editar = function(productoEditar){
-      //----------AQUI VA UNA ADVERTENCIAS
       $http({
         method:'POST',
         url: '/api/producto/editar/',
@@ -99,14 +112,17 @@ angular.module('proyectoSaludApp')
       });
     };
 //-----------------------------------------------------------
+/*
     $scope.agregarItem = function(productoNuevo) {
         $scope.awesomeThings.push({int_id:"0", Producto:
             productoNuevo.descripcion, Grupo:productoNuevo.numGrupo.title, Unidad_medida:
             productoNuevo.numUnidad.str_descripcion, flt_min:productoNuevo.numMinimo, flt_max:productoNuevo.numMaximo});
     };
+*/
 //-----------------------------------------------------------
+    //Funcion que prepara las cabeceras con los parametros del producto nuevo y luego las envia a guardar
+    // (Contiene la funcion de update() para actualizar los datos de la vista)
     $scope.guardar = function (productoNuevo){
-        //$scope.agregarItem(productoNuevo);
         $http({
         method: 'POST',
         url: '/api/producto/guardar',
@@ -126,22 +142,22 @@ angular.module('proyectoSaludApp')
       });
     };
 
-      //+++++++++++ELIMINA UN PRODUCTO+++++++++++++++
-      $scope.eliminarProducto = function(_id){
-        $http({
-          method: 'POST',
-          url: '/api/producto/eliminar',
-          params: {
-            _id: _id
-          }
-        }).
-            success(function(data) {
-              //$scope.mostrarProducto();
-            }).
-            error(function() {
-              //$scope.mostrarProducto();
-            });
+  //Funcion que prepara las cabeceras con los parametros del producto a ser eliminado y luego las envia a eliminar de forma logica
+  $scope.eliminarProducto = function(_id){
+    $http({
+      method: 'POST',
+      url: '/api/producto/eliminar',
+      params: {
+        _id: _id
       }
+    }).
+        success(function(data) {
+
+        }).
+        error(function() {
+
+        });
+  };
 
     //Funcion para traer los datos actualizados
     $scope.update = function(){
@@ -150,17 +166,22 @@ angular.module('proyectoSaludApp')
       });
     };
 
+    //Funcion para testear los datos posibles enviados desde la vista
     $scope.tester = function(productoNuevo){
       console.log(productoNuevo);
     }
   });
 
-//-------------------------------------------------------------------
+//Servicios Factory que devuelve datos necesarios para el ingreso y edicion de los productos.
+// Este retorna valores de: -->
+
+//MyAPIService--> valores de todos los grupos
 angular.module('proyectoSaludApp')
     .factory('MyAPIService', function($resource) {
-      return $resource('/api/grupo');
+      return $resource('/api/grupoPuro');
     });
 
+//MyAPIServiceUnidad--> valores de todas las unidades.
 angular.module('proyectoSaludApp')
     .factory('MyAPIServiceUnidad', function($resource) {
         return $resource('/api/unidad');

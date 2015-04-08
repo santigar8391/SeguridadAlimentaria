@@ -15,6 +15,7 @@ var routes = require('./routes');
 var model_frecuencia = require('./routes/model_frecuencia');
 var model_unidad = require('./routes/model_unidad');
 var model_grupo = require('./routes/model_grupo');
+var model_producto = require('./routes/model_producto');
 
 //var users = require('./routes/users');
 //var producto = require('./routes/producto');
@@ -39,11 +40,14 @@ console.log(". = ", '.');
 console.log("__dirname = ", path.resolve(__dirname));
 
 app.get('/api/awesomeThings', routes.awesomeThings);
-app.get('/api/producto', routes.getlistado);
-app.post('/api/producto/editar/', routes.editarProducto);
+app.get('/api/producto', model_producto.getlistado);
+app.post('/api/producto/editar/', model_producto.editarProducto);
+
 app.get('/api/grupo', model_grupo.getlistadoGrupo);
-app.post('/api/producto/guardar', routes.insertarProducto);
-app.post('/api/producto/eliminar', routes.eliminarProducto);
+app.get('/api/grupoPuro', model_grupo.getlistado);
+
+app.post('/api/producto/guardar', model_producto.insertarProducto);
+app.post('/api/producto/eliminar', model_producto.eliminarProducto);
 
 app.get('/api/frecuencia', model_frecuencia.getlistado);
 app.post('/api/frecuencia/guardar', model_frecuencia.insertar);
