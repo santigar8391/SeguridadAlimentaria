@@ -6,7 +6,7 @@ angular.module('proyectoSaludApp')
       $scope.awesomeThings = awesomeThings;
     });
 
-    var baseUrl ="http://lorempixel.com/1350/450";
+    var baseUrl ="http://lorempixel.com/1366/350";
 
     $scope.slider = [
       {

@@ -17,8 +17,6 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.min.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css">
-    <link rel="stylesheet" href="styles/social-buttons-3.css">
-    <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/demo.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild-->
@@ -42,7 +40,7 @@
               <li class="active"><a href="#/"><span class="glyphicon glyphicon-home">&nbsp;Home</span><span class="sr-only">(current)</span></a></li>
               <li><a href="#/about">Acerca de</a></li>
               <li><a href="#/contact"><span class="glyphicon glyphicon-phone-alt">&nbsp;Contactenos</span></a></li>
-              <li class="dropdown"><a href="#/" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Acciones<span class="caret"></span></a>
+              <li class="dropdown"><a data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Acciones<span class="caret"></span></a>
                 <ul role="menu" class="dropdown-menu">
                   <li><a href="#/producto">Producto</a></li>
                   <li><a href="#/grupo">Grupo</a></li>
@@ -66,7 +64,7 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="#">Registrarse</a></li>
-              <li class="dropdown"><a href="#/" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Usuario&nbsp;<span class="glyphicon glyphicon-user"></span><span class="caret"></span></a>
+              <li class="dropdown"><a data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Usuario&nbsp;<span class="glyphicon glyphicon-user"></span><span class="caret"></span></a>
                 <ul role="menu" class="dropdown-menu">
                   <li><a href="#">Ver perfil</a></li>
                   <li><a href="#">Seguridad</a></li>
@@ -85,10 +83,22 @@
     <seccion class="container">
       <div ng-view></div>
     </seccion>
-    <div class="footer">
-      <div class="container">
-        <p>© Copyright 2011 Headlamp Creative&nbsp;&nbsp;//&nbsp;&nbsp;Hosted by<a href="www.espoch.edu.ec">ESPOCH</a></p>
-        <button class="btn btn-facebook"><i class="fa fa-facebook">| Connect with Facebook</i></button>
+    <div background-color="#777" class="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="col-md-4 col-md-offset-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2"><a href="https://www.facebook.com"><img ng-src="../images/icons/Color/facebook@2x.png" alt="facebook" width="32" height="32"></a><a href="https://www.twitter.com">&nbsp;<img ng-src="../images/icons/Color/twitter@2x.png" alt="twitter" width="32" height="32"></a><a href="https://www.youtube.com">&nbsp;<img ng-src="../images/icons/Color/youtube@2x.png" alt="youtube" width="32" height="32"></a></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-4">
+              <p>© Copyright 2015 Desarrolladores de Software&nbsp;&nbsp;|&nbsp;&nbsp;Hospedado en&nbsp;<a href="http://www.espoch.edu.ec">ESPOCH</a></p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.-->

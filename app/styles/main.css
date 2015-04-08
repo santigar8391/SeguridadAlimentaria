@@ -34,7 +34,7 @@ body {
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 80%;
   }
 }
 .container-narrow > hr {
@@ -80,7 +80,7 @@ body {
 
   /* Estilo para grid options */
   .gridStyles {
-    border: 3px;
-    width: 700px;
-    height: 300px;
+    border: 10px;
+    width: 100%;
+    height: 450px;
   }

@@ -4,31 +4,34 @@
       li.active(data-target='#myCarousel', data-slide-to='0')
       li(data-target='#myCarousel', data-slide-to='1')
       li(data-target='#myCarousel', data-slide-to='2')
-    .carousel-inner
+    .carousel-inner(role="listbox")
       .item.active
-        img.img-responsive(ng-src="{{slider[0].image}}")
+        img.img-responsive.first-slide(ng-src="{{slider[0].image}}")
         .carousel-caption
           p {{slider[0].title}}
       .item
-        img.img-responsive(ng-src="{{slider[1].image}}")
+        img.img-responsive.second-slide(ng-src="{{slider[1].image}}")
         .carousel-caption
           p {{slider[1].title}}
       .item
-        img.img-responsive(ng-src="{{slider[2].image}}")
+        img.img-responsive.third-slide(ng-src="{{slider[2].image}}")
         .carousel-caption
           p {{slider[2].title}}
-    a.carousel-control.left(href='#myCarousel', data-slide='prev')
-      span.glyphicon.glyphicon-chevron-left
-    a.carousel-control.right(href='#myCarousel', data-slide='next')
-      span.glyphicon.glyphicon-chevron-right
-
-  .container.marketing
+    a.left.carousel-control(href='#myCarousel', role="button", data-slide='prev')
+      span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+      span.sr-only Previous
+    a.right.carousel-control(href='#myCarousel', role="button", data-slide='next')
+      span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+      span.sr-only Next
+  br
+  br
+  .container-fluid
   .row
     .col-md-4
       .thumbnail
-        img.img-circle(src='http://lorempixel.com/280/280/nature/', alt='placeholder', width="140", height="140")
+        img.img-circle.img-responsive(src='http://lorempixel.com/280/280/nature/', alt='placeholder', width="140", height="140")
         .caption
-          h4 La naturaleza
+          h3 La naturaleza
           p La naturaleza, en su sentido más amplio, es equivalente al mundo natural,
           |mundo material o universo material. El término hace referencia a los fenómeno
           |del mundo físico, y también a la vida en general. Por lo general no incluye
@@ -39,9 +42,9 @@
             a.btn.btn-default(href="#", role="button") Ver detalles »
     .col-md-4
       .thumbnail
-        img.img-circle(src='http://lorempixel.com/280/280/sports/', alt='placeholder', width="140", height="140")
+        img.img-circle.img-responsive(src='http://lorempixel.com/280/280/sports/', alt='placeholder', width="140", height="140")
         .caption
-          h4 El deporte
+          h3 El deporte
           p El deporte es una actividad reglamentada, normalmente de carácter competitivo, que en algunos
           |casos mejora la condición física y psíquica de quien lo practica y tiene propiedades que lo diferencian del simple juego.
           |  La RAE, en su Diccionario de la lengua española, define deporte como una «actividad física, ejercida como juego
@@ -51,9 +54,9 @@
             a.btn.btn-default(href="#", role="button") Ver detalles »
     .col-md-4
       .thumbnail
-        img.img-circle(src='http://lorempixel.com/280/280/food/', alt='placeholder', width="140", height="140")
+        img.img-circle.img-responsive(src='http://lorempixel.com/280/280/food/', alt='placeholder', width="140", height="140")
         .caption
-          h4 La naturaleza
+          h3 La comida
           p La comida es el conjunto de sustancias alimenticias que se consumen en diferentes momentos del día o noche.
           |Una vez ingeridas por un organismo vivo, proveen de elementos para su nutrición y permiten su conservación.
           |No obstante, el consumo de las sustancias que componen una comida también se realiza con fines fruitivos o

@@ -9,17 +9,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var router = express.Router();
-//var data = require('./data_producto.js');
 
 var routes = require('./routes');
-var model_frecuencia = require('./routes/model_frecuencia');
-var model_unidad = require('./routes/model_unidad');
-var model_grupo = require('./routes/model_grupo');
-var model_producto = require('./routes/model_producto');
+var model_frecuencia = require('./routes/route_frecuencia');
+var model_unidad = require('./routes/route_unidad');
+var model_grupo = require('./routes/route_grupo');
+var model_producto = require('./routes/route_producto');
 
 //var users = require('./routes/users');
-//var producto = require('./routes/producto');
-//var cproducto = require('./routes/controllerProducto');
 
 var app = express();
 
@@ -55,40 +52,6 @@ app.post('/api/frecuencia/guardar', model_frecuencia.insertar);
 app.get('/api/unidad', model_unidad.getlistado);
 app.post('/api/unidad/guardar', model_unidad.insertar);
 
-//app.get('/api/grupo', model_grupo.getlistadoGrupo);
-
-
-/*
-app.get('/', cproducto.index);
-app.get('/producto', cproducto.get_listado);
-app.get('/grupo', cproducto.get_listadoGrupo);
-app.post('/guardar/producto', cproducto.insertarProducto);
-app.post('/editar', cproducto.editar);
-app.delete('/eliminar/:id_producto', cproducto.eliminar);
-app.delete('/eliminar/', cproducto.eliminar);
-*/
-
-
-
-//app.use('*', controllerProducto.index);
-//app.use('/users', users);
-
-// GESTIÓN DE RUTAS
-//router.get('/producto', producto.get_listado);
-//app.get('/producto', controllerProducto.listadoProducto);
-//router.get('/producto', function(req,res,next){
-  //  res.render("un texto plano de prueba");
-
-//});
-/*console.log('desde app');
-/router.get('/producto/nuevo', producto.get_nuevo);
-router.get('/producto/:id_producto/editar', producto.get_editar);
-router.get('/producto/eliminar/:id_producto', producto.eliminar);
-router.post('/producto/nuevo', producto.insertar);
-router.post('/producto/:id_producto/editar', producto.editar);*/
-
-
-//app.use('/', router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
