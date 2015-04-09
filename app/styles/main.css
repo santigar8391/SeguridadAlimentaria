@@ -30,6 +30,12 @@ body {
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
+a:link {
+  text-decoration:none;
+}
+a:hover {
+  text-decoration:none;
+}
 
 /* Customize container */
 @media (min-width: 768px) {

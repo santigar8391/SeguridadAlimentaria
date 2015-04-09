@@ -2,9 +2,12 @@
 <div class="hero-unit">
   <div class="container">
     <h1>PRODUCTOS</h1>
+    <div class="row">
+      <div class="col-md-3 col-md-offset-9">
+        <button type="button" data-toggle="modal" data-target="#nuevoProductoModal" class="btn btn-primary btn-md pull-right"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;&nbsp;Agregar Nuevo</button>
+      </div>
+    </div><br/>
     <div ng-grid="gridOptions" class="gridStyles"></div>
-    <legend>Agregar nuevo producto</legend>
-    <button type="button" data-toggle="modal" data-target="#nuevoProductoModal" class="btn btn-primary btn-xs pull-left"><i class="glyphicon glyphicon-plus-sign"></i>Nuevo</button>
   </div>
   <!--Formulario para Ingreso nuevo producto-->
   <div id="nuevoProductoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal fade">
@@ -16,7 +19,7 @@
           <p id="myModalLabel" class="modal-title">Todos los campos son requeridos.</p>
         </div>
         <div class="modal-body">
-          <!--Aqui va el contenido pricipal - Ingreso de propiedades del producto.-->
+          <!--Aqui va el contenido principal - Ingreso de propiedades del producto.-->
           <form id="nuevoProductoForm" name="nuevoProductoForm">
             <!--Input de la descripcion del producto-->
             <div ng-class="{'has-error': nuevoProductoForm.descripcion.$invalid &amp;&amp; nuevoProductoForm.descripcion.$dirty}" class="form-group">
@@ -47,15 +50,15 @@
               <label for="numMinimo">Peso mínimo</label>
               <div class="input-group">
                 <div class="input-group-addon"><i class="glyphicon glyphicon-scale"></i></div>
-                <input type="number" name="numMinimo" id="numMinimo" ng-required="true" min="0" max="99" ng-model="productoNuevo.numMinimo" placeholder="Peso mínimo..." class="form form-group-sm"/><span ng-if="nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
-              </div><span ng-if="nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty" class="help-block">Mínimo inválido.</span>
+                <input id="numMinimo" type="number" name="numMinimo" ng-required="true" min="0" max="9999999" ng-model="productoNuevo.numMinimo" placeholder="00.00" class="form-control"/><span ng-if="nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
+              </div><span ng-if="nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty" class="help-block">Datos incorrectos: Solo se admite números reales positivos (0 - 9999999).</span>
             </div>
             <!--Input de numero float - peso máximo-->
             <div ng-class="{'has-error': nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$dirty}" class="form-group">
               <label for="numMaximo">Peso máximo.</label>
               <div class="input-group">
                 <div class="input-group-addon"><i class="glyphicon glyphicon-scale"></i></div>
-                <input type="number" name="numMaximo" id="numMaximo" ng-required="true" min="0" max="99" ng-model="productoNuevo.numMaximo" placeholder="Peso máximo..." class="form form-group-sm"/><span ng-if="nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <input type="number" name="numMaximo" id="numMaximo" ng-required="true" min="0" max="99" ng-model="productoNuevo.numMaximo" placeholder="00.00" class="form-control"/><span ng-if="nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
               </div><span ng-if="nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$dirty" class="help-block">Máximo inválido.</span>
             </div>
           </form>

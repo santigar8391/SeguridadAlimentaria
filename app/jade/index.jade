@@ -57,7 +57,7 @@ html.no-js
                 a(href="#/contact")
                   span.glyphicon.glyphicon-phone-alt &nbsp;Contactenos
               li.dropdown
-                a.dropdown-toggle(data-toggle='dropdown', role='button', aria-expanded='false') Acciones
+                a.dropdown-toggle(href="", data-toggle='dropdown', role='button', aria-expanded='false') Acciones
                   span.caret
                 ul.dropdown-menu(role='menu')
                   li
@@ -84,7 +84,7 @@ html.no-js
               li
                 a(href='#') Registrarse
               li.dropdown
-                a.dropdown-toggle(data-toggle='dropdown', role='button', aria-expanded='false') Usuario&nbsp;
+                a.dropdown-toggle(href="", data-toggle='dropdown', role='button', aria-expanded='false') Usuario&nbsp;
                   span.glyphicon.glyphicon-user
                   span.caret
                 ul.dropdown-menu(role='menu')
@@ -111,17 +111,18 @@ html.no-js
           .row
             .col-md-10
             .col-md-2
-              a(href="https://www.facebook.com")
+              a(href="https://www.facebook.com", title="Siguenos en facebook")
                 img(ng-src='../images/icons/Color/facebook@2x.png', alt='facebook', width="32", height="32")
-              a(href="https://www.twitter.com") &nbsp;
+              a(href="https://www.twitter.com", title="Siguenos en twitter") &nbsp;
                 img(ng-src='../images/icons/Color/twitter@2x.png', alt='twitter', width="32", height="32")
-              a(href="https://www.youtube.com") &nbsp;
+              a(href="https://www.youtube.com", title="Miranos en YouTube") &nbsp;
                 img(ng-src='../images/icons/Color/youtube@2x.png', alt='youtube', width="32", height="32")
           .row
             .col-md-6.col-md-offset-4
               p
                 © Copyright 2015 Desarrolladores de Software&nbsp;&nbsp;|&nbsp;&nbsp;Hospedado en&nbsp;
-                a(href="http://www.espoch.edu.ec") ESPOCH
+                a(href="http://www.espoch.edu.ec")
+                  strong ESPOCH
 
 
     // Google Analytics: change UA-XXXXX-X to be your site's ID.
@@ -133,12 +134,12 @@ html.no-js
 
     script(src="bower_components/angular/angular.js")
     script(src="bower_components/jquery/dist/jquery.min.js")
-    //script(src="bower_components/jquery/jquery.js")
     script(src="bower_components/jquery-ui/jquery-ui.min.js")
 
     // build:js scripts/modules.js
     script(src="bower_components/angular-animate/angular-animate.js")
     script(src="bower_components/bootstrap/dist/js/bootstrap.js")
+    script(src="bower_components/bootstrap-validator/dist/validator.min.js")
     script(src="bower_components/angular-resource/angular-resource.js")
     script(src="bower_components/angular-route/angular-route.js")
     script(src="bower_components/angular-cookies/angular-cookies.js")

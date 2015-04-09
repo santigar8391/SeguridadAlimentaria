@@ -1,11 +1,14 @@
 .hero-unit
   .container
     h1 PRODUCTOS
+    .row
+      .col-md-3.col-md-offset-9
+        button.btn.btn-primary.btn-md.pull-right(type="button", data-toggle="modal", data-target="#nuevoProductoModal")
+          i.glyphicon.glyphicon-plus-sign
+          | &nbsp;&nbsp;Agregar Nuevo
+    br
     div.gridStyles(ng-grid="gridOptions")
-    legend Agregar nuevo producto
-    button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="modal", data-target="#nuevoProductoModal")
-      i.glyphicon.glyphicon-plus-sign
-      | Nuevo
+
   //Formulario para Ingreso nuevo producto
   #nuevoProductoModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
     .modal-dialog
@@ -17,7 +20,7 @@
           h4#myModalLabel.modal-title Nuevo Producto.
           p#myModalLabel.modal-title Todos los campos son requeridos.
         .modal-body
-          //Aqui va el contenido pricipal - Ingreso de propiedades del producto.
+          //Aqui va el contenido principal - Ingreso de propiedades del producto.
           form#nuevoProductoForm(name="nuevoProductoForm")
             //Input de la descripcion del producto
             .form-group(ng-class="{'has-error': nuevoProductoForm.descripcion.$invalid && nuevoProductoForm.descripcion.$dirty}")
@@ -50,9 +53,9 @@
               .input-group
                 .input-group-addon
                   i.glyphicon.glyphicon-scale
-                input.form.form-group-sm(type="number", name="numMinimo", id="numMinimo", ng-required="true", min="0", max="99", ng-model="productoNuevo.numMinimo", placeholder="Peso mínimo...")
+                input#inputsm.form-control(type="number", name="numMinimo", id="numMinimo", ng-required="true", min="0", max="9999999", ng-model="productoNuevo.numMinimo", placeholder="00.00")
                 span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoProductoForm.numMinimo.$invalid && nuevoProductoForm.numMinimo.$dirty")
-              span.help-block(ng-if="nuevoProductoForm.numMinimo.$invalid && nuevoProductoForm.numMinimo.$dirty") Mínimo inválido.
+              span.help-block(ng-if="nuevoProductoForm.numMinimo.$invalid && nuevoProductoForm.numMinimo.$dirty") Datos incorrectos: Solo se admite números reales positivos (0 - 9999999).
 
             //Input de numero float - peso máximo
             .form-group(ng-class="{'has-error': nuevoProductoForm.numMaximo.$invalid && nuevoProductoForm.numMaximo.$dirty}")
@@ -60,7 +63,7 @@
               .input-group
                 .input-group-addon
                   i.glyphicon.glyphicon-scale
-                input.form.form-group-sm(type="number", name="numMaximo", id="numMaximo", ng-required="true", min="0", max="99", ng-model="productoNuevo.numMaximo", placeholder="Peso máximo...")
+                input.form-control(type="number", name="numMaximo", id="numMaximo", ng-required="true", min="0", max="99", ng-model="productoNuevo.numMaximo", placeholder="00.00")
                 span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoProductoForm.numMaximo.$invalid && nuevoProductoForm.numMaximo.$dirty")
               span.help-block(ng-if="nuevoProductoForm.numMaximo.$invalid && nuevoProductoForm.numMaximo.$dirty") Máximo inválido.
         .modal-footer

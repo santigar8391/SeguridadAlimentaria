@@ -36,6 +36,7 @@ angular.module('proyectoSaludApp')
       data: 'awesomeThings',
       selectedItems: $scope.seleccion,
       enableRowSelection: true,
+      enableCellSelection: true,
       showGroupPanel: false,
       showFooter: true,
       enableCellEdit: false,
@@ -44,6 +45,9 @@ angular.module('proyectoSaludApp')
       enableColumnReordering: true,
       enableRowReordering: true,
       multiSelect: false,
+      enableHighlighting: true,
+      noKeyboardNavigation: true,
+      virtualizationThreshold: 50,
       afterSelectionChange: function (theRow, evt) {
           $scope.editarproducto.int_id = parseInt(theRow.entity.int_id);
           $scope.editarproducto.descripcion = theRow.entity.Producto;
@@ -54,12 +58,12 @@ angular.module('proyectoSaludApp')
         },
       columnDefs: [
 //        {field: 'int_id', displayName: 'Id'},
-        {field: 'Producto', displayName: 'Descripcion'},
-        {field: 'Grupo', displayName: 'Grupo'},
-        {field: 'Unidad_medida', displayName: 'Medida'},
-        {field: 'flt_min', displayName: 'Valor minimo'},
-        {field: 'flt_max', displayName: 'Valor máximo'},
-        {field: 'remove', displayName:'Acción', cellTemplate: removeTemplate}
+        {field: 'Producto', displayName: 'Descripcion', width: '20%', pinnable: 'false'},
+        {field: 'Grupo', displayName: 'Grupo', width: '38%'},
+        {field: 'Unidad_medida', displayName: 'Medida', width: '10%'},
+        {field: 'flt_min', displayName: 'Valor minimo', width: '11%'},
+        {field: 'flt_max', displayName: 'Valor máximo', width: '11%'},
+        {field: 'remove', displayName:'Acción', cellTemplate: removeTemplate, width: '10%'}
     ]};
 
       //Funcion que permite identificar la fila que esta siendo afectada con un click (en la fila o el boton del trash) para la eliminacion
