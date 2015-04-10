@@ -31,7 +31,8 @@ angular.module('proyectoSaludApp')
           numMaximo: ""
       };
 
-    //Este es un conjunto de parametros de comportamiento del ng-grid
+
+            //Este es un conjunto de parametros de comportamiento del ng-grid
     $scope.gridOptions = {
       data: 'awesomeThings',
       selectedItems: $scope.seleccion,
@@ -127,6 +128,7 @@ angular.module('proyectoSaludApp')
     //Funcion que prepara las cabeceras con los parametros del producto nuevo y luego las envia a guardar
     // (Contiene la funcion de update() para actualizar los datos de la vista)
     $scope.guardar = function (productoNuevo){
+
         $http({
         method: 'POST',
         url: '/api/producto/guardar',
@@ -172,7 +174,10 @@ angular.module('proyectoSaludApp')
 
     //Funcion para testear los datos posibles enviados desde la vista
     $scope.tester = function(productoNuevo){
-      console.log(productoNuevo);
+        console.log(productoNuevo);
+        productoNuevo.numGrupo = $scope.dataGrupo[0];
+        console.log(productoNuevo.numGrupo);
+
     }
   });
 

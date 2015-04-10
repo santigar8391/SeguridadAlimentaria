@@ -20,52 +20,64 @@
         </div>
         <div class="modal-body">
           <!--Aqui va el contenido principal - Ingreso de propiedades del producto.-->
-          <form id="nuevoProductoForm" name="nuevoProductoForm">
-            <!--Input de la descripcion del producto-->
-            <div ng-class="{'has-error': nuevoProductoForm.descripcion.$invalid &amp;&amp; nuevoProductoForm.descripcion.$dirty}" class="form-group">
-              <label for="descripcion">Descripción</label>
-              <div class="input-group">
-                <div class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></div>
-                <input type="text" name="descripcion" ng-required="true" id="descripcion" ng-model="productoNuevo.descripcion" placeholder="Ingrese la descripcion del producto" class="form-control"/><span ng-if="nuevoProductoForm.descripcion.$invalid &amp;&amp; nuevoProductoForm.descripcion.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
-              </div><span ng-if="nuevoProductoForm.descripcion.$invalid &amp;&amp; nuevoProductoForm.descripcion.$dirty" class="help-block">Campo inválido.</span>
-            </div>
-            <!--Select de grupo-->
-            <div class="form-group">
-              <label for="numGrupo">Grupo</label>
-              <div class="input-group">
-                <div class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></div>
-                <select ng-model="productoNuevo.numGrupo" ng-options="grupo.title for grupo in dataGrupo" id="numGrupo" class="form-control"></select>
+          <form id="nuevoProductoForm" name="nuevoProductoForm" data-toggle="validator" role="form">
+            <div class="row">
+              <!--Input de la descripcion del producto-->
+              <div ng-class="{'has-error': nuevoProductoForm.descripcion.$invalid &amp;&amp; nuevoProductoForm.descripcion.$dirty }" class="form-group col-sm-10">
+                <label for="descripcion">Descripción</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></div>
+                  <input id="descripcion" type="text" name="descripcion" ng-model="productoNuevo.descripcion" placeholder="Descripción o nombre del producto" maxlength="40" required="required" class="form-control"/><span ng-if="nuevoProductoForm.descripcion.$invalid &amp;&amp; nuevoProductoForm.descripcion.$touched" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                </div><span ng-if="nuevoProductoForm.descripcion.$error.$invalid &amp;&amp; nuevoProductoForm.descripcion.$touched" class="help-block">Campo inválido.</span><span ng-if="nuevoProductoForm.descripcion.$error.required &amp;&amp; nuevoProductoForm.descripcion.$touched" class="help-block">La descripción es requerida.</span>
               </div>
             </div>
-            <!--Select de unidad-->
-            <div class="form-group">
-              <label for="numUnidad">Unidad de medida</label>
-              <div class="input-group">
-                <div class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></div>
-                <select ng-model="productoNuevo.numUnidad" ng-options="unidad.str_descripcion for unidad in dataUnidad" id="numUnidad" class="form-control"></select>
+            <div class="row">
+              <!--Select de grupo-->
+              <div class="form-group col-sm-10">
+                <label for="numGrupo">Grupo</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></div>
+                  <select id="numGrupo" ng-model="productoNuevo.numGrupo" ng-options="grupo.title for grupo in dataGrupo" ng-init="grupo.title=1" required="required" class="form-control"></select>
+                </div>
               </div>
             </div>
-            <!--Input de numero float - peso minimo-->
-            <div ng-class="{'has-error': nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty}" class="form-group">
-              <label for="numMinimo">Peso mínimo</label>
-              <div class="input-group">
-                <div class="input-group-addon"><i class="glyphicon glyphicon-scale"></i></div>
-                <input id="numMinimo" type="number" name="numMinimo" ng-required="true" min="0" max="9999999" ng-model="productoNuevo.numMinimo" placeholder="00.00" class="form-control"/><span ng-if="nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
-              </div><span ng-if="nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty" class="help-block">Datos incorrectos: Solo se admite números reales positivos (0 - 9999999).</span>
+            <div class="row">
+              <!--Select de unidad-->
+              <div class="form-group col-sm-6">
+                <label for="numUnidad">Unidad de medida</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></div>
+                  <select id="numUnidad" ng-model="productoNuevo.numUnidad" ng-init="milimetros" ng-options="unidad.int_id as unidad.str_descripcion for unidad in dataUnidad" required="required" class="form-control">
+                    <option value="1" ng-selected="selected"></option>
+                  </select>
+                </div>
+              </div>
             </div>
-            <!--Input de numero float - peso máximo-->
-            <div ng-class="{'has-error': nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$dirty}" class="form-group">
-              <label for="numMaximo">Peso máximo.</label>
-              <div class="input-group">
-                <div class="input-group-addon"><i class="glyphicon glyphicon-scale"></i></div>
-                <input type="number" name="numMaximo" id="numMaximo" ng-required="true" min="0" max="99" ng-model="productoNuevo.numMaximo" placeholder="00.00" class="form-control"/><span ng-if="nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$dirty" class="glyphicon glyphicon-remove form-control-feedback"></span>
-              </div><span ng-if="nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$dirty" class="help-block">Máximo inválido.</span>
+            <div class="row">
+              <!--Input de número float - peso minimo-->
+              <div ng-class="{'has-error': nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$touched || nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty}" class="form-group col-sm-6">
+                <label for="numMinimo">Peso mínimo</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="glyphicon glyphicon-scale"></i></div>
+                  <input id="numMinimo" type="number" name="numMinimo" ng-model="productoNuevo.numMinimo" min="0" max="999999999.99" step="0.1" placeholder="00.00" maxlength="12" required="required" class="form-control"/><span ng-if="nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$touched" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                </div><span ng-if="nuevoProductoForm.numMinimo.$error.required &amp;&amp; nuevoProductoForm.numMinimo.$touched" class="help-block">El peso mínimo es requerido.</span><span ng-if="nuevoProductoForm.numMinimo.$error.number &amp;&amp; nuevoProductoForm.numMinimo.$touched" class="help-block">Solo se admite números reales positivos.</span><span ng-if="nuevoProductoForm.numMinimo.$error.maxlength &amp;&amp; nuevoProductoForm.numMinimo.$touched" class="help-block">Solo se admite 12 caracteres (ejm. 123456789.12).</span><span ng-if="nuevoProductoForm.numMinimo.$error.max &amp;&amp; nuevoProductoForm.numMinimo.$touched" class="help-block">Número máximo permitido es 999999999.99</span>
+              </div>
+            </div>
+            <div class="row">
+              <!--Input de numero float - peso máximo-->
+              <div ng-class="{'has-error': nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$touched || nuevoProductoForm.numMinimo.$invalid &amp;&amp; nuevoProductoForm.numMinimo.$dirty}" class="form-group col-sm-6">
+                <label for="numMaximo">Peso máximo.</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="glyphicon glyphicon-scale"></i></div>
+                  <input id="numMaximo" type="number" name="numMaximo" ng-model="productoNuevo.numMaximo" min="0" max="999999999.99" step="0.1" placeholder="00.00" maxlength="12" required="required" class="form-control"/><span ng-if="nuevoProductoForm.numMaximo.$invalid &amp;&amp; nuevoProductoForm.numMaximo.$touched" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                </div><span ng-if="nuevoProductoForm.numMaximo.$error.required &amp;&amp; nuevoProductoForm.numMaximo.$touched" class="help-block">El peso máximo es requerido.</span><span ng-if="nuevoProductoForm.numMaximo.$error.number &amp;&amp; nuevoProductoForm.numMaximo.$touched" class="help-block">Solo se admite números reales positivos.</span><span ng-if="nuevoProductoForm.numMaximo.$error.maxlength &amp;&amp; nuevoProductoForm.numMaximo.$touched" class="help-block">Solo se admite 12 caracteres (ejm. 123456789.12).</span><span ng-if="nuevoProductoForm.numMaximo.$error.max &amp;&amp; nuevoProductoForm.numMaximo.$touched" class="help-block">Número máximo permitido es 999999999.99</span>
+              </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" data-dismiss="modal" class="btn btn-default">Cancelar</button>
-          <button type="button" data-dismiss="modal" ng-click="guardar(productoNuevo)" class="btn btn-primary">Guardar</button>
+          <input type="submit" data-dismiss="modal" ng-click="tester(productoNuevo)" ng-disabled="nuevoProductoForm.descripcion.$invalid || nuevoProductoForm.numMinimo.$invalid || nuevoProductoForm.numMaximo.$invalid" class="btn btn-primary"/>
         </div>
       </div>
     </div>
