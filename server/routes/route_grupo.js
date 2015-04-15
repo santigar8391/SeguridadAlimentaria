@@ -40,9 +40,9 @@ exports.getlistadoGrupo = function(req, res, next) {
 
     //var bandera=0;
     for(var j=0; j<2; j++) {
-        parents.forEach(function (parent) {
-          loopChildrens(childrens, parent, j);
-        });
+      parents.forEach(function (parent) {
+        loopChildrens(childrens, parent, j);
+      });
     }
     res.json(json);
   });
@@ -78,4 +78,20 @@ var limpiaDatos = function(){
   childrens.splice(0, childrens.length);
   console.log("Longitud de json->"+childrens.length);
 
-}
+};
+
+//+++++++++++++++++++INSERTAR UN SubGRUPO++++++++++++++++++++++++
+exports.insertarGrupo = function(req,res){
+  data_grupo.connect();
+  console.log(req.query);
+  try{
+    data_grupo.db_insertar(req.query,function(bandera){
+      console.log("Bandera: "+bandera);
+      res.end();
+    });
+  }catch(e){
+    res.redirect('#/');
+    console.log(e);
+    console.log("Número de grupo = "+id_grupo+" , descripcion "+desc_prod);
+  }
+};

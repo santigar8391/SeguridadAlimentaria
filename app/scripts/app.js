@@ -33,6 +33,10 @@ angular.module('proyectoSaludApp', [
         templateUrl: 'views/unidad.html',
         controller: 'UnidadCtrl'
       })
+      .when('/pregunta', {
+        templateUrl: 'views/pregunta.html',
+        controller: 'PreguntaCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

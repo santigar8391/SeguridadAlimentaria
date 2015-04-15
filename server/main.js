@@ -41,6 +41,7 @@ app.get('/api/producto', model_producto.getlistado);
 app.post('/api/producto/editar/', model_producto.editarProducto);
 
 app.get('/api/grupo', model_grupo.getlistadoGrupo);
+app.post('/api/grupo/guardar', model_grupo.insertarGrupo);
 app.get('/api/grupoPuro', model_grupo.getlistado);
 
 app.post('/api/producto/guardar', model_producto.insertarProducto);

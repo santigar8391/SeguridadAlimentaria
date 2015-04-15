@@ -37,7 +37,33 @@ exports.db_get_listado = function(cb) {
             //console.log(data);
             cb(data);
         });
-}
+};
+
+// inserta un nuevo SubGrupo en la tabla "producto"
+//exports.db_insertar = function(id_grupo, desc_producto, cb) {
+exports.db_insertar = function(subGrupoNuevo, cb) {
+    if(subGrupoNuevo._id_padre == 'NULL'){
+        client.query("INSERT INTO grupo (int_id_padre, flt_numero, str_descripcion, str_estado) VALUES (?, ?, ?, ?);",
+            [null, '0',subGrupoNuevo._descripcion, 'Activo'])
+            .on('error', function(err) {
+                console.log('Result error: ' + inspect(err));
+            })
+            .on('end', function() {
+                console.log('Result finished successfully');
+                cb(true);
+            });
+    }else{
+        client.query("INSERT INTO grupo (int_id_padre, flt_numero, str_descripcion, str_estado) VALUES (?, ?, ?, ?);",
+            [subGrupoNuevo._id_padre, '0',subGrupoNuevo._descripcion, 'Activo'])
+            .on('error', function(err) {
+                console.log('Result error: ' + inspect(err));
+            })
+            .on('end', function() {
+                console.log('Result finished successfully');
+                cb(true);
+            });
+    }
+};
 
 // desconecta la base de datos
 exports.disconnect = function() {
