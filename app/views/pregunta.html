@@ -7,24 +7,26 @@
           <label for="descripcionPregunta">Pregunta.</label>
           <div class="input-group">
             <div class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></div>
-            <textarea rows="3" type="text" name="descripcionPregunta" ng-required="true" id="descripcionPregunta" ng-model="pregunta.descripcionPregunta" class="form-control"></textarea>
+            <textarea rows="1" type="text" name="descripcionPregunta" ng-required="true" id="descripcionPregunta" ng-model="pregunta.descripcionPregunta" class="form-control"></textarea>
           </div>
         </div>{{pregunta.descripcionPregunta}}
         <div class="form-group">
-          <label for="tipoPregunta">Tipo pregunta.</label>
+          <label for="tipoRespuesta">Tipo pregunta.</label>
           <div class="input-group">
             <div class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></div>
-            <select ng-model="pregunta.tipoPregunta" ng-options="tipo.type for tipo in objTipoPregunta" id="tipoPregunta" ng-init="opciones(pregunta)" class="form-control"></select>
-          </div>
+            <select ng-model="respuesta.tipoRespuesta" ng-options="tipo.type for tipo in objTipoPregunta" id="tipoRespuesta" ng-init="" class="form-control"></select>
+          </div><a href="" ng-click=""></a>
         </div>
         <div ng-show="formVisibility" class="form-group">
-          <label for="descripcionPreguntaRespuesta">Opción.</label>
+          <label for="descripcionRespuesta">Opción.</label>
           <div class="input-group"><span class="input-group-addon">
-              <input type="{{pregunta.tipoPregunta.type}}" name="" value=""/></span>
-            <input type="text" name="descripcionPreguntaRespuesta" ng-required="true" id="descripcionPreguntaRespuesta" ng-model="pregunta.descripcionPreguntaRespuesta" ng-if="pregunta.tipoPregunta.id != 2" class="form-control"/>
+              <input type="{{respuesta.tipoRespuesta.type}}" name="" value=""/></span>
+            <input type="text" name="descripcionRespuesta" ng-required="true" id="descripcionRespuesta" ng-model="respuesta.descripcionRespuesta" class="form-control"/>
           </div>
         </div>
       </form><br/>
+      <button type="button" data-toggle="" data-target="" ng-click="addOpcionRespuesta(respuesta)" class="btn btn-primary btn-xs pull-left">add</button>
+      <p ng-repeat="dato in arrayRespuesta">{{dato}}</p><br/><br/>
       <button type="button" data-toggle="" data-target="" ng-click="addPregunta(pregunta)" class="btn btn-primary btn-xs pull-left"><i class="glyphicon glyphicon-plus-sign"></i>Ingresar</button><br/>
       <h3>Comportamiento de los datos
         <div class="info">{{info}}</div>
@@ -33,15 +35,15 @@
     </div>
     <div class="col-lg-8">
       <h2>ENCUESTA</h2>
-      <script type="text/ng-template" id="nodes_renderer.html">
-        <div class="panel panel-default">
+      <script type="text/ng-template" id="nodes_renderer.html"><br/>
+        <div ng-class="{'panel panel-default': node.nodes &amp;&amp; node.nodes.length &gt; 0}">
           <div ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" ui-tree-handle="" class="panel-heading">
-            <!--.tree-node.tree-node-content(ui-tree-handle="")--><i ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" class="glyphicon glyphicon-question-sign"></i> {{node.title}}<a data-nodrag="" ng-click="newSubItem(this)" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
-          </div><br/>
+            <!--.tree-node.tree-node-content(ui-tree-handle="")--><i ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" class="glyphicon glyphicon-question-sign"></i> {{node.title}}<a title="Agregar respuesta" data-nodrag="" ng-click="newSubItem(this)" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
+          </div>
           <div ng-if="node.nodes &amp;&amp; node.nodes.length == 0">
             <!--.tree-node.tree-node-content(ui-tree-handle="")-->
-            <input type="{{node.type}}" name="" value=""/><a data-nodrag="" ng-click="remove(this)" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-remove"></span></a><a data-toggle="modal" data-target="#editarProductoModal" data-nodrag="" ng-click="" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs">
-              <!--button.pull-right.btn.btn-default.btn-xs(type='button', data-toggle='modal', data-target='#editarProductoModal', ng-click='')--><span aria-hidden="true" class="glyphicon glyphicon-edit"></span></a>{{node.title}}
+            <input type="{{node.type}}" name="" value=""/><a title="Eliminar" data-nodrag="" ng-click="remove(this)" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-remove"></span></a><a title="Editar" data-toggle="modal" data-target="#editarProductoModal" data-nodrag="" ng-click="" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs">
+              <!--button.pull-right.btn.btn-default.btn-xs(type='button', data-toggle='modal', data-target='#editarProductoModal', ng-click='')--><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a> {{node.title}}
           </div>
           <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
             <li ng-repeat="node in node.nodes" ui-tree-node="" ng-include="'nodes_renderer.html'"></li>

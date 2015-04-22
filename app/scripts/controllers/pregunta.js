@@ -39,30 +39,57 @@ angular.module('proyectoSaludApp')
         //console.log(pregunta.descripcionPregunta);
       }());
 
+      $scope.tester = function(nuevaRespuesta){
+        //console.log(nuevaRespuesta);
+        //console.log($scope.respuesta);
+        console.log($scope.data.length);
+      };
 
       var contador = 2;
+      var idPadreNombre = 'int_id_padre';
 
-      $scope.addPregunta = function(preguntaNueva){
-        $scope.data.push(
+//Objeto para insertar como respuesta
+      $scope.respuesta =
+      {
+        int_id_padre: contador,
+        descripcionRespuesta: "",
+        tipoRespuesta: ""
+      };
+
+
+//Objeto [] para insertar las opciones respuesta
+      var arrayRespuesta=[];
+      $scope.arrayRespuesta1 = arrayRespuesta;
+
+      $scope.addOpcionRespuesta = function(respuestaNueva){
+        arrayRespuesta.push(
             {
-              "id": contador,
-              type: null,
-              "int_id_padre": null,
-              "flt_numero": "1",
-              "title": preguntaNueva.descripcionPregunta,
-              "nodes": [
-                {
-                  "id": "1.1",
-                  type: preguntaNueva.tipoPregunta.type,
-                  "int_id_padre": contador,
-                  "flt_numero": "3",
-                  "title": preguntaNueva.descripcionPreguntaRespuesta,
-                  "nodes": []
-                }
-              ]
+              int_id_padre: contador,
+              title: respuestaNueva.descripcionRespuesta,
+              type: respuestaNueva.tipoRespuesta.type,
+              nodes: []
             }
         );
+
+      };
+
+      $scope.addPregunta = function(preguntaNueva){
+        var arrayRespuestaLocal = arrayRespuesta;
+        $scope.data.push(
+            {
+              id: contador,
+              type: null,
+              int_id_padre: null,
+              title: preguntaNueva.descripcionPregunta,
+              nodes: []
+            }
+        );
+
+        arrayRespuestaLocal.forEach(function (respuesta) {
+          $scope.data[$scope.data.length-1].nodes.push(respuesta);
+          });
         contador++;
+        arrayRespuesta.splice(0, arrayRespuesta.length);
       };
 
       $scope.remove = function(scope) {

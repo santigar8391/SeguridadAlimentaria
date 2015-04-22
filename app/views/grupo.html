@@ -91,11 +91,12 @@
         <h2>GRUPOS</h2><a href="" ng-click="collapseAll()" class="btn btn-default pull-right">Mostrar en linea</a><a href="" ng-click="expandAll()" class="btn btn-default pull-right">Mostrar Desplegado</a>
         <button type="button" data-toggle="modal" data-target="#nuevoGrupoModal" class="btn btn-primary btn-xs pull-left"><i class="glyphicon glyphicon-plus-sign"></i>Nuevo</button>
       </div>
-    </div><br/>
+    </div>
     <div class="row">
       <div class="col-lg-6">
         <script type="text/ng-template" id="nodes_renderer.html">
-          <div ui-tree-handle="" class="tree-node tree-node-content bs-callout-success"><a ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" data-nodrag="" ng-click="toggle(this)" class="btn btn-success btn-xs"><span ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}" class="glyphicon"></span></a>{{node.title}}<a data-nodrag="" ng-click="remove2(this)" data-toggle="modal" data-target="#eliminarGrupoModal" class="pull-right btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a><a data-nodrag="" ng-click="newSubItem(this)" data-toggle="modal" data-target="#nuevoSubGrupoModal" style="margin-right: 8px;" class="pull-right btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span></a></div>
+          <!--.tree-node.tree-node-content.bs-callout-success(ui-tree-handle="")-->
+          <div ui-tree-handle="" class="tree-node tree-node-content bs-callout"><a ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" data-nodrag="" ng-click="toggle(this)" class="btn btn-clipboard btn-xs"><span ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}" class="glyphicon"></span></a>{{node.title}}<a data-nodrag="" ng-click="remove2(this)" data-toggle="modal" data-target="#eliminarGrupoModal" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-remove"></span></a><a data-nodrag="" ng-click="newSubItem(this)" data-toggle="modal" data-target="#nuevoSubGrupoModal" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-plus"></span></a></div>
           <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
             <li ng-repeat="node in node.nodes" ui-tree-node="" ng-include="'nodes_renderer.html'"></li>
           </ol>

@@ -89,17 +89,17 @@
         button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="modal", data-target="#nuevoGrupoModal")
           i.glyphicon.glyphicon-plus-sign
           | Nuevo
-    br
     .row
       .col-lg-6
         script(type='text/ng-template', id='nodes_renderer.html')
-          .tree-node.tree-node-content.bs-callout-success(ui-tree-handle="")
-            a.btn.btn-success.btn-xs(ng-if="node.nodes && node.nodes.length > 0", data-nodrag="", ng-click="toggle(this)")
+          //.tree-node.tree-node-content.bs-callout-success(ui-tree-handle="")
+          .tree-node.tree-node-content.bs-callout(ui-tree-handle="")
+            a.btn.btn-clipboard.btn-xs(ng-if="node.nodes && node.nodes.length > 0", data-nodrag="", ng-click="toggle(this)")
               span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}")
             | {{node.title}}
-            a.pull-right.btn.btn-danger.btn-xs(data-nodrag="", ng-click="remove2(this)", data-toggle="modal", data-target="#eliminarGrupoModal")
+            a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="remove2(this)", data-toggle="modal", data-target="#eliminarGrupoModal")
               span.glyphicon.glyphicon-remove
-            a.pull-right.btn.btn-primary.btn-xs(data-nodrag="", ng-click="newSubItem(this)", data-toggle="modal", data-target="#nuevoSubGrupoModal", style="margin-right: 8px;")
+            a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="newSubItem(this)", data-toggle="modal", data-target="#nuevoSubGrupoModal", style="margin-right: 8px;")
               span.glyphicon.glyphicon-plus
           ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
             li(ng-repeat="node in node.nodes", ui-tree-node="", ng-include="'nodes_renderer.html'")

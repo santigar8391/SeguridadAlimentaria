@@ -9,23 +9,31 @@
                     .input-group
                         .input-group-addon
                             i.glyphicon.glyphicon-bookmark
-                        textarea.form-control(rows="3", type="text", name="descripcionPregunta", ng-required="true", id="descripcionPregunta", ng-model="pregunta.descripcionPregunta")
+                        textarea.form-control(rows="1", type="text", name="descripcionPregunta", ng-required="true",
+                        id="descripcionPregunta", ng-model="pregunta.descripcionPregunta")
                 | {{pregunta.descripcionPregunta}}
                 .form-group
-                    label(for="tipoPregunta") Tipo pregunta.
+                    label(for="tipoRespuesta") Tipo pregunta.
                     .input-group
                         .input-group-addon
                             i.glyphicon.glyphicon-th-list
-                        select.form-control(ng-model="pregunta.tipoPregunta", ng-options="tipo.type for tipo in objTipoPregunta",
-                        id="tipoPregunta", ng-init="opciones(pregunta)")
+                        select.form-control(ng-model="respuesta.tipoRespuesta", ng-options="tipo.type for tipo in objTipoPregunta",
+                        id="tipoRespuesta", ng-init="")
+                    a(href="", ng-click="")
 
                 .form-group(ng-show="formVisibility")
-                    label(for="descripcionPreguntaRespuesta") Opción.
+                    label(for="descripcionRespuesta") Opción.
                     .input-group
                         span.input-group-addon
-                            input(type="{{pregunta.tipoPregunta.type}}", name="", value="")
-                        input.form-control(type="text", name="descripcionPreguntaRespuesta", ng-required="true", id="descripcionPreguntaRespuesta",
-                        ng-model="pregunta.descripcionPreguntaRespuesta", ng-if="pregunta.tipoPregunta.id != 2")
+                            input(type="{{respuesta.tipoRespuesta.type}}", name="", value="")
+                        input.form-control(type="text", name="descripcionRespuesta", ng-required="true", id="descripcionRespuesta",
+                        ng-model="respuesta.descripcionRespuesta")
+            br
+            button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="", data-target="", ng-click="addOpcionRespuesta(respuesta)") add
+
+            p(ng-repeat="dato in arrayRespuesta") {{dato}}
+
+            br
             br
             button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="", data-target="", ng-click="addPregunta(pregunta)")
                 i.glyphicon.glyphicon-plus-sign
@@ -38,23 +46,24 @@
         .col-lg-8
             h2 ENCUESTA
             script(type='text/ng-template', id='nodes_renderer.html')
-                .panel.panel-default
+                br
+                div(ng-class="{'panel panel-default': node.nodes && node.nodes.length > 0}")
                     .panel-heading(ng-if="node.nodes && node.nodes.length > 0", ui-tree-handle="")
                         //.tree-node.tree-node-content(ui-tree-handle="")
                         i.glyphicon.glyphicon-question-sign(ng-if="node.nodes && node.nodes.length > 0")
                         |  {{node.title}}
-                        a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="newSubItem(this)", style="margin-right: 8px;")
+                        a.pull-right.btn.btn-clipboard.btn-xs(title="Agregar respuesta", data-nodrag="", ng-click="newSubItem(this)", style="margin-right: 8px;")
                             span.glyphicon.glyphicon-plus
-                    br
+
                     div(ng-if="node.nodes && node.nodes.length == 0")
                         //.tree-node.tree-node-content(ui-tree-handle="")
                         input(type="{{node.type}}", name="", value="")
-                        a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="remove(this)")
+                        a.pull-right.btn.btn-clipboard.btn-xs(title="Eliminar", data-nodrag="", ng-click="remove(this)")
                             span.glyphicon.glyphicon-remove
-                        a.pull-right.btn.btn-clipboard.btn-xs(data-toggle='modal', data-target='#editarProductoModal', data-nodrag="", ng-click="", style="margin-right: 8px;")
+                        a.pull-right.btn.btn-clipboard.btn-xs(title="Editar", data-toggle='modal', data-target='#editarProductoModal', data-nodrag="", ng-click="", style="margin-right: 8px;")
                             //button.pull-right.btn.btn-default.btn-xs(type='button', data-toggle='modal', data-target='#editarProductoModal', ng-click='')
-                            span.glyphicon.glyphicon-edit(aria-hidden='true')
-                        | {{node.title}}
+                            span.glyphicon.glyphicon-pencil(aria-hidden='true')
+                        |  {{node.title}}
                     ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
                         li(ng-repeat="node in node.nodes", ui-tree-node="", ng-include="'nodes_renderer.html'")
 
