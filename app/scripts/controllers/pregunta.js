@@ -2,11 +2,10 @@
 
 angular.module('proyectoSaludApp')
     .controller('PreguntaCtrl', function ($scope, $http) {
-
       $http.get('/api/awesomeThings').success(function(awesomeThings) {
         //$scope.data = awesomeThings;
       });
-//Objeto de tipo preguntas
+//Objeto de tipos posibles de respuestas.
       $scope.objTipoPregunta = [
         {
           id:0,
@@ -22,45 +21,25 @@ angular.module('proyectoSaludApp')
         }
       ];
 
-      //++++++++++++++++++++++++++++++++++++++++++++++
+//Variable para poder mostrar o esconder el div contenedor donde se ingresa la posible respuesta -
+// (Se le quitaria porque no tiene ningun objeto por ahora)
       $scope.formVisibility=true;
-      //++++++++++++++++++++++++++++++++++++++++++++++
-      /*        $scope.ShowForm=function(){
-       $scope.formVisibility=true;
-       $scope.nnum_grupo = $scope.datoCicloGrupo[0].desc_grupo;
-       }
-       $scope.opciones = function(nuevaPregunta){
-       if(nuevaPregunta.tipoPregunta.id == 0 || nuevaPregunta.tipoPregunta.id == 1 || nuevaPregunta.tipoPregunta.id == 2){
-       $scope.formVisibility=true;
-       }
-       };*/
-      //++++++++++++++++++++++++++++++++++++++++++++++
-      (function () {
-        //console.log(pregunta.descripcionPregunta);
-      }());
-
+//Funcion para testear los datos que obtenemos de la vista.
       $scope.tester = function(nuevaRespuesta){
         //console.log(nuevaRespuesta);
         //console.log($scope.respuesta);
         console.log($scope.data.length);
       };
-
+//variable global contadora para obtener el id de la preguntar y poder referenciar de manera correcta a las respuestas.
       var contador = 2;
-      var idPadreNombre = 'int_id_padre';
-
-//Objeto para insertar como respuesta
-      $scope.respuesta =
-      {
-        int_id_padre: contador,
-        descripcionRespuesta: "",
-        tipoRespuesta: ""
-      };
-
 
 //Objeto [] para insertar las opciones respuesta
       var arrayRespuesta=[];
+//Objeto que me permite visualizar las opciones de respuesta renderizadas en la vista antes de ingresar por completo en el array de preguntas aviles.
+      //Esto se puede simplificar para no hacerle tanta vuelta pero por el momento esta bien no hace daño tampoco.
       $scope.arrayRespuesta1 = arrayRespuesta;
 
+//Funcion que agrega todas las opciones posibles de respuesta en el arrayRespuesta para luego ingresarlo en el array de preguntas.
       $scope.addOpcionRespuesta = function(respuestaNueva){
         arrayRespuesta.push(
             {
@@ -70,11 +49,10 @@ angular.module('proyectoSaludApp')
               nodes: []
             }
         );
-
       };
-
+//Funcion que agrega la pregunta con sus respuestas.
       $scope.addPregunta = function(preguntaNueva){
-        var arrayRespuestaLocal = arrayRespuesta;
+        var arrayRespuestaLocal = arrayRespuesta; //array local donde se almacena las respuestas pre-insertadas --se lo puede quitar y hacerle directamente
         $scope.data.push(
             {
               id: contador,
@@ -85,26 +63,26 @@ angular.module('proyectoSaludApp')
             }
         );
 
-        arrayRespuestaLocal.forEach(function (respuesta) {
+        arrayRespuestaLocal.forEach(function (respuesta) { //forEach que ingresa opcion de pregunta por odp porque no permitia asi no mas
           $scope.data[$scope.data.length-1].nodes.push(respuesta);
           });
-        contador++;
-        arrayRespuesta.splice(0, arrayRespuesta.length);
+        contador++; //aunmenta en 1 el contador para preparar la siguiente pregunta.
+        arrayRespuesta.splice(0, arrayRespuesta.length); //Elimina todos las opciones de respuestas de la pregunta vigente para la nueva pregunta en cuestion.
       };
-
+//Funcion que remueve una opcion de respuesta una vez en el array de las preguntas ya ingresadas.
       $scope.remove = function(scope) {
         console.log(scope.remove());
       };
-
+//Funcion que no se que mismo!!!
       $scope.toggle = function(scope) {
         scope.toggle();
       };
-
+//Funcion de mover un registro ultimo al inicio de todos los registros.
       $scope.moveLastToTheBegginig = function () {
         var a = $scope.data.pop();
         $scope.data.splice(0,0, a);
       };
-
+//Funcion que ingresa un nuevo registro --No se le usa.
       $scope.newItem = function (scope) {
         var nodeData = scope.$modelValue;
         alert(JSON.stringify(nodeData));
@@ -114,7 +92,7 @@ angular.module('proyectoSaludApp')
           nodes: []
         });
       };
-
+//Funcion que ingresa una nueva opcion de respuesta en la pregunta.
       $scope.newSubItem = function(scope) {
         var nodeData = scope.$modelValue;
         nodeData.nodes.push({
@@ -144,7 +122,7 @@ angular.module('proyectoSaludApp')
         var scope = getRootNodesScope();
         scope.expandAll();
       };
-
+//Datos de pruebas iniciales.
       $scope.data = [
         {
           "id": "1",

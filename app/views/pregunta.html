@@ -1,34 +1,7 @@
 
 <div class="container"><br/><br/>
   <div class="row">
-    <div class="col-lg-4">
-      <form id="nuevaPreguntaForm" name="editarProductoForm">
-        <div class="form-group">
-          <label for="descripcionPregunta">Pregunta.</label>
-          <div class="input-group">
-            <div class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></div>
-            <textarea rows="1" type="text" name="descripcionPregunta" ng-required="true" id="descripcionPregunta" ng-model="pregunta.descripcionPregunta" class="form-control"></textarea>
-          </div>
-        </div>{{pregunta.descripcionPregunta}}
-        <div class="form-group">
-          <label for="tipoRespuesta">Tipo pregunta.</label>
-          <div class="input-group">
-            <div class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></div>
-            <select ng-model="respuesta.tipoRespuesta" ng-options="tipo.type for tipo in objTipoPregunta" id="tipoRespuesta" ng-init="" class="form-control"></select>
-          </div><a href="" ng-click=""></a>
-        </div>
-        <div ng-show="formVisibility" class="form-group">
-          <label for="descripcionRespuesta">Opción.</label>
-          <div class="input-group"><span class="input-group-addon">
-              <input type="{{respuesta.tipoRespuesta.type}}" name="" value=""/></span>
-            <input type="text" name="descripcionRespuesta" ng-required="true" id="descripcionRespuesta" ng-model="respuesta.descripcionRespuesta" class="form-control"/>
-          </div>
-        </div>
-      </form><br/>
-      <button type="button" data-toggle="" data-target="" ng-click="addOpcionRespuesta(respuesta)" class="btn btn-primary btn-xs pull-left">add</button>
-      <!--Repite-->
-      <p ng-repeat="dato in arrayRespuesta">{{dato}}</p><br/><br/>
-      <button type="button" data-toggle="" data-target="" ng-click="addPregunta(pregunta)" class="btn btn-primary btn-xs pull-left"><i class="glyphicon glyphicon-plus-sign"></i>Ingresar</button><br/>
+    <div class="col-lg-4"><br/>
       <h3>Comportamiento de los datos
         <div class="info">{{info}}</div>
         <pre class="code">{{ data | json }}</pre>
@@ -55,6 +28,38 @@
         <ol ui-tree-nodes="" ng-model="data">
           <li ng-repeat="node in data" ui-tree-node="" ng-include="'nodes_renderer.html'"></li>
         </ol>
+      </div>
+      <hr/>
+      <label class="pull-right">INGRESO DE PREGUNTAS</label>
+      <div class="panel panel-default">
+        <form id="nuevaPreguntaForm" name="editarProductoForm">
+          <div class="form-group">
+            <label for="descripcionPregunta">Enunciado.</label>
+          </div>
+          <div class="input-group">
+            <div class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></div>
+            <textarea rows="1" type="text" name="descripcionPregunta" ng-required="true" id="descripcionPregunta" ng-model="pregunta.descripcionPregunta" class="form-control"></textarea>
+          </div>{{pregunta.descripcionPregunta}}
+          <div class="form-group">
+            <label for="tipoRespuesta">Tipo de respuesta.</label>
+            <div class="input-group">
+              <div class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></div>
+              <select ng-model="respuesta.tipoRespuesta" ng-options="tipo.type for tipo in objTipoPregunta" id="tipoRespuesta" ng-init="" class="form-control"></select>
+            </div><a href="" ng-click=""></a>
+          </div>
+          <div ng-show="formVisibility" class="form-group">
+            <label for="descripcionRespuesta">Enunciado de respuesta.</label>
+            <div class="input-group"><span class="input-group-addon">
+                <input type="{{respuesta.tipoRespuesta.type}}" name="" value=""/></span>
+              <input type="text" name="descripcionRespuesta" ng-required="true" id="descripcionRespuesta" ng-model="respuesta.descripcionRespuesta" class="form-control"/>
+            </div>
+          </div>
+        </form>
+        <button type="button" data-toggle="" data-target="" ng-click="addOpcionRespuesta(respuesta)" class="btn btn-primary btn-xs pull-right">Agregar</button>
+        <ul ng-repeat="dato in arrayRespuesta1">
+          <input type="{{dato.type}}" name="{{dato.title}}" value=""/> {{dato.title}}
+        </ul><br/>
+        <button type="button" data-toggle="" data-target="" ng-click="addPregunta(pregunta)" class="btn btn-primary btn-xs pull-left"><i class="glyphicon glyphicon-plus-sign"></i>Ingresar</button>
       </div>
     </div>
   </div>
