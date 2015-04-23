@@ -6,7 +6,7 @@ angular.module('proyectoSaludApp')
       $http.get('/api/awesomeThings').success(function(awesomeThings) {
         //$scope.data = awesomeThings;
       });
-
+//Objeto de tipo preguntas
       $scope.objTipoPregunta = [
         {
           id:0,
