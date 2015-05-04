@@ -29,10 +29,12 @@ angular.module('proyectoSaludApp')
 //Variable para poder mostrar o esconder el div contenedor donde se ingresa la posible respuesta -
 // (Se le quitaria porque no tiene ningun objeto por ahora)
       $scope.formVisibility=true;
+      $scope.variableSeleccionada = 0;
 //Funcion para testear los datos que obtenemos de la vista.
-      $scope.tester = function(nuevaRespuesta){
-        console.log($scope.respuesta.tipoRespuesta.type);
-        console.log($scope.arrayRespuesta1.title);
+      $scope.tester = function(scope){
+        $scope.variableSeleccionada = scope.id;
+        arrayRespuesta[0].section = scope.id;
+        console.log(scope);
       };
 //variable global contadora para obtener el id de la preguntar y poder referenciar de manera correcta a las respuestas.
                                                                                 var contador = 2;
@@ -46,7 +48,8 @@ angular.module('proyectoSaludApp')
           type: $scope.respuesta.tipoRespuesta.type,
           numEscala:numEscala++,
           valor: false,
-          nodes: []
+          nodes: [],
+          section: ""
         }
       ];
 //Objeto que me permite visualizar las opciones de respuesta renderizadas en la vista antes de ingresar por completo en el array de preguntas aviles.
@@ -71,7 +74,8 @@ angular.module('proyectoSaludApp')
               type: respuestaNueva.tipoRespuesta.type,
               numEscala:numEscala++,
               valor: false,
-              nodes: []
+              nodes: [],
+              section: $scope.variableSeleccionada
             }
         );
       };
@@ -81,6 +85,7 @@ angular.module('proyectoSaludApp')
         $scope.data.push(
             {
               id: contador,
+              section: $scope.variableSeleccionada,
               type: null,
               int_id_padre: null,
               title: preguntaNueva.descripcionPregunta,
@@ -102,7 +107,8 @@ angular.module('proyectoSaludApp')
             type: $scope.respuesta.tipoRespuesta.type,
             numEscala:numEscala++,
             valor: false,
-            nodes: []
+            nodes: [],
+            section: $scope.variableSeleccionada
           }
         )
       };

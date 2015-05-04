@@ -1,44 +1,49 @@
 
 <div class="container">
-  <div class="row">
-    <div class="col-lg-3">
-      <!-- INICIA VISUALIZACION DE VARIABLES-->
-      <h2>VARIABLES</h2>
-      <script type="text/ng-template" id="variable_renderer.html">
-        <nav class="col-lg-12 bs-docs-sidebar">
-          <div class="navbar-default bs-docs-sidebar"><a href="" title="" ng-click="" class="pull-left">{{node.title}}</a>
-            <ul ng-model="node.nodes" ng-class="{hidden: collapsed}" class="nav nav-stacked">
-              <li ng-repeat="node in node.nodes" ng-include="'variable_renderer.html'"></li>
-            </ul>
-          </div>
-        </nav>
-      </script>
-      <div id="tree-root" ui-tree="">
-        <ul ng-model="data" id="sidebar" class="nav nav-stacked fixed">
-          <li ng-repeat="node in dataNav" ng-include="'variable_renderer.html'"></li>
-        </ul>
-      </div><br/><!--h3 Comportamiento de los datos
+  <!-- INICIA VISUALIZACION DE VARIABLES-->
+  <div class="row"><br/>
+    <nav class="col-xs-3">
+      <ul id="sidebar" class="nav nav-stacked fixed">
+        <script type="text/ng-template" id="variable_renderer.html">
+          <li>
+            <nav class="col-lg-12 bs-docs-sidebar">
+              <div class="navbar-default bs-docs-sidebar"><a href="" title="" ng-click="tester(node)" class="pull-left">{{node.title}}</a>
+                <ul ng-model="node.nodes" ng-class="{hidden: collapsed}" class="nav nav-stacked">
+                  <li ng-repeat="node in node.nodes" ng-include="'variable_renderer.html'"></li>
+                </ul>
+              </div>
+            </nav>
+          </li>
+        </script>
+        <div>
+          <ul ng-model="data" class="nav nav-stacked">
+            <li ng-repeat="node in dataNav" ng-include="'variable_renderer.html'"></li>
+          </ul>
+        </div>
+      </ul><!--h3 Comportamiento de los datos
       <div class="info">{{info}}</div>
       <pre class="code">{{ data | json }}</pre>-->
       <!-- FINALIZA VISUALIZACION DE VARIABLES-->
-    </div>
+    </nav>
     <div class="col-lg-9">
       <!--INICIA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA-->
       <h2>ENCUESTA</h2>
-      <script type="text/ng-template" id="nodes_renderer.html"><br/>
-        <div ng-class="{'panel panel-default': node.nodes &amp;&amp; node.nodes.length &gt; 0}">
-          <div ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" ui-tree-handle="" class="panel-heading"><i ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" class="glyphicon glyphicon-question-sign"></i> {{node.title}}<a title="Agregar respuesta" data-nodrag="" ng-click="newSubItem(this)" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-plus"></span></a></div>
-          <div ng-if="node.nodes &amp;&amp; node.nodes.length == 0">
-            <input type="{{node.type}}" name="" value=""/><a title="Eliminar" data-nodrag="" ng-click="remove(this)" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-remove"></span></a><a title="Editar" data-toggle="modal" data-target="#editarProductoModal" data-nodrag="" ng-click="" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a> {{node.title}}
+      <script type="text/ng-template" id="nodes_renderer.html">
+        <section id="{{variableSeleccionada}}" ng-if="node.section == variableSeleccionada">
+          <div ng-class="{'panel panel-default': node.nodes &amp;&amp; node.nodes.length &gt; 0}">
+            <div ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" ui-tree-handle="" class="panel-heading"><i ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" class="glyphicon glyphicon-question-sign"></i> {{node.title}}<a title="Agregar respuesta" data-nodrag="" ng-click="newSubItem(this)" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-plus"></span></a></div>
+            <div ng-if="node.nodes &amp;&amp; node.nodes.length == 0">
+              <input type="{{node.type}}" name="" value=""/><a title="Eliminar" data-nodrag="" ng-click="remove(this)" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-remove"></span></a><a title="Editar" data-toggle="modal" data-target="#editarProductoModal" data-nodrag="" ng-click="" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a> {{node.title}}
+            </div>
+            <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+              <li ng-repeat="node in node.nodes" ui-tree-node="" ng-include="'nodes_renderer.html'"></li>
+            </ol>
           </div>
-          <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
-            <li ng-repeat="node in node.nodes" ui-tree-node="" ng-include="'nodes_renderer.html'"></li>
-          </ol>
-        </div>
+        </section>
       </script>
       <div id="tree-root" ui-tree="">
         <ol ui-tree-nodes="" ng-model="data">
-          <li ng-repeat="node in data" ui-tree-node="" ng-include="'nodes_renderer.html'"></li>
+          <li ng-repeat="node in data" ui-tree-node="" ng-include="'nodes_renderer.html'" ng-if="node.section == variableSeleccionada"></li>
         </ol>
       </div>
       <!--FINALIZA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA-->
