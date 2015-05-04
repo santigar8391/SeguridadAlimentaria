@@ -9,7 +9,8 @@ angular.module('proyectoSaludApp', [
   'ngTouch',
   'ngGrid',
   'angularModalService',
-  'ui.tree'
+  'ui.tree',
+  'xeditable'
 ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -40,4 +41,7 @@ angular.module('proyectoSaludApp', [
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+.run(function(editableOptions) {
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});

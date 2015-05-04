@@ -1,32 +1,45 @@
 .container
-    br
-    br
     .row
-        .col-lg-4
+        .col-lg-3
+            // INICIA VISUALIZACION DE VARIABLES
+            h2 VARIABLES
+            script(type='text/ng-template', id='variable_renderer.html')
+                nav.col-lg-12.bs-docs-sidebar
+                    .navbar-default.bs-docs-sidebar
+                        a.pull-left(href="", title="", ng-click="")
+                            | {{node.title}}
+                        ul.nav.nav-stacked(ng-model="node.nodes", ng-class="{hidden: collapsed}")
+                            li(ng-repeat="node in node.nodes", ng-include="'variable_renderer.html'")
+            #tree-root(ui-tree="")
+                ul.nav.nav-stacked.fixed(ng-model="data", id="sidebar")
+                    li(ng-repeat="node in dataNav", ng-include="'variable_renderer.html'")
             br
-            h3 Comportamiento de los datos
+
+            //h3 Comportamiento de los datos
                 .info {{info}}
                 pre.code.
                     {{ data | json }}
-        .col-lg-8
+            // FINALIZA VISUALIZACION DE VARIABLES
+
+
+
+        .col-lg-9
+            //INICIA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA
             h2 ENCUESTA
             script(type='text/ng-template', id='nodes_renderer.html')
                 br
                 div(ng-class="{'panel panel-default': node.nodes && node.nodes.length > 0}")
                     .panel-heading(ng-if="node.nodes && node.nodes.length > 0", ui-tree-handle="")
-                        //.tree-node.tree-node-content(ui-tree-handle="")
                         i.glyphicon.glyphicon-question-sign(ng-if="node.nodes && node.nodes.length > 0")
                         |  {{node.title}}
                         a.pull-right.btn.btn-clipboard.btn-xs(title="Agregar respuesta", data-nodrag="", ng-click="newSubItem(this)", style="margin-right: 8px;")
                             span.glyphicon.glyphicon-plus
 
                     div(ng-if="node.nodes && node.nodes.length == 0")
-                        //.tree-node.tree-node-content(ui-tree-handle="")
                         input(type="{{node.type}}", name="", value="")
                         a.pull-right.btn.btn-clipboard.btn-xs(title="Eliminar", data-nodrag="", ng-click="remove(this)")
                             span.glyphicon.glyphicon-remove
                         a.pull-right.btn.btn-clipboard.btn-xs(title="Editar", data-toggle='modal', data-target='#editarProductoModal', data-nodrag="", ng-click="", style="margin-right: 8px;")
-                            //button.pull-right.btn.btn-default.btn-xs(type='button', data-toggle='modal', data-target='#editarProductoModal', ng-click='')
                             span.glyphicon.glyphicon-pencil(aria-hidden='true')
                         |  {{node.title}}
                     ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
@@ -35,39 +48,43 @@
             #tree-root(ui-tree="")
                 ol(ui-tree-nodes="", ng-model="data")
                     li(ng-repeat="node in data", ui-tree-node="", ng-include="'nodes_renderer.html'")
-            hr
-            label.pull-right INGRESO DE PREGUNTAS
-            .panel.panel-default
-                form#nuevaPreguntaForm(name="editarProductoForm")
-                    .form-group
-                            label(for="descripcionPregunta") Enunciado.
-                        .input-group
-                            .input-group-addon
-                                i.glyphicon.glyphicon-bookmark
-                            textarea.form-control(rows="1", type="text", name="descripcionPregunta", ng-required="true",
-                            id="descripcionPregunta", ng-model="pregunta.descripcionPregunta")
-                    | {{pregunta.descripcionPregunta}}
-                    .form-group
-                        label(for="tipoRespuesta") Tipo de respuesta.
-                        .input-group
-                            .input-group-addon
-                                i.glyphicon.glyphicon-th-list
-                            select.form-control(ng-model="respuesta.tipoRespuesta", ng-options="tipo.type for tipo in objTipoPregunta",
-                            id="tipoRespuesta", ng-init="")
-                        a(href="", ng-click="")
+            //FINALIZA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA
 
-                    .form-group(ng-show="formVisibility")
-                        label(for="descripcionRespuesta") Enunciado de respuesta.
-                        .input-group
-                            span.input-group-addon
-                                input(type="{{respuesta.tipoRespuesta.type}}", name="", value="")
-                            input.form-control(type="text", name="descripcionRespuesta", ng-required="true", id="descripcionRespuesta",
-                            ng-model="respuesta.descripcionRespuesta")
-                button.btn.btn-primary.btn-xs.pull-right(type="button", data-toggle="", data-target="", ng-click="addOpcionRespuesta(respuesta)") Agregar
-                ul(ng-repeat="dato in arrayRespuesta1")
-                    input(type="{{dato.type}}", name="{{dato.title}}", value="")
-                    |  {{dato.title}}
+
+            .col-lg-12
+                //INICIA EL INGRESO DE PREGUNTAS
+                label.pull-right INGRESO DE PREGUNTAS
+                .panel.panel-default(id="SubIngreso")
+                    .panel-heading
+                        br
+                        i.glyphicon.glyphicon-question-sign
+                        span(editable-text="pregunta.descripcionPregunta", e-form="descripcionPregunta")
+                            |   {{pregunta.descripcionPregunta || "Ingresar enunciado..."}}
+                        a.btn.btn-clipboard.btn-xs(title="Editar", ng-click="descripcionPregunta.$show()", ng-hide="descripcionPregunta.$visible", style="margin-right: 8px;")
+                            span.glyphicon.glyphicon-pencil(aria-hidden='true')
+                        a.pull-right.btn.btn-clipboard.btn-xs(title="addRespuesta", ng-click="addOpcionRespuesta(respuesta)")
+                            span.glyphicon.glyphicon-plus
+                    .panel-body
+                        ul(ng-repeat="dato in arrayRespuesta1")
+                            a.pull-left.btn.btn-clipboard.btn-xs(title="editarNumEscala",  editable-text="dato.numEscala", onbeforesave="tabularValido($data)",
+                            data-toggle='modal', data-target='#editarProductoModal', data-nodrag="", ng-click="", style="margin-right: 8px;")
+                                | {{dato.numEscala || "Requiere tabular"}} &nbsp
+                                span.glyphicon.glyphicon-pencil(aria-hidden='true')
+                            input(type="{{respuesta.tipoRespuesta.type || 'radio'}}", name="{{dato.title}}", value="")
+                            span(editable-text="pregunta.descripcionPregunta", e-form="descripcionPregunta", ,
+                            editable-text="dato.title", e-form="descripcionRespuesta1")
+                                |  {{dato.title || "Ingresar opcion de respuesta..."}}
+                            a.btn.btn-clipboard.btn-xs(title="EditarRespuesta", ng-click="descripcionRespuesta1.$show()", ng-hide="descripcionRespuesta1.$visible", style="margin-right: 8px;")
+                                span.glyphicon.glyphicon-pencil(aria-hidden='true')
+                        select.pull-right(ng-model="respuesta.tipoRespuesta", ng-options="tipo.type for tipo in objTipoPregunta", id="tipoRespuesta")
+                            option(value="") Pregunta.
+                    //-----------------------------------------------------------------------------------------------------------
+                //FINALIZA EL INGRESO DE PREGUNTAS
                 br
-                button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="", data-target="", ng-click="addPregunta(pregunta)")
+                button.btn.btn-primary.btn-xs.pull-right(type="button", data-toggle="", data-target="", ng-click="addPregunta(pregunta)")
                     i.glyphicon.glyphicon-plus-sign
                     | Ingresar
+                button.btn.btn-primary.btn-xs.pull-right(type="button", data-toggle="", data-target="", ng-click="tester()")
+                    i.glyphicon.glyphicon-plus-sign
+                    | tester
+                //FINALIZA LA VISUALIZACION PREVIA DE LAS PREGUNTAS A INGRESAR.

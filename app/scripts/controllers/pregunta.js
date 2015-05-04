@@ -5,18 +5,23 @@ angular.module('proyectoSaludApp')
       $http.get('/api/awesomeThings').success(function(awesomeThings) {
         //$scope.data = awesomeThings;
       });
+
+      $scope.respuesta = {
+        tipoRespuesta: ""
+      };
+
 //Objeto de tipos posibles de respuestas.
       $scope.objTipoPregunta = [
         {
-          id:0,
+          value:1,
           type: "checkbox"
         },
         {
-          id:1,
+          value:2,
           type: "radio"
         },
         {
-          id:2,
+          value:3,
           type: "text"
         }
       ];
@@ -26,19 +31,37 @@ angular.module('proyectoSaludApp')
       $scope.formVisibility=true;
 //Funcion para testear los datos que obtenemos de la vista.
       $scope.tester = function(nuevaRespuesta){
-        //console.log(nuevaRespuesta);
-        //console.log($scope.respuesta);
-        console.log($scope.data.length);
+        console.log($scope.respuesta.tipoRespuesta.type);
+        console.log($scope.arrayRespuesta1.title);
       };
 //variable global contadora para obtener el id de la preguntar y poder referenciar de manera correcta a las respuestas.
-      var contador = 2;
+                                                                                var contador = 2;
+                                                                                var numEscala = 1;
 
 //Objeto [] para insertar las opciones respuesta
-      var arrayRespuesta=[];
+      var arrayRespuesta=[
+        {
+          int_id_padre: contador,
+          title: "",
+          type: $scope.respuesta.tipoRespuesta.type,
+          numEscala:numEscala++,
+          valor: false,
+          nodes: []
+        }
+      ];
 //Objeto que me permite visualizar las opciones de respuesta renderizadas en la vista antes de ingresar por completo en el array de preguntas aviles.
       //Esto se puede simplificar para no hacerle tanta vuelta pero por el momento esta bien no hace daño tampoco.
       $scope.arrayRespuesta1 = arrayRespuesta;
-
+//-----------------------------------------------------------
+      $scope.tabularValido = function(data){
+        var numTabular = parseInt(data);
+        for(var i=arrayRespuesta.length - 1; i>=0; i--){
+          if(numTabular == arrayRespuesta[i].numEscala){
+            return "Tabular duplicado. No valido!";
+          }
+        }
+      };
+//-----------------------------------------------------------
 //Funcion que agrega todas las opciones posibles de respuesta en el arrayRespuesta para luego ingresarlo en el array de preguntas.
       $scope.addOpcionRespuesta = function(respuestaNueva){
         arrayRespuesta.push(
@@ -46,6 +69,8 @@ angular.module('proyectoSaludApp')
               int_id_padre: contador,
               title: respuestaNueva.descripcionRespuesta,
               type: respuestaNueva.tipoRespuesta.type,
+              numEscala:numEscala++,
+              valor: false,
               nodes: []
             }
         );
@@ -62,12 +87,24 @@ angular.module('proyectoSaludApp')
               nodes: []
             }
         );
-
+        preguntaNueva.descripcionPregunta = null;
         arrayRespuestaLocal.forEach(function (respuesta) { //forEach que ingresa opcion de pregunta por odp porque no permitia asi no mas
+          respuesta.type = $scope.respuesta.tipoRespuesta.type;
           $scope.data[$scope.data.length-1].nodes.push(respuesta);
           });
         contador++; //aunmenta en 1 el contador para preparar la siguiente pregunta.
+        numEscala = 1;
         arrayRespuesta.splice(0, arrayRespuesta.length); //Elimina todos las opciones de respuestas de la pregunta vigente para la nueva pregunta en cuestion.
+        arrayRespuesta.push(
+          {
+            int_id_padre: contador,
+            title: "",
+            type: $scope.respuesta.tipoRespuesta.type,
+            numEscala:numEscala++,
+            valor: false,
+            nodes: []
+          }
+        )
       };
 //Funcion que remueve una opcion de respuesta una vez en el array de las preguntas ya ingresadas.
       $scope.remove = function(scope) {
@@ -141,5 +178,58 @@ angular.module('proyectoSaludApp')
             }
           ]
         }
-      ]
+      ];
+
+//Datos de prueba para hacer el navBar
+
+      $scope.dataNav = [
+        {
+          "id": "1",
+          "int_id_padre": "",
+          "title": "MacroVariable1",
+          "nodes": [
+            {
+              "id": "1.1",
+              "int_id_padre": "1",
+              "title": "SubVariable1.1",
+              "nodes":
+                  [
+                    {
+                      "id": "1.1.1",
+                      "int_id_padre": "1.1",
+                      "title": "SubVariable1.1.1",
+                      "nodes": []
+                    }
+
+                  ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "int_id_padre": "",
+          "title": "MacroVariable2",
+          "nodes": [
+            {
+              "id": "2.1",
+              "int_id_padre": "2",
+              "title": "SubVariable2.1",
+              "nodes": []
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "int_id_padre": "",
+          "title": "MacroVariable3",
+          "nodes": [
+            {
+              "id": "3.1",
+              "int_id_padre": "3",
+              "title": "SubVariable3.1",
+              "nodes": []
+            }
+          ]
+        }
+      ];
     });
