@@ -15,6 +15,7 @@ var model_frecuencia = require('./routes/route_frecuencia');
 var model_unidad = require('./routes/route_unidad');
 var model_grupo = require('./routes/route_grupo');
 var model_producto = require('./routes/route_producto');
+var model_encuesta = require('./routes/route_encuesta');
 
 //var users = require('./routes/users');
 
@@ -52,6 +53,9 @@ app.post('/api/frecuencia/guardar', model_frecuencia.insertar);
 
 app.get('/api/unidad', model_unidad.getlistado);
 app.post('/api/unidad/guardar', model_unidad.insertar);
+
+app.get('/api/encuesta', model_encuesta.getlistado);
+app.post('/api/encuesta/guardar', model_encuesta.insertarEncuesta);
 
 
 // catch 404 and forward to error handler

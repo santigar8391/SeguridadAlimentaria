@@ -2,7 +2,7 @@
     // INICIA VISUALIZACION DE VARIABLES
     .row
         br
-        nav.col-xs-3
+        nav.col-lg-3
             ul.nav.nav-stacked.fixed(id="sidebar")
                 script(type='text/ng-template', id='variable_renderer.html')
                     li
@@ -16,7 +16,7 @@
                     ul.nav.nav-stacked(ng-model="data")
                         li(ng-repeat="node in dataNav", ng-include="'variable_renderer.html'")
 
-            //h3 Comportamiento de los datos
+            h3 Comportamiento de los datos
                 .info {{info}}
                 pre.code.
                     {{ data | json }}
@@ -26,7 +26,7 @@
 
         .col-lg-9
             //INICIA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA
-            h2 ENCUESTA
+            h2 EXÁMEN
             script(type='text/ng-template', id='nodes_renderer.html')
                 section(id="{{variableSeleccionada}}", ng-if="node.section == variableSeleccionada")
                     div(ng-class="{'panel panel-default': node.nodes && node.nodes.length > 0}")
@@ -37,7 +37,7 @@
                                 span.glyphicon.glyphicon-plus
 
                         div(ng-if="node.nodes && node.nodes.length == 0")
-                            input(type="{{node.type}}", name="", value="")
+                            input(type="{{node.type}}", name="{{node.codigo}}", value="{{node.codigo}}")
                             a.pull-right.btn.btn-clipboard.btn-xs(title="Eliminar", data-nodrag="", ng-click="remove(this)")
                                 span.glyphicon.glyphicon-remove
                             a.pull-right.btn.btn-clipboard.btn-xs(title="Editar", data-toggle='modal', data-target='#editarProductoModal', data-nodrag="", ng-click="", style="margin-right: 8px;")
@@ -67,25 +67,50 @@
                             span.glyphicon.glyphicon-plus
                     .panel-body
                         ul(ng-repeat="dato in arrayRespuesta1")
+                            //*************TABULAR****************
                             a.pull-left.btn.btn-clipboard.btn-xs(title="editarNumEscala",  editable-text="dato.numEscala", onbeforesave="tabularValido($data)",
                             data-toggle='modal', data-target='#editarProductoModal', data-nodrag="", ng-click="", style="margin-right: 8px;")
                                 | {{dato.numEscala || "Requiere tabular"}} &nbsp
                                 span.glyphicon.glyphicon-pencil(aria-hidden='true')
-                            input(type="{{respuesta.tipoRespuesta.type || 'radio'}}", name="{{dato.title}}", value="")
-                            span(editable-text="pregunta.descripcionPregunta", e-form="descripcionPregunta", ,
-                            editable-text="dato.title", e-form="descripcionRespuesta1")
-                                |  {{dato.title || "Ingresar opcion de respuesta..."}}
-                            a.btn.btn-clipboard.btn-xs(title="EditarRespuesta", ng-click="descripcionRespuesta1.$show()", ng-hide="descripcionRespuesta1.$visible", style="margin-right: 8px;")
-                                span.glyphicon.glyphicon-pencil(aria-hidden='true')
+
+                            //*************INPUT Y OPCION RESPUESTA****************
+                            //RADIO BUTTON
+                            input(type="{{respuesta.tipoRespuesta.type}}", name="{{pregunta.codigoPregunta}}", ng-value="dato.numEscala",
+                            ng-model="respuesta.correcta", ng-if="respuesta.tipoRespuesta.type == 'radio'")
+                            //CHECKED
+                            input(type="{{respuesta.tipoRespuesta.type}}", ng-model="dato.valor",
+                            ng-if="respuesta.tipoRespuesta.type == 'checkbox'")
+
+                            //PENCIL RESPUESTA
+                            span(ng-if="respuesta.tipoRespuesta.type == 'checkbox' || respuesta.tipoRespuesta.type == 'radio'")
+                                span(editable-text="dato.title", e-form="descripcionRespuesta1")
+                                    |  {{dato.title || "Ingresar opcion de respuesta..."}}
+                                a.btn.btn-clipboard.btn-xs(title="EditarRespuesta", ng-click="descripcionRespuesta1.$show()", ng-hide="descripcionRespuesta1.$visible", style="margin-right: 8px;",)
+                                    span.glyphicon.glyphicon-pencil(aria-hidden='true')
+                            //TEXTO
+                            textarea(rows=2, cols=70, type="{{respuesta.tipoRespuesta.type || 'radio'}}", name="{{pregunta.codigoPregunta}}", ng-value="dato.numEscala",
+                            ng-model="respuesta.correcta", ng-if="respuesta.tipoRespuesta.type == 'text'")
+
+                            //MATRIZ
+                            .gridStyles(ui-grid="gridOptions", ui-grid-edit, ui-grid-selection, ng-if="respuesta.tipoRespuesta.type == 'Matriz'")
+
+                            //*************SELECT TIPO DE PREGUNTA****************
                         select.pull-right(ng-model="respuesta.tipoRespuesta", ng-options="tipo.type for tipo in objTipoPregunta", id="tipoRespuesta")
                             option(value="") Pregunta.
+                        | {{respuesta.correcta}}
+                        br
+                        br
+                        span(editable-text="pregunta.codigoPregunta", e-form="codigoPregunta", ng-model="pregunta.codigoPregunta")
+                            | {{pregunta.codigoPregunta || "Igresar código de pregunta"}}
+                        a.btn.btn-clipboard.btn-xs(title="Editar", ng-click="codigoPregunta.$show()", ng-hide="codigoPregunta.$visible")
+                            span.glyphicon.glyphicon-pencil(aria-hidden="true")
                     //-----------------------------------------------------------------------------------------------------------
                 //FINALIZA EL INGRESO DE PREGUNTAS
                 br
                 button.btn.btn-primary.btn-xs.pull-right(type="button", data-toggle="", data-target="", ng-click="addPregunta(pregunta)")
                     i.glyphicon.glyphicon-plus-sign
                     | Ingresar
-                button.btn.btn-primary.btn-xs.pull-right(type="button", data-toggle="", data-target="", ng-click="tester()")
+                button.btn.btn-primary.btn-xs.pull-right(type="button", data-toggle="", data-target="", ng-click="addColumna()")
                     i.glyphicon.glyphicon-plus-sign
                     | tester
                 //FINALIZA LA VISUALIZACION PREVIA DE LAS PREGUNTAS A INGRESAR.

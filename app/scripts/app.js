@@ -1,6 +1,9 @@
 'use strict';
 
 angular.module('proyectoSaludApp', [
+  'ui.grid',
+  'ui.grid.edit',
+  'ui.grid.selection',
   'ngAnimate',
   'ngCookies',
   'ngResource',
@@ -37,6 +40,18 @@ angular.module('proyectoSaludApp', [
       .when('/pregunta', {
         templateUrl: 'views/pregunta.html',
         controller: 'PreguntaCtrl'
+      })
+      .when('/vistaEncuesta', {
+        templateUrl: 'views/vistaEncuesta.html',
+        controller: 'VistaencuestaCtrl'
+      })
+      .when('/error404', {
+        templateUrl: 'views/error404.html',
+        controller: 'Error404Ctrl'
+      })
+      .when('/encuesta', {
+        templateUrl: 'views/encuesta.html',
+        controller: 'EncuestaCtrl'
       })
       .otherwise({
         redirectTo: '/'

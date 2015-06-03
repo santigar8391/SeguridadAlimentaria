@@ -14,6 +14,7 @@ html.no-js
 
     //Place favicon.ico and apple-touch-icon.png in the root directory
     //build:css(.tmp) styles/main.css
+    link(rel="stylesheet", href="bower_components/angular-ui-grid/ui-grid.css")
     link(rel="stylesheet", href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css")
     link(rel="stylesheet", href="bower_components/bootstrap/dist/css/bootstrap.min.css")
     link(rel="stylesheet", href="bower_components/ng-grid/ng-grid.min.css")
@@ -150,6 +151,7 @@ html.no-js
     script(src="bower_components/angular-ui-tree/dist/angular-ui-tree.js")
     script(src="bower_components/ng-grid/ng-grid-2.0.14.min.js")
     script(src="bower_components/angular-xeditable/dist/js/xeditable.js")
+    script(src="bower_components/angular-ui-grid/ui-grid.js")
     // endbuild
 
     // build:js({.tmp,app}) scripts/scripts.js
@@ -160,5 +162,8 @@ html.no-js
     script(src="scripts/controllers/frecuencia.js")
     script(src="scripts/controllers/unidad.js")
     script(src="scripts/controllers/pregunta.js")
+    script(src="scripts/controllers/vistaEncuesta.js")
+    script(src="scripts/controllers/error404.js")
+    script(src="scripts/controllers/encuesta.js")
     // endbuild
     //- build:body

@@ -2,7 +2,7 @@
 <div class="container">
   <!-- INICIA VISUALIZACION DE VARIABLES-->
   <div class="row"><br/>
-    <nav class="col-xs-3">
+    <nav class="col-lg-3">
       <ul id="sidebar" class="nav nav-stacked fixed">
         <script type="text/ng-template" id="variable_renderer.html">
           <li>
@@ -20,20 +20,22 @@
             <li ng-repeat="node in dataNav" ng-include="'variable_renderer.html'"></li>
           </ul>
         </div>
-      </ul><!--h3 Comportamiento de los datos
-      <div class="info">{{info}}</div>
-      <pre class="code">{{ data | json }}</pre>-->
+      </ul>
+      <h3>Comportamiento de los datos
+        <div class="info">{{info}}</div>
+        <pre class="code">{{ data | json }}</pre>
+      </h3>
       <!-- FINALIZA VISUALIZACION DE VARIABLES-->
     </nav>
     <div class="col-lg-9">
       <!--INICIA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA-->
-      <h2>ENCUESTA</h2>
+      <h2>EXÁMEN</h2>
       <script type="text/ng-template" id="nodes_renderer.html">
         <section id="{{variableSeleccionada}}" ng-if="node.section == variableSeleccionada">
           <div ng-class="{'panel panel-default': node.nodes &amp;&amp; node.nodes.length &gt; 0}">
             <div ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" ui-tree-handle="" class="panel-heading"><i ng-if="node.nodes &amp;&amp; node.nodes.length &gt; 0" class="glyphicon glyphicon-question-sign"></i> {{node.title}}<a title="Agregar respuesta" data-nodrag="" ng-click="newSubItem(this)" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-plus"></span></a></div>
             <div ng-if="node.nodes &amp;&amp; node.nodes.length == 0">
-              <input type="{{node.type}}" name="" value=""/><a title="Eliminar" data-nodrag="" ng-click="remove(this)" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-remove"></span></a><a title="Editar" data-toggle="modal" data-target="#editarProductoModal" data-nodrag="" ng-click="" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a> {{node.title}}
+              <input type="{{node.type}}" name="{{node.codigo}}" value="{{node.codigo}}"/><a title="Eliminar" data-nodrag="" ng-click="remove(this)" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-remove"></span></a><a title="Editar" data-toggle="modal" data-target="#editarProductoModal" data-nodrag="" ng-click="" style="margin-right: 8px;" class="pull-right btn btn-clipboard btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a> {{node.title}}
             </div>
             <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
               <li ng-repeat="node in node.nodes" ui-tree-node="" ng-include="'nodes_renderer.html'"></li>
@@ -53,17 +55,28 @@
         <div id="SubIngreso" class="panel panel-default">
           <div class="panel-heading"><br/><i class="glyphicon glyphicon-question-sign"></i><span editable-text="pregunta.descripcionPregunta" e-form="descripcionPregunta">  {{pregunta.descripcionPregunta || "Ingresar enunciado..."}}</span><a title="Editar" ng-click="descripcionPregunta.$show()" ng-hide="descripcionPregunta.$visible" style="margin-right: 8px;" class="btn btn-clipboard btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a><a title="addRespuesta" ng-click="addOpcionRespuesta(respuesta)" class="pull-right btn btn-clipboard btn-xs"><span class="glyphicon glyphicon-plus"></span></a></div>
           <div class="panel-body">
-            <ul ng-repeat="dato in arrayRespuesta1"><a title="editarNumEscala" editable-text="dato.numEscala" onbeforesave="tabularValido($data)" data-toggle="modal" data-target="#editarProductoModal" data-nodrag="" ng-click="" style="margin-right: 8px;" class="pull-left btn btn-clipboard btn-xs">{{dato.numEscala || "Requiere tabular"}} &nbsp<span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a>
-              <input type="{{respuesta.tipoRespuesta.type || 'radio'}}" name="{{dato.title}}" value=""/><span editable-text="dato.title" e-form="descripcionRespuesta1"> {{dato.title || "Ingresar opcion de respuesta..."}}</span><a title="EditarRespuesta" ng-click="descripcionRespuesta1.$show()" ng-hide="descripcionRespuesta1.$visible" style="margin-right: 8px;" class="btn btn-clipboard btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a>
+            <ul ng-repeat="dato in arrayRespuesta1">
+              <!--*************TABULAR****************--><a title="editarNumEscala" editable-text="dato.numEscala" onbeforesave="tabularValido($data)" data-toggle="modal" data-target="#editarProductoModal" data-nodrag="" ng-click="" style="margin-right: 8px;" class="pull-left btn btn-clipboard btn-xs">{{dato.numEscala || "Requiere tabular"}} &nbsp<span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a>
+              <!--*************INPUT Y OPCION RESPUESTA****************-->
+              <!--RADIO BUTTON-->
+              <input type="{{respuesta.tipoRespuesta.type}}" name="{{pregunta.codigoPregunta}}" ng-value="dato.numEscala" ng-model="respuesta.correcta" ng-if="respuesta.tipoRespuesta.type == 'radio'"/>
+              <!--CHECKED-->
+              <input type="{{respuesta.tipoRespuesta.type}}" ng-model="dato.valor" ng-if="respuesta.tipoRespuesta.type == 'checkbox'"/>
+              <!--PENCIL RESPUESTA--><span ng-if="respuesta.tipoRespuesta.type == 'checkbox' || respuesta.tipoRespuesta.type == 'radio'"><span editable-text="dato.title" e-form="descripcionRespuesta1"> {{dato.title || "Ingresar opcion de respuesta..."}}</span><a title="EditarRespuesta" ng-click="descripcionRespuesta1.$show()" ng-hide="descripcionRespuesta1.$visible" style="margin-right: 8px;" class="btn btn-clipboard btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a></span>
+              <!--TEXTO-->
+              <textarea rows="2" cols="70" type="{{respuesta.tipoRespuesta.type || 'radio'}}" name="{{pregunta.codigoPregunta}}" ng-value="dato.numEscala" ng-model="respuesta.correcta" ng-if="respuesta.tipoRespuesta.type == 'text'"></textarea>
+              <!--MATRIZ-->
+              <div ui-grid="gridOptions" ui-grid-edit="ui-grid-edit" ui-grid-selection="ui-grid-selection" ng-if="respuesta.tipoRespuesta.type == 'Matriz'" class="gridStyles"></div>
+              <!--*************SELECT TIPO DE PREGUNTA****************-->
             </ul>
             <select ng-model="respuesta.tipoRespuesta" ng-options="tipo.type for tipo in objTipoPregunta" id="tipoRespuesta" class="pull-right">
               <option value="">Pregunta.</option>
-            </select>
+            </select>{{respuesta.correcta}}<br/><br/><span editable-text="pregunta.codigoPregunta" e-form="codigoPregunta" ng-model="pregunta.codigoPregunta">{{pregunta.codigoPregunta || "Igresar código de pregunta"}}</span><a title="Editar" ng-click="codigoPregunta.$show()" ng-hide="codigoPregunta.$visible" class="btn btn-clipboard btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a>
           </div>
         </div>
         <!--FINALIZA EL INGRESO DE PREGUNTAS--><br/>
         <button type="button" data-toggle="" data-target="" ng-click="addPregunta(pregunta)" class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus-sign"></i>Ingresar</button>
-        <button type="button" data-toggle="" data-target="" ng-click="tester()" class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus-sign"></i>tester</button>
+        <button type="button" data-toggle="" data-target="" ng-click="addColumna()" class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus-sign"></i>tester</button>
         <!--FINALIZA LA VISUALIZACION PREVIA DE LAS PREGUNTAS A INGRESAR.-->
       </div>
     </div>
