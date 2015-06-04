@@ -1,0 +1,114 @@
+.hero-unit
+    //Formulario para Ingreso nuevo grupo
+    #nuevoVariableModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button.close(type="button", data-dismiss="modal")
+                        span(aria-hidden="true") &#215;
+                        span.sr-only Close
+                    h4#myModalLabel.modal-title Nueva Variable.
+                    p#myModalLabel.modal-title Todos los campos son requeridos.
+            .modal-body
+                //Aqui va el contenido pricipal - Ingreso de propiedades del grupo.
+                form#nuevaVariableForm(name="nuevaVariableForm")
+                //Input de la descripcion del producto
+                .form-group(ng-class="{'has-error': nuevaVariableForm.descripcion.$invalid && nuevaVariableForm.descripcion.$dirty}")
+                    label(for="descripcion") Descripción
+                    .input-group
+                        .input-group-addon
+                            i.glyphicon.glyphicon-bookmark
+                        input.form-control(type="text", name="descripcion", ng-required="true", id="descripcion", ng-model="variableNueva.descripcion", placeholder="Ingrese la descripcion del grupo")
+                        span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevaVariableForm.descripcion.$invalid && nuevaVariableForm.descripcion.$dirty")
+                    span.help-block(ng-if="nuevaVariableForm.descripcion.$invalid && nuevaVariableForm.descripcion.$dirty") Campo inválido.
+            .modal-footer
+                button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+                button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="guardar(variableNueva)") Guardar
+
+//Formulario para Ingreso nuevo subGrupo
+#nuevoSubVariableModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type="button", data-dismiss="modal")
+                    span(aria-hidden="true") &#215;
+                    span.sr-only Close
+                h4#myModalLabel.modal-title Nuevo SubGrupo.
+                p#myModalLabel.modal-title Todos los campos son requeridos.
+            .modal-body
+                //Aqui va el contenido pricipal - Ingreso de propiedades del subgrupo.
+                form#nuevaSubVariableForm(name="nuevaSubVariableForm")
+                    //Input de la descripcion del producto
+                    .form-group(ng-class="{'has-error': nuevaSubVariableForm.descripcion.$invalid && nuevaSubVariableForm.descripcion.$dirty}")
+                        label(for="descripcion") Descripción
+                        .input-group
+                            .input-group-addon
+                                i.glyphicon.glyphicon-bookmark
+                            input.form-control(type="text", name="descripcion", ng-required="true", id="descripcion",
+                            ng-model="nuevaSubVariable.descripcion", placeholder="Ingrese la descripcion del subgrupo")
+                            span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevaSubVariableForm.descripcion.$invalid && nuevaSubVariableForm.descripcion.$dirty")
+                        span.help-block(ng-if="nuevaSubVariableForm.descripcion.$invalid && nuevaSubVariableForm.descripcion.$dirty") Campo inválido.
+                    //Input de la descripcion del subgrupo
+                    .form-group(ng-class="{'has-error': nuevaSubVariableForm.descripcionPadre.$invalid && nuevaSubVariableForm.descripcionPadre.$dirty}")
+                        label(for="descripcionPadre") Grupo padre
+                        .input-group
+                            .input-group-addon
+                                i.glyphicon.glyphicon-bookmark
+                            input.form-control(type="text", name="descripcionPadre", ng-required="true", id="descripcionPadre",
+                            ng-model="nuevaSubVariable.descripcionPadre", disabled="true")
+                            span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevaSubVariableForm.descripcionPadre.$invalid && nuevaSubVariableForm.descripcionPadre.$dirty")
+                        span.help-block(ng-if="nuevaSubVariableForm.descripcionPadre.$invalid && nuevaSubVariableForm.descripcionPadre.$dirty") Campo inválido.
+            .modal-footer
+                button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+                button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="guardarSubVariable(nuevaSubVariable)") Guardar
+
+//Formulario para verificacion de la eliminacion de un Grupo o Subgrupo
+#eliminarVariableModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type="button", data-dismiss="modal")
+                    span(aria-hidden="true") &#215;
+                    span.sr-only Close
+                h4#myModalLabel.modal-title Eliminar Grupo.
+            .modal-body
+                p ¿Esta seguro que desea eliminar el Grupo&nbsp;
+                    //strong
+                    | {{seleccion[0].Producto}}
+                | ?
+        .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+            button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="eliminar()") Eliminar
+.container
+    .row
+        .col-lg-6
+            h2 VARIABLE
+            a.btn.btn-default.pull-right(href="", ng-click="collapseAll()") Mostrar en linea
+            a.btn.btn-default.pull-right(href="", ng-click="expandAll()") Mostrar Desplegado
+            button.btn.btn-primary.btn-xs.pull-left(type="button", data-toggle="modal", data-target="#nuevoVariableModal")
+                i.glyphicon.glyphicon-plus-sign
+                | Nuevo
+    .row
+        .col-lg-6
+            script(type='text/ng-template', id='nodes_renderer.html')
+                //.tree-node.tree-node-content.bs-callout-success(ui-tree-handle="")
+                .tree-node.tree-node-content.bs-callout(ui-tree-handle="")
+                    a.btn.btn-clipboard.btn-xs(ng-if="node.nodes && node.nodes.length > 0", data-nodrag="", ng-click="toggle(this)")
+                        span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}")
+                    | {{node.title}}
+                    a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="remove2(this)", data-toggle="modal", data-target="#eliminarVariableModal")
+                        span.glyphicon.glyphicon-remove
+                    a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="newSubItem(this)", data-toggle="modal", data-target="#nuevoSubVariableModal", style="margin-right: 8px;")
+                        span.glyphicon.glyphicon-plus
+                ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
+                    li(ng-repeat="node in node.nodes", ui-tree-node="", ng-include="'nodes_renderer.html'")
+
+            #tree-root(ui-tree="")
+                ol(ui-tree-nodes="", ng-model="data")
+                    li(ng-repeat="node in data", ui-tree-node="", ng-include="'nodes_renderer.html'")
+
+        .col-lg-6
+            h3 Comportamiento de los Datos.
+                .info {{info}}
+                pre.code.
+                    {{ data | json }}

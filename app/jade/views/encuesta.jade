@@ -1,13 +1,54 @@
 .hero-unit
     .container
         h1 ENCUESTA
-        .row
-            .col-md-3.col-md-offset-9
-                button.btn.btn-primary.btn-md.pull-right(type="button", data-toggle="modal", data-target="#nuevoEncuestaModal")
-                    i.glyphicon.glyphicon-plus-sign
-                    | &nbsp;&nbsp;Encuesta Nueva
+        button.btn.btn-primary.btn-md.pull-right(type="button", data-toggle="modal", data-target="#nuevoEncuestaModal")
+            i.glyphicon.glyphicon-plus-sign
+            | &nbsp;&nbsp;Encuesta Nueva
         br
+        br
+        hr
         div.gridStyles(ng-grid="gridOptions")
+        .row
+            .col-lg-5
+                .modal-header
+                    h4.modal-title VARIABLES
+                    p.modal-title Gestione las variables a medir por encuesta.
+                .modal-body
+                    script(type='text/ng-template', id='nodes_renderer.html')
+                        //.tree-node.tree-node-content.bs-callout-success(ui-tree-handle="")
+                        .tree-node.tree-node-content.bs-callout(ui-tree-handle="")
+                            a.btn.btn-clipboard.btn-xs(ng-if="node.nodes && node.nodes.length > 0", data-nodrag="", ng-click="toggle(this)")
+                                span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}")
+                            | {{node.title}}
+                            a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="remove2(this)", data-toggle="modal", data-target="#eliminarVariableModal")
+                                span.glyphicon.glyphicon-remove
+                            a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="newSubItem(this)", data-toggle="modal", data-target="#nuevoSubVariableModal", style="margin-right: 8px;")
+                                span.glyphicon.glyphicon-plus
+                        ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
+                            li(ng-repeat="node in node.nodes", ui-tree-node="", ng-include="'nodes_renderer.html'")
+
+                    #tree-root(ui-tree="")
+                        ol(ui-tree-nodes="", ng-model="data")
+                            li(ng-repeat="node in data", ui-tree-node="", ng-include="'nodes_renderer.html'")
+            .col-lg-7
+                .modal-header
+                    h4.modal-title {{seleccion[0].str_titulo}}
+                    p.modal-title {{seleccion[0].str_objetivo}}
+                .modal-body
+                    p Descripción: {{seleccion[0].str_descripcion}}
+                    p Destinado a: {{seleccion[0].str_destinado_a}}
+
+                .modal-footer
+                    p.modal-title Instrucciones.
+                    strong {{seleccion[0].srt_instrucciones}}
+                    p Fecha de creación:
+                        strong
+                            | {{seleccion[0].dt_fecha_creacion}}
+                    p Estado:
+                        strong
+                            | {{seleccion[0].str_estado}}
+            a(href="/#/pregunta/") Gestion de preguntas
+
 
     //Formulario para Ingreso nuevo product
     #nuevoEncuestaModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")

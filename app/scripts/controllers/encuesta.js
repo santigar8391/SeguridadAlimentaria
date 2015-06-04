@@ -1,12 +1,19 @@
 'use strict';
 
 angular.module('proyectoSaludApp')
-  .controller('EncuestaCtrl', function ($scope, $http) {
+  .controller('EncuestaCtrl', function($scope, $http, MyAPIServiceFactory) {
     $http.get('/api/encuesta').success(function(awesomeThings) {
       $scope.listadoEncuesta = awesomeThings;
-      console.log(awesomeThings);
+
+        MyAPIServiceFactory.get().success(function(todos) {
+            $scope.data = todos;
+        }).error(function(error) {
+            alert('Failed to load TODOs');
+        });
+
     });
-        //Template para visualizar los botones de editar y eliminar para cada registro de productos
+
+      //Template para visualizar los botones de editar y eliminar para cada registro de productos
       var removeTemplate =
       '<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#editarEncuestaModal" ng-click="indexProductoEditar($index)"> ' +
       '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> </button>' +
@@ -39,17 +46,14 @@ angular.module('proyectoSaludApp')
       showGroupPanel: false,
       showFooter: true,
       enableCellEdit: false,
-      showSelectionCheckbox: false,
+      showSelectionCheckbox: true,
       enableColumnResize: true,
       enableColumnReordering: false,
       enableRowReordering: false,
       multiSelect: false,
-      enableHighlighting: true,
-      noKeyboardNavigation: true,
-      virtualizationThreshold: 50,
       afterSelectionChange: function (theRow, evt) {
           console.log('id desde afterSelectionChange: '+theRow.entity.int_id);
-            $scope.encuestaEditar.id = parseInt(theRow.entity.int_id),
+            $scope.encuestaEditar.id = theRow.entity.int_id,
       		$scope.encuestaEditar.titulo = theRow.entity.str_titulo,
 		    $scope.encuestaEditar.descripcion = theRow.entity.str_descripcion,
 		    $scope.encuestaEditar.objetivo = theRow.entity.str_objetivo,
@@ -61,12 +65,16 @@ angular.module('proyectoSaludApp')
         },
 
       columnDefs: [
-        {field: 'int_id', displayName: 'Id', width: '20%', pinnable: 'false'},
-        {field: 'str_titulo', displayName: 'Titulo', width: '38%'},
-        {field: 'str_objetivo', displayName: 'objetivo', width: '10%'},
-        {field: 'str_destinado_a', displayName: 'Destinado a', width: '11%'},
-        {field: 'dt_fecha_creacion', displayName: 'Fecha de creación', width: '11%'},
-        {field: 'remove', displayName:'Acción', cellTemplate: removeTemplate, width: '10%'}
+        {field: 'int_id', displayName: 'Id', width: '2%', pinnable: 'false'},
+        {field: 'str_titulo', displayName: 'Titulo', width: '10%'},
+        {field: 'str_objetivo', displayName: 'objetivo', width: '7%'},
+        {field: 'str_destinado_a', displayName: 'Destinado a', width: '7%'},
+        {field: 'dt_fecha_creacion', displayName: 'Fecha de creación', width: '4%'},
+        {field: 'str_descripcion', displayName: 'Descripcion', width: '38%', visible: false},
+        {field: 'srt_instrucciones', displayName: 'Instrucciones', width: '10%', visible: false},
+        {field: 'dt_fecha_modificacion', displayName: 'Fecha modificacion', width: '11%', visible: false},
+        {field: 'str_estado', displayName: 'Estado', width: '4%'},
+        {field: 'remove', displayName:'Acción', cellTemplate: removeTemplate, width: '4%'}
     ]};
 
       //Funcion que permite identificar la fila que esta siendo afectada con un click (en la fila o el boton del trash) para la eliminacion
@@ -124,7 +132,6 @@ angular.module('proyectoSaludApp')
         alert('Error al guardar encuestaNueva');
       });
     };
-
 
     //Funcion que prepara las cabeceras con los parametros del producto editado y luego las envia a editar
     // (Contiene la funcion de update() para actualizar los datos de la vista)

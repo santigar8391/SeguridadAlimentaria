@@ -1,8 +1,8 @@
-console.log("requiere paquetes....");
+/**
+ * Created by darioh on 03/06/15.
+ */
 var inspect = require('util').inspect;
-console.log("requiere paquetes....");
 var Client = require('mariasql');
-
 var client = new Client();
 
 // genera la conexión a la base de datos "proyectoSeguridad"
@@ -21,7 +21,7 @@ exports.connect = function() {
 // obtiene todos los elementos de la tabla "grupo"
 exports.db_get_listado = function(cb) {
     var data = [];
-    client.query("SELECT int_id as id, int_id_padre, flt_numero, str_descripcion as title, str_estado FROM grupo;")
+    client.query("SELECT int_id as id, int_id_padre, flt_numero, str_descripcion as title, str_estado FROM variable;")
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);
@@ -41,10 +41,10 @@ exports.db_get_listado = function(cb) {
 
 // inserta un nuevo SubGrupo en la tabla "producto"
 //exports.db_insertar = function(id_grupo, desc_producto, cb) {
-exports.db_insertar = function(subGrupoNuevo, cb) {
-    if(subGrupoNuevo._id_padre == 'NULL'){
-        client.query("INSERT INTO grupo (int_id_padre, flt_numero, str_descripcion, str_estado) VALUES (?, ?, ?, ?);",
-            [null, '0',subGrupoNuevo._descripcion, 'Activo'])
+exports.db_insertar = function(subVariableNueva, cb) {
+    if(subVariableNueva._id_padre == 'NULL'){
+        client.query("INSERT INTO variable (int_id_padre, flt_numero, str_descripcion, str_estado) VALUES (?, ?, ?, ?);",
+            [null, '0',subVariableNueva._descripcion, 'Activo'])
             .on('error', function(err) {
                 console.log('Result error: ' + inspect(err));
             })
@@ -53,8 +53,8 @@ exports.db_insertar = function(subGrupoNuevo, cb) {
                 cb(true);
             });
     }else{
-        client.query("INSERT INTO grupo (int_id_padre, flt_numero, str_descripcion, str_estado) VALUES (?, ?, ?, ?);",
-            [subGrupoNuevo._id_padre, '0',subGrupoNuevo._descripcion, 'Activo'])
+        client.query("INSERT INTO variable (int_id_padre, flt_numero, str_descripcion, str_estado) VALUES (?, ?, ?, ?);",
+            [subVariableNueva._id_padre, '0',subVariableNueva._descripcion, 'Activo'])
             .on('error', function(err) {
                 console.log('Result error: ' + inspect(err));
             })
@@ -64,6 +64,24 @@ exports.db_insertar = function(subGrupoNuevo, cb) {
             });
     }
 };
+
+
+
+exports.db_eliminar = function(id_producto, cb) {
+    //client.query("DELETE FROM producto WHERE int_id = :var_id_producto;",
+    client.query("UPDATE variable SET str_estado = ? WHERE int_id = ?;",
+        ["Inactivo" ,id_producto])
+        //{var_id_producto: id_producto})
+        .on('error', function(err) {
+            console.log('Result error: ' + inspect(err));
+        })
+        .on('end', function() {
+            console.log('Result finished successfully');
+            cb(true);
+        });
+}
+
+
 
 // desconecta la base de datos
 exports.disconnect = function() {

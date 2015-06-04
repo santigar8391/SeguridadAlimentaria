@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('proyectoSaludApp', [
+var proyectoSaludApp = angular.module('proyectoSaludApp', [
   'ui.grid',
   'ui.grid.edit',
   'ui.grid.selection',
@@ -52,6 +52,10 @@ angular.module('proyectoSaludApp', [
       .when('/encuesta', {
         templateUrl: 'views/encuesta.html',
         controller: 'EncuestaCtrl'
+      })
+      .when('/variable', {
+        templateUrl: 'views/variable.html',
+        controller: 'VariableCtrl'
       })
       .otherwise({
         redirectTo: '/'
