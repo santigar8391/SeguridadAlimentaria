@@ -1,9 +1,18 @@
 'use strict';
 
 angular.module('proyectoSaludApp')
-    .controller('PreguntaCtrl', function ($scope, $http) {
+    .controller('PreguntaCtrl', function ($scope, $http, MyAPIServiceFactory, datosEncuestaPregunta) {
       $http.get('/api/awesomeThings').success(function(awesomeThings) {
-        //$scope.data = awesomeThings;
+        //$scope.datos = awesomeThings;
+        /*
+        MyAPIServiceFactory.get().success(function(todos) {
+          $scope.dataNav = todos;
+        }).error(function(error) {
+          alert('Failed to load TODOs');
+        });
+        */
+        $scope.encuesta = datosEncuestaPregunta.out();
+        $scope.dataNav = datosEncuestaPregunta.out2();
       });
 
     //UBICACION DE COLUMNAS
@@ -21,7 +30,7 @@ angular.module('proyectoSaludApp')
         {id:6, name:'lili'},
         {id:7, name:'y mas'}
       ];
-
+/*
     //GRIDOPTIONS CONFIGURACION
       $scope.gridOptions = {
         data: $scope.gridData,
@@ -37,7 +46,7 @@ angular.module('proyectoSaludApp')
                                                                                     field: 'Genero', displayName: 'Genero+'
                                                                                   });
                                                                                 };
-
+*/
 
       $scope.respuesta = {
         tipoRespuesta: ""
@@ -77,7 +86,7 @@ angular.module('proyectoSaludApp')
                                                               //Funcion para testear los datos que obtenemos de la vista.
                                                                     $scope.tester = function(scope){
                                                                       $scope.variableSeleccionada = scope.id;
-                                                                      arrayRespuesta[0].section = scope.id;
+                                                                      $scope.arrayRespuesta1[0].section = scope.id;
                                                                       console.log(scope);
                                                                     };
                                                               //variable global contadora para obtener el id de la preguntar y poder referenciar de manera correcta a las respuestas.
@@ -92,9 +101,8 @@ angular.module('proyectoSaludApp')
           type: $scope.respuesta.tipoRespuesta.type,
           numEscala:numEscala++,
           valor: false,
-          section: "",
+          section: $scope.variableSeleccionada,
           nodes: []
-
         }
       ];
 //Objeto que me permite visualizar las opciones de respuesta renderizadas en la vista antes de ingresar por completo en el array de preguntas aviles.
@@ -134,8 +142,9 @@ angular.module('proyectoSaludApp')
                                                                 type: null,
                                                                 int_id_padre: null,
                                                                 title: preguntaNueva.descripcionPregunta,
-                                                                nodes: [],
-                                                                codigo: preguntaNueva.codigoPregunta
+                                                                codigo: preguntaNueva.codigoPregunta,
+                                                                nodes: []
+
                                                               }
                                                           );
                                                           preguntaNueva.descripcionPregunta = null;
@@ -219,76 +228,8 @@ angular.module('proyectoSaludApp')
         scope.expandAll();
       };
 //Datos de pruebas iniciales.
-      $scope.data = [
-        {
-          "id": "1",
-          type: null,
-          "int_id_padre": null,
-          "flt_numero": "1",
-          "title": "Pregunta 1?",
-          "nodes": [
-            {
-              "id": "1.1",
-              type: "checkbox",
-              "int_id_padre": "1",
-              "flt_numero": "3",
-              "title": "respuesta 1.1",
-              "nodes": []
-            }
-          ]
-        }
-      ];
+      $scope.data = [];
 
 //Datos de prueba para hacer el navBar
 
-      $scope.dataNav = [
-        {
-          "id": "1",
-          "int_id_padre": "",
-          "title": "Materia 1",
-          "nodes": [
-            {
-              "id": "1.1",
-              "int_id_padre": "1",
-              "title": "Materia 1.1",
-              "nodes":
-                  [
-                    {
-                      "id": "1.1.1",
-                      "int_id_padre": "1.1",
-                      "title": "Materia 1.1.1",
-                      "nodes": []
-                    }
-
-                  ]
-            }
-          ]
-        },
-        {
-          "id": "2",
-          "int_id_padre": "",
-          "title": "Materia 2",
-          "nodes": [
-            {
-              "id": "2.1",
-              "int_id_padre": "2",
-              "title": "Materia 2.1",
-              "nodes": []
-            }
-          ]
-        },
-        {
-          "id": "3",
-          "int_id_padre": "",
-          "title": "Materia 3",
-          "nodes": [
-            {
-              "id": "3.1",
-              "int_id_padre": "3",
-              "title": "Materia 3.1",
-              "nodes": []
-            }
-          ]
-        }
-      ];
     });

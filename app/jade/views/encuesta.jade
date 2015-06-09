@@ -1,291 +1,317 @@
-.hero-unit
-    .container
-        h1 ENCUESTA
-        button.btn.btn-primary.btn-md.pull-right(type="button", data-toggle="modal", data-target="#nuevoEncuestaModal")
-            i.glyphicon.glyphicon-plus-sign
-            | &nbsp;&nbsp;Encuesta Nueva
-        br
-        br
-        hr
-        div.gridStyles(ng-grid="gridOptions")
-        .row
-            .col-lg-5
-                .modal-header
-                    h4.modal-title VARIABLES
-                    p.modal-title Gestione las variables a medir por encuesta.
-                .modal-body
-                    script(type='text/ng-template', id='nodes_renderer.html')
-                        //.tree-node.tree-node-content.bs-callout-success(ui-tree-handle="")
-                        .tree-node.tree-node-content.bs-callout(ui-tree-handle="")
-                            a.btn.btn-clipboard.btn-xs(ng-if="node.nodes && node.nodes.length > 0", data-nodrag="", ng-click="toggle(this)")
-                                span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}")
-                            | {{node.title}}
-                            a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="remove2(this)", data-toggle="modal", data-target="#eliminarVariableModal")
-                                span.glyphicon.glyphicon-remove
-                            a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="newSubItem(this)", data-toggle="modal", data-target="#nuevoSubVariableModal", style="margin-right: 8px;")
-                                span.glyphicon.glyphicon-plus
-                        ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
-                            li(ng-repeat="node in node.nodes", ui-tree-node="", ng-include="'nodes_renderer.html'")
+.container
+    h1 ENCUESTA
+    button.btn.btn-primary.btn-md.pull-right(type="button", data-toggle="modal", data-target="#nuevoEncuestaModal")
+        i.glyphicon.glyphicon-plus-sign
+        | &nbsp;&nbsp;Encuesta Nueva
+    br
+    br
+    hr
+    div.gridStyles(ng-grid="gridOptions")
 
-                    #tree-root(ui-tree="")
-                        ol(ui-tree-nodes="", ng-model="data")
-                            li(ng-repeat="node in data", ui-tree-node="", ng-include="'nodes_renderer.html'")
-            .col-lg-7
-                .modal-header
-                    h4.modal-title {{seleccion[0].str_titulo}}
-                    p.modal-title {{seleccion[0].str_objetivo}}
-                .modal-body
-                    p Descripción: {{seleccion[0].str_descripcion}}
-                    p Destinado a: {{seleccion[0].str_destinado_a}}
+    .row
+        .modal-header
+            h4.modal-title {{seleccion[0].str_titulo}}
+            p.modal-title {{seleccion[0].str_objetivo}}
+        .modal-body
+            p Descripción: {{seleccion[0].str_descripcion}}
+            p Destinado a: {{seleccion[0].str_destinado_a}}
 
-                .modal-footer
-                    p.modal-title Instrucciones.
-                    strong {{seleccion[0].srt_instrucciones}}
-                    p Fecha de creación:
-                        strong
-                            | {{seleccion[0].dt_fecha_creacion}}
-                    p Estado:
-                        strong
-                            | {{seleccion[0].str_estado}}
-            a(href="/#/pregunta/") Gestion de preguntas
+        .modal-footer
+            p.modal-title Instrucciones:
+                strong
+                    | strong {{seleccion[0].srt_instrucciones}}
+            p Fecha de creación:
+                strong
+                    | {{seleccion[0].dt_fecha_creacion}}
+            p Estado:
+                strong
+                    | {{seleccion[0].str_estado}}
+    .row
+        .col-lg-5
+            .modal-header
+                h4.modal-title VARIABLES DISPONIBLES
+                p.modal-title Gestione las variables a medir por encuesta.
+            .modal-body
+                script(type='text/ng-template', id='nodes_render.html')
+                    .tree-node.tree-node-content.bs-callout(ui-tree-handle="")
+                        a.btn.btn-clipboard.btn-xs(ng-if="node.nodes && node.nodes.length > 0", data-nodrag="", ng-click="toggle(this)")
+                            span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}")
+                        | {{node.title}}
+                        a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="remove2(this)", data-toggle="modal", data-target="#eliminarVariableModal")
+                            span.glyphicon.glyphicon-remove
+                        a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="newSubItem(this)", data-toggle="modal", data-target="#nuevoSubVariableModal", style="margin-right: 8px;")
+                            span.glyphicon.glyphicon-plus
+                    ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
+                        li(ng-repeat="node in node.nodes", ui-tree-node="", ng-include="'nodes_render.html'")
+
+                #tree-root(ui-tree="")
+                    ol(ui-tree-nodes="", ng-model="data")
+                        li(ng-repeat="node in data", ui-tree-node="", ng-include="'nodes_render.html'")
+        .col-lg-7
+            .modal-header
+                h4.modal-title VARIABLES SELECCIONADAS.
+                p.modal-title variables a medir en la encuesta actual.
+            .modal-body
+                script(type='text/ng-template', id='nodes_renderer.html')
+                    .tree-node.tree-node-content.bs-callout(ui-tree-handle="")
+                        a.btn.btn-clipboard.btn-xs(ng-if="node.nodes && node.nodes.length > 0", data-nodrag="", ng-click="toggle(this)")
+                            span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}")
+                        | {{node.title}}
+                        a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="remove(this)", data-toggle="modal", data-target="#eliminarVariableModal")
+                            span.glyphicon.glyphicon-remove
+                        a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="newSubItem(this)", data-toggle="modal", data-target="#nuevoSubVariableModal", style="margin-right: 8px;")
+                            span.glyphicon.glyphicon-plus
+                    ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
+                        li(ng-repeat="node in node.nodes", ui-tree-node="", ng-include="'nodes_renderer.html'")
+
+                #tree-root(ui-tree="")
+                    ol(ui-tree-nodes="", ng-model="dataTwo")
+                        li(ng-repeat="node in dataTwo", ui-tree-node="", ng-include="'nodes_renderer.html'")
+        .col-lg-7
 
 
-    //Formulario para Ingreso nuevo product
-    #nuevoEncuestaModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
-        .modal-dialog
-            .modal-content
-                .modal-header
-                    button.close(type="button", data-dismiss="modal")
-                        span(aria-hidden="true") &#215;
-                        span.sr-only Close
-                    h4#myModalLabel.modal-title Nueva Encuesta.
-                    p#myModalLabel.modal-title Todos los campos son requeridos.
-                .modal-body
-                    //Aqui va el contenido principal - Ingreso de propiedades del producto.
-                    form#nuevoEncuestaModal(name="nuevoEncuestaModal",data-toggle="validator", role="form")
-                        .row
-                            //Input de la titulo de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.titulo.$invalid && nuevoEncuestaModal.titulo.$dirty }")
-                                label(for="titulo") TITULO
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#titulo.form-control(type="text", name="titulo", ng-model="encuestaNueva.titulo", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.titulo.$invalid && nuevoEncuestaModal.titulo.$touched")
-                                span.help-block(ng-if="nuevoEncuestaModal.titulo.$error.$invalid && nuevoEncuestaModal.titulo.$touched") Campo inválido.
-                                span.help-block(ng-if="nuevoEncuestaModal.titulo.$error.required && nuevoEncuestaModal.titulo.$touched") La descripción es requerida.
-                        .row
-                            //Input de la descripcion de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.descripcion.$invalid && nuevoEncuestaModal.descripcion.$dirty }")
-                                label(for="descripcion") DESCRIPCION
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#descripcion.form-control(type="text", name="descripcion", ng-model="encuestaNueva.descripcion", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.descripcion.$invalid && nuevoEncuestaModal.descripcion.$touched")
-                                span.help-block(ng-if="nuevoEncuestaModal.descripcion.$error.$invalid && nuevoEncuestaModal.descripcion.$touched") Campo inválido.
-                                span.help-block(ng-if="nuevoEncuestaModal.descripcion.$error.required && nuevoEncuestaModal.descripcion.$touched") La descripción es requerida.
 
-                        .row
-                            //Input de la objetivo de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.objetivo.$invalid && nuevoEncuestaModal.objetivo.$dirty }")
-                                label(for="objetivo") OBJETIVO
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#objetivo.form-control(type="text", name="objetivo", ng-model="encuestaNueva.objetivo", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.objetivo.$invalid && nuevoEncuestaModal.objetivo.$touched")
-                                span.help-block(ng-if="nuevoEncuestaModal.objetivo.$error.$invalid && nuevoEncuestaModal.objetivo.$touched") Campo inválido.
-                                span.help-block(ng-if="nuevoEncuestaModal.objetivo.$error.required && nuevoEncuestaModal.objetivo.$touched") La descripción es requerida.
-                        
-                        .row
-                            //Input de la destinado a de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.destinadoA.$invalid && nuevoEncuestaModal.destinadoA.$dirty }")
-                                label(for="destinadoA") DESTINADO A
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#destinadoA.form-control(type="text", name="destinadoA", ng-model="encuestaNueva.destinadoA", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.destinadoA.$invalid && nuevoEncuestaModal.destinadoA.$touched")
-                                span.help-block(ng-if="nuevoEncuestaModal.destinadoA.$error.$invalid && nuevoEncuestaModal.destinadoA.$touched") Campo inválido.
-                                span.help-block(ng-if="nuevoEncuestaModal.destinadoA.$error.required && nuevoEncuestaModal.destinadoA.$touched") La descripción es requerida.
 
-                        .row
-                            //Input de la instrucciones de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.instrucciones.$invalid && nuevoEncuestaModal.instrucciones.$dirty }")
-                                label(for="instrucciones") INSTRUCCIONES
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#instrucciones.form-control(type="text", name="instrucciones", ng-model="encuestaNueva.instrucciones", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.instrucciones.$invalid && nuevoEncuestaModal.instrucciones.$touched")
-                                span.help-block(ng-if="nuevoEncuestaModal.instrucciones.$error.$invalid && nuevoEncuestaModal.instrucciones.$touched") Campo inválido.
-                                span.help-block(ng-if="nuevoEncuestaModal.instrucciones.$error.required && nuevoEncuestaModal.instrucciones.$touched") La descripción es requerida.
-                        .row
-                            //Input de la fecha de creacion de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.fechaCreacion.$invalid && nuevoEncuestaModal.fechaCreacion.$dirty }")
-                                label(for="fechaCreacion") FECHA DE CREACION
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#fechaCreacion.form-control(type="date", name="fechaCreacion", ng-model="encuestaNueva.fechaCreacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.fechaCreacion.$invalid && nuevoEncuestaModal.fechaCreacion.$touched")
-                                span.help-block(ng-if="nuevoEncuestaModal.fechaCreacion.$error.$invalid && nuevoEncuestaModal.fechaCreacion.$touched") Campo inválido.
-                                span.help-block(ng-if="nuevoEncuestaModal.fechaCreacion.$error.required && nuevoEncuestaModal.fechaCreacion.$touched") La descripción es requerida.
 
-                        .row
-                            //Input de la   fecha de modificacion de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.fechaModificacion.$invalid && nuevoEncuestaModal.fechaModificacion.$dirty }")
-                                label(for="fechaModificacion") FECHA DE MODIFICACION
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#fechaModificacion.form-control(type="date", name="fechaModificacion", ng-model="encuestaNueva.fechaModificacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.fechaModificacion.$invalid && nuevoEncuestaModal.fechaModificacion.$touched")
-                                span.help-block(ng-if="nuevoEncuestaModal.fechaModificacion.$error.$invalid && nuevoEncuestaModal.fechaModificacion.$touched") Campo inválido.
-                                span.help-block(ng-if="nuevoEncuestaModal.fechaModificacion.$error.required && nuevoEncuestaModal.fechaModificacion.$touched") La descripción es requerida.
-                        
-                        .row
-                            //Input de la descripcion de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.estado.$invalid && nuevoEncuestaModal.estado.$dirty }")
-                                label(for="estado") ESTADO
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#estado.form-control(type="text", name="estado", ng-model="encuestaNueva.estado", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.estado.$invalid && nuevoEncuestaModal.estado.$touched")
-                                span.help-block(ng-if="nuevoEncuestaModal.estado.$error.$invalid && nuevoEncuestaModal.estado.$touched") Campo inválido.
-                                span.help-block(ng-if="nuevoEncuestaModal.estado.$error.required && nuevoEncuestaModal.estado.$touched") La descripción es requerida.
-                            
-                .modal-footer
-                    button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
-                    input.btn.btn-primary(type="submit", data-dismiss="modal", ng-click="guardar(encuestaNueva)", ng-disabled="nuevoEncuestaModal.descripcion.$invalid || nuevoEncuestaModal.numMinimo.$invalid || nuevoEncuestaModal.numMaximo.$invalid") Guardar
+        a(href="/#/pregunta/", ng-click='tester(seleccion[0])') Gestion de preguntas
 
-    //Formulario para verificacion de la eliminacion de un producto
-    #eliminarEncuestaModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
-        .modal-dialog
-            .modal-content
-                .modal-header
-                    button.close(type="button", data-dismiss="modal")
-                        span(aria-hidden="true") &#215;
-                        span.sr-only Close
-                    h4#myModalLabel.modal-title Eliminar Producto.
-                .modal-body
-                    p ¿Esta seguro que desea eliminar el producto&nbsp;
-                        strong
-                            | {{seleccion[0].Producto}}
-                        | ?
-                .modal-footer
-                    button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
-                    button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="removeRow()") Eliminar
 
-    //Formulario para editar un producto
-    #editarEncuestaModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
-        .modal-dialog
-            .modal-content
-                .modal-header
-                    button.close(type="button", data-dismiss="modal")
-                        span(aria-hidden="true") &#215;
-                        span.sr-only Close
-                    h4#myModalLabel.modal-title Editar Encuesta.
-                    p#myModalLabel.modal-title Todos los campos son requeridos.
-                .modal-body
-                    form#editarEncuestaModal(name="editarEncuestaModal", data-toggle="validator", role="form")
-                        //Aqui va el contenido principal - Ingreso de propiedades del producto
-                        .row
-                            //Input de la titulo de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.titulo.$invalid && editarEncuestaModal.titulo.$dirty }")
-                                label(for="titulo") TITULO
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#titulo.form-control(type="text", name="titulo", ng-model="encuestaEditar.titulo", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.titulo.$invalid && editarEncuestaModal.titulo.$touched")
-                                span.help-block(ng-if="editarEncuestaModal.titulo.$error.$invalid && editarEncuestaModal.titulo.$touched") Campo inválido.
-                                span.help-block(ng-if="editarEncuestaModal.titulo.$error.required && editarEncuestaModal.titulo.$touched") La descripción es requerida.
-                        .row
-                            //Input de la descripcion de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.descripcion.$invalid && editarEncuestaModal.descripcion.$dirty }")
-                                label(for="descripcion") DESCRIPCION
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#descripcion.form-control(type="text", name="descripcion", ng-model="encuestaEditar.descripcion", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.descripcion.$invalid && editarEncuestaModal.descripcion.$touched")
-                                span.help-block(ng-if="editarEncuestaModal.descripcion.$error.$invalid && editarEncuestaModal.descripcion.$touched") Campo inválido.
-                                span.help-block(ng-if="editarEncuestaModal.descripcion.$error.required && editarEncuestaModal.descripcion.$touched") La descripción es requerida.
+//Formulario para Ingreso nuevo product
+#nuevoEncuestaModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type="button", data-dismiss="modal")
+                    span(aria-hidden="true") &#215;
+                    span.sr-only Close
+                h4#myModalLabel.modal-title Nueva Encuesta.
+                p#myModalLabel.modal-title Todos los campos son requeridos.
+            .modal-body
+                //Aqui va el contenido principal - Ingreso de propiedades del producto.
+                form#nuevoEncuestaModal(name="nuevoEncuestaModal",data-toggle="validator", role="form")
+                    .row
+                        //Input de la titulo de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.titulo.$invalid && nuevoEncuestaModal.titulo.$dirty }")
+                            label(for="titulo") TITULO
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#titulo.form-control(type="text", name="titulo", ng-model="encuestaNueva.titulo", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.titulo.$invalid && nuevoEncuestaModal.titulo.$touched")
+                            span.help-block(ng-if="nuevoEncuestaModal.titulo.$error.$invalid && nuevoEncuestaModal.titulo.$touched") Campo inválido.
+                            span.help-block(ng-if="nuevoEncuestaModal.titulo.$error.required && nuevoEncuestaModal.titulo.$touched") La descripción es requerida.
+                    .row
+                        //Input de la descripcion de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.descripcion.$invalid && nuevoEncuestaModal.descripcion.$dirty }")
+                            label(for="descripcion") DESCRIPCION
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#descripcion.form-control(type="text", name="descripcion", ng-model="encuestaNueva.descripcion", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.descripcion.$invalid && nuevoEncuestaModal.descripcion.$touched")
+                            span.help-block(ng-if="nuevoEncuestaModal.descripcion.$error.$invalid && nuevoEncuestaModal.descripcion.$touched") Campo inválido.
+                            span.help-block(ng-if="nuevoEncuestaModal.descripcion.$error.required && nuevoEncuestaModal.descripcion.$touched") La descripción es requerida.
 
-                        .row
-                            //Input de la objetivo de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.objetivo.$invalid && editarEncuestaModal.objetivo.$dirty }")
-                                label(for="objetivo") OBJETIVO
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#objetivo.form-control(type="text", name="objetivo", ng-model="encuestaEditar.objetivo", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.objetivo.$invalid && editarEncuestaModal.objetivo.$touched")
-                                span.help-block(ng-if="editarEncuestaModal.objetivo.$error.$invalid && editarEncuestaModal.objetivo.$touched") Campo inválido.
-                                span.help-block(ng-if="editarEncuestaModal.objetivo.$error.required && editarEncuestaModal.objetivo.$touched") La descripción es requerida.
-                        
-                        .row
-                            //Input de la destinado a de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.destinadoA.$invalid && editarEncuestaModal.destinadoA.$dirty }")
-                                label(for="destinadoA") DESTINADO A
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#destinadoA.form-control(type="text", name="destinadoA", ng-model="encuestaEditar.destinadoA", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.destinadoA.$invalid && editarEncuestaModal.destinadoA.$touched")
-                                span.help-block(ng-if="editarEncuestaModal.destinadoA.$error.$invalid && editarEncuestaModal.destinadoA.$touched") Campo inválido.
-                                span.help-block(ng-if="editarEncuestaModal.destinadoA.$error.required && editarEncuestaModal.destinadoA.$touched") La descripción es requerida.
+                    .row
+                        //Input de la objetivo de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.objetivo.$invalid && nuevoEncuestaModal.objetivo.$dirty }")
+                            label(for="objetivo") OBJETIVO
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#objetivo.form-control(type="text", name="objetivo", ng-model="encuestaNueva.objetivo", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.objetivo.$invalid && nuevoEncuestaModal.objetivo.$touched")
+                            span.help-block(ng-if="nuevoEncuestaModal.objetivo.$error.$invalid && nuevoEncuestaModal.objetivo.$touched") Campo inválido.
+                            span.help-block(ng-if="nuevoEncuestaModal.objetivo.$error.required && nuevoEncuestaModal.objetivo.$touched") La descripción es requerida.
 
-                        .row
-                            //Input de la instrucciones de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.instrucciones.$invalid && editarEncuestaModal.instrucciones.$dirty }")
-                                label(for="instrucciones") INSTRUCCIONES
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#instrucciones.form-control(type="text", name="instrucciones", ng-model="encuestaEditar.instrucciones", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.instrucciones.$invalid && editarEncuestaModal.instrucciones.$touched")
-                                span.help-block(ng-if="editarEncuestaModal.instrucciones.$error.$invalid && editarEncuestaModal.instrucciones.$touched") Campo inválido.
-                                span.help-block(ng-if="editarEncuestaModal.instrucciones.$error.required && editarEncuestaModal.instrucciones.$touched") La descripción es requerida.
-                        .row
-                            //Input de la fecha de creacion de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.fechaCreacion.$invalid && editarEncuestaModal.fechaCreacion.$dirty }")
-                                label(for="fechaCreacion") FECHA DE CREACION
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#fechaCreacion.form-control(type="date", name="fechaCreacion", ng-model="encuestaEditar.fechaCreacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.fechaCreacion.$invalid && editarEncuestaModal.fechaCreacion.$touched")
-                                span.help-block(ng-if="editarEncuestaModal.fechaCreacion.$error.$invalid && editarEncuestaModal.fechaCreacion.$touched") Campo inválido.
-                                span.help-block(ng-if="editarEncuestaModal.fechaCreacion.$error.required && editarEncuestaModal.fechaCreacion.$touched") La descripción es requerida.
+                    .row
+                        //Input de la destinado a de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.destinadoA.$invalid && nuevoEncuestaModal.destinadoA.$dirty }")
+                            label(for="destinadoA") DESTINADO A
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#destinadoA.form-control(type="text", name="destinadoA", ng-model="encuestaNueva.destinadoA", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.destinadoA.$invalid && nuevoEncuestaModal.destinadoA.$touched")
+                            span.help-block(ng-if="nuevoEncuestaModal.destinadoA.$error.$invalid && nuevoEncuestaModal.destinadoA.$touched") Campo inválido.
+                            span.help-block(ng-if="nuevoEncuestaModal.destinadoA.$error.required && nuevoEncuestaModal.destinadoA.$touched") La descripción es requerida.
 
-                        .row
-                            //Input de la   fecha de modificacion de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.fechaModificacion.$invalid && editarEncuestaModal.fechaModificacion.$dirty }")
-                                label(for="fechaModificacion") FECHA DE MODIFICACION
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#fechaModificacion.form-control(type="date", name="fechaModificacion", ng-model="encuestaEditar.fechaModificacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.fechaModificacion.$invalid && editarEncuestaModal.fechaModificacion.$touched")
-                                span.help-block(ng-if="editarEncuestaModal.fechaModificacion.$error.$invalid && editarEncuestaModal.fechaModificacion.$touched") Campo inválido.
-                                span.help-block(ng-if="editarEncuestaModal.fechaModificacion.$error.required && editarEncuestaModal.fechaModificacion.$touched") La descripción es requerida.
-                        
-                        .row
-                            //Input de la descripcion de la Encuesta
-                            .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.estado.$invalid && editarEncuestaModal.estado.$dirty }")
-                                label(for="estado") ESTADO
-                                .input-group
-                                    .input-group-addon
-                                        i.glyphicon.glyphicon-bookmark
-                                    input#estado.form-control(type="text", name="estado", ng-model="encuestaEditar.estado", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                    span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.estado.$invalid && editarEncuestaModal.estado.$touched")
-                                span.help-block(ng-if="editarEncuestaModal.estado.$error.$invalid && editarEncuestaModal.estado.$touched") Campo inválido.
-                                span.help-block(ng-if="editarEncuestaModal.estado.$error.required && editarEncuestaModal.estado.$touched") La descripción es requerida.
+                    .row
+                        //Input de la instrucciones de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.instrucciones.$invalid && nuevoEncuestaModal.instrucciones.$dirty }")
+                            label(for="instrucciones") INSTRUCCIONES
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#instrucciones.form-control(type="text", name="instrucciones", ng-model="encuestaNueva.instrucciones", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.instrucciones.$invalid && nuevoEncuestaModal.instrucciones.$touched")
+                            span.help-block(ng-if="nuevoEncuestaModal.instrucciones.$error.$invalid && nuevoEncuestaModal.instrucciones.$touched") Campo inválido.
+                            span.help-block(ng-if="nuevoEncuestaModal.instrucciones.$error.required && nuevoEncuestaModal.instrucciones.$touched") La descripción es requerida.
+                    .row
+                        //Input de la fecha de creacion de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.fechaCreacion.$invalid && nuevoEncuestaModal.fechaCreacion.$dirty }")
+                            label(for="fechaCreacion") FECHA DE CREACION
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#fechaCreacion.form-control(type="date", name="fechaCreacion", ng-model="encuestaNueva.fechaCreacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.fechaCreacion.$invalid && nuevoEncuestaModal.fechaCreacion.$touched")
+                            span.help-block(ng-if="nuevoEncuestaModal.fechaCreacion.$error.$invalid && nuevoEncuestaModal.fechaCreacion.$touched") Campo inválido.
+                            span.help-block(ng-if="nuevoEncuestaModal.fechaCreacion.$error.required && nuevoEncuestaModal.fechaCreacion.$touched") La descripción es requerida.
 
-                .modal-footer
-                    button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
-                    button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="editar(encuestaEditar)") Guardar
+                    .row
+                        //Input de la   fecha de modificacion de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.fechaModificacion.$invalid && nuevoEncuestaModal.fechaModificacion.$dirty }")
+                            label(for="fechaModificacion") FECHA DE MODIFICACION
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#fechaModificacion.form-control(type="date", name="fechaModificacion", ng-model="encuestaNueva.fechaModificacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.fechaModificacion.$invalid && nuevoEncuestaModal.fechaModificacion.$touched")
+                            span.help-block(ng-if="nuevoEncuestaModal.fechaModificacion.$error.$invalid && nuevoEncuestaModal.fechaModificacion.$touched") Campo inválido.
+                            span.help-block(ng-if="nuevoEncuestaModal.fechaModificacion.$error.required && nuevoEncuestaModal.fechaModificacion.$touched") La descripción es requerida.
+
+                    .row
+                        //Input de la descripcion de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.estado.$invalid && nuevoEncuestaModal.estado.$dirty }")
+                            label(for="estado") ESTADO
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#estado.form-control(type="text", name="estado", ng-model="encuestaNueva.estado", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.estado.$invalid && nuevoEncuestaModal.estado.$touched")
+                            span.help-block(ng-if="nuevoEncuestaModal.estado.$error.$invalid && nuevoEncuestaModal.estado.$touched") Campo inválido.
+                            span.help-block(ng-if="nuevoEncuestaModal.estado.$error.required && nuevoEncuestaModal.estado.$touched") La descripción es requerida.
+
+            .modal-footer
+                button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+                input.btn.btn-primary(type="submit", data-dismiss="modal", ng-click="guardar(encuestaNueva)", ng-disabled="nuevoEncuestaModal.descripcion.$invalid || nuevoEncuestaModal.numMinimo.$invalid || nuevoEncuestaModal.numMaximo.$invalid") Guardar
+
+//Formulario para verificacion de la eliminacion de un producto
+#eliminarEncuestaModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type="button", data-dismiss="modal")
+                    span(aria-hidden="true") &#215;
+                    span.sr-only Close
+                h4#myModalLabel.modal-title Eliminar Producto.
+            .modal-body
+                p ¿Esta seguro que desea eliminar el producto&nbsp;
+                    strong
+                        | {{seleccion[0].Producto}}
+                    | ?
+            .modal-footer
+                button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+                button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="removeRow()") Eliminar
+
+//Formulario para editar un producto
+#editarEncuestaModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type="button", data-dismiss="modal")
+                    span(aria-hidden="true") &#215;
+                    span.sr-only Close
+                h4#myModalLabel.modal-title Editar Encuesta.
+                p#myModalLabel.modal-title Todos los campos son requeridos.
+            .modal-body
+                form#editarEncuestaModal(name="editarEncuestaModal", data-toggle="validator", role="form")
+                    //Aqui va el contenido principal - Ingreso de propiedades del producto
+                    .row
+                        //Input de la titulo de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.titulo.$invalid && editarEncuestaModal.titulo.$dirty }")
+                            label(for="titulo") TITULO
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#titulo.form-control(type="text", name="titulo", ng-model="encuestaEditar.titulo", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.titulo.$invalid && editarEncuestaModal.titulo.$touched")
+                            span.help-block(ng-if="editarEncuestaModal.titulo.$error.$invalid && editarEncuestaModal.titulo.$touched") Campo inválido.
+                            span.help-block(ng-if="editarEncuestaModal.titulo.$error.required && editarEncuestaModal.titulo.$touched") La descripción es requerida.
+                    .row
+                        //Input de la descripcion de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.descripcion.$invalid && editarEncuestaModal.descripcion.$dirty }")
+                            label(for="descripcion") DESCRIPCION
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#descripcion.form-control(type="text", name="descripcion", ng-model="encuestaEditar.descripcion", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.descripcion.$invalid && editarEncuestaModal.descripcion.$touched")
+                            span.help-block(ng-if="editarEncuestaModal.descripcion.$error.$invalid && editarEncuestaModal.descripcion.$touched") Campo inválido.
+                            span.help-block(ng-if="editarEncuestaModal.descripcion.$error.required && editarEncuestaModal.descripcion.$touched") La descripción es requerida.
+
+                    .row
+                        //Input de la objetivo de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.objetivo.$invalid && editarEncuestaModal.objetivo.$dirty }")
+                            label(for="objetivo") OBJETIVO
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#objetivo.form-control(type="text", name="objetivo", ng-model="encuestaEditar.objetivo", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.objetivo.$invalid && editarEncuestaModal.objetivo.$touched")
+                            span.help-block(ng-if="editarEncuestaModal.objetivo.$error.$invalid && editarEncuestaModal.objetivo.$touched") Campo inválido.
+                            span.help-block(ng-if="editarEncuestaModal.objetivo.$error.required && editarEncuestaModal.objetivo.$touched") La descripción es requerida.
+
+                    .row
+                        //Input de la destinado a de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.destinadoA.$invalid && editarEncuestaModal.destinadoA.$dirty }")
+                            label(for="destinadoA") DESTINADO A
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#destinadoA.form-control(type="text", name="destinadoA", ng-model="encuestaEditar.destinadoA", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.destinadoA.$invalid && editarEncuestaModal.destinadoA.$touched")
+                            span.help-block(ng-if="editarEncuestaModal.destinadoA.$error.$invalid && editarEncuestaModal.destinadoA.$touched") Campo inválido.
+                            span.help-block(ng-if="editarEncuestaModal.destinadoA.$error.required && editarEncuestaModal.destinadoA.$touched") La descripción es requerida.
+
+                    .row
+                        //Input de la instrucciones de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.instrucciones.$invalid && editarEncuestaModal.instrucciones.$dirty }")
+                            label(for="instrucciones") INSTRUCCIONES
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#instrucciones.form-control(type="text", name="instrucciones", ng-model="encuestaEditar.instrucciones", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.instrucciones.$invalid && editarEncuestaModal.instrucciones.$touched")
+                            span.help-block(ng-if="editarEncuestaModal.instrucciones.$error.$invalid && editarEncuestaModal.instrucciones.$touched") Campo inválido.
+                            span.help-block(ng-if="editarEncuestaModal.instrucciones.$error.required && editarEncuestaModal.instrucciones.$touched") La descripción es requerida.
+                    .row
+                        //Input de la fecha de creacion de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.fechaCreacion.$invalid && editarEncuestaModal.fechaCreacion.$dirty }")
+                            label(for="fechaCreacion") FECHA DE CREACION
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#fechaCreacion.form-control(type="date", name="fechaCreacion", ng-model="encuestaEditar.fechaCreacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.fechaCreacion.$invalid && editarEncuestaModal.fechaCreacion.$touched")
+                            span.help-block(ng-if="editarEncuestaModal.fechaCreacion.$error.$invalid && editarEncuestaModal.fechaCreacion.$touched") Campo inválido.
+                            span.help-block(ng-if="editarEncuestaModal.fechaCreacion.$error.required && editarEncuestaModal.fechaCreacion.$touched") La descripción es requerida.
+
+                    .row
+                        //Input de la   fecha de modificacion de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.fechaModificacion.$invalid && editarEncuestaModal.fechaModificacion.$dirty }")
+                            label(for="fechaModificacion") FECHA DE MODIFICACION
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#fechaModificacion.form-control(type="date", name="fechaModificacion", ng-model="encuestaEditar.fechaModificacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.fechaModificacion.$invalid && editarEncuestaModal.fechaModificacion.$touched")
+                            span.help-block(ng-if="editarEncuestaModal.fechaModificacion.$error.$invalid && editarEncuestaModal.fechaModificacion.$touched") Campo inválido.
+                            span.help-block(ng-if="editarEncuestaModal.fechaModificacion.$error.required && editarEncuestaModal.fechaModificacion.$touched") La descripción es requerida.
+
+                    .row
+                        //Input de la descripcion de la Encuesta
+                        .form-group.col-sm-10(ng-class="{'has-error': editarEncuestaModal.estado.$invalid && editarEncuestaModal.estado.$dirty }")
+                            label(for="estado") ESTADO
+                            .input-group
+                                .input-group-addon
+                                    i.glyphicon.glyphicon-bookmark
+                                input#estado.form-control(type="text", name="estado", ng-model="encuestaEditar.estado", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.estado.$invalid && editarEncuestaModal.estado.$touched")
+                            span.help-block(ng-if="editarEncuestaModal.estado.$error.$invalid && editarEncuestaModal.estado.$touched") Campo inválido.
+                            span.help-block(ng-if="editarEncuestaModal.estado.$error.required && editarEncuestaModal.estado.$touched") La descripción es requerida.
+
+            .modal-footer
+                button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+                button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="editar(encuestaEditar)") Guardar

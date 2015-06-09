@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('proyectoSaludApp')
-  .controller('ProductoCtrl', function ($scope, $http, MyAPIService, MyAPIServiceUnidad){
+  .controller('ProductoCtrl', function ($scope, $http, MyAPIService, MyAPIServiceUnidad, requestService){
     $http.get('/api/producto').success(function(awesomeThings) {
       //Obtenemos todos los productos
         $scope.awesomeThings = awesomeThings;
@@ -10,6 +10,14 @@ angular.module('proyectoSaludApp')
       //Datos de todas las unidades de medida
         $scope.dataUnidad = MyAPIServiceUnidad.query();
     });
+
+    $scope.sendRequest = function(){
+     var token = window.localStorage.getItem('token');
+        requestService.info().then(function(result){
+            console.log(result.data);
+        });
+    };
+
         //Template para visualizar los botones de editar y eliminar para cada registro de productos
       var removeTemplate =
       '<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#editarProductoModal" ng-click="indexProductoEditar($index)"> ' +

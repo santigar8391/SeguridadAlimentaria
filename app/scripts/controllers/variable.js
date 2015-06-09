@@ -103,7 +103,6 @@ angular.module('proyectoSaludApp')
       };
 
 
-
       var loopEliminar = function(currentNode){
         var i,
             currentChild;
@@ -114,7 +113,7 @@ angular.module('proyectoSaludApp')
             idVariableEliminar.push(currentChild.id);
             // Search in the current child
             loopEliminar(currentChild);
-        }
+          }
       };
 
       $scope.tester = function(){

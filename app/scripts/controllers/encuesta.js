@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('proyectoSaludApp')
-  .controller('EncuestaCtrl', function($scope, $http, MyAPIServiceFactory) {
+  .controller('EncuestaCtrl', function($scope, $http, MyAPIServiceFactory, datosEncuestaPregunta) {
     $http.get('/api/encuesta').success(function(awesomeThings) {
       $scope.listadoEncuesta = awesomeThings;
 
@@ -106,7 +106,38 @@ angular.module('proyectoSaludApp')
       });
 
 */
+    var idVariableEliminar = [];
 
+
+    var loopEliminar = function(currentNode){
+        var i, currentChild;
+        // Use a for loop instead of forEach to avoid nested functions
+        // Otherwise "return" will not work properly
+        for (i = 0; i < currentNode.nodes.length; i += 1) {
+            currentChild = currentNode.nodes[i];
+            idVariableEliminar.push(currentChild.id);
+            // Search in the current child
+            loopEliminar(currentChild);
+        }
+    };
+
+
+    $scope.dataTwo = [];
+
+    $scope.newSubItem = function(scope) {
+        var nodeData = scope.$modelValue;
+        console.log(nodeData);
+        $scope.dataTwo.push(nodeData);
+        idVariableEliminar.push(nodeData.id);
+        loopEliminar(nodeData);
+        console.log(idVariableEliminar);
+    };
+
+    $scope.remove = function(scope) {
+        var nodeData = scope.$modelValue;
+        console.log(nodeData);
+        scope.remove();
+    };
 //-----------------------------------------------------------
     //Funcion que prepara las cabeceras con los parametros del producto nuevo y luego las envia a guardar
     // (Contiene la funcion de update() para actualizar los datos de la vista)
@@ -192,6 +223,7 @@ angular.module('proyectoSaludApp')
     //Funcion para testear los datos posibles enviados desde la vista
     $scope.tester = function(productoNuevo){
         console.log(productoNuevo);
+        datosEncuestaPregunta.get(productoNuevo, $scope.dataTwo);
     }
 
   });

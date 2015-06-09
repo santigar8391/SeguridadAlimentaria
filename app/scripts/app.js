@@ -13,10 +13,18 @@ var proyectoSaludApp = angular.module('proyectoSaludApp', [
   'ngGrid',
   'angularModalService',
   'ui.tree',
-  'xeditable'
+  'xeditable',
+  'angular-jwt'
 ])
-  .config(function ($routeProvider) {
-    $routeProvider
+  .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider) {
+
+      jwtInterceptorProvider.tokenGetter = function(){
+        return window.localStorage.getItem('token');
+      } ;
+
+      $httpProvider.interceptors.push('jwtInterceptor');
+
+      $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
@@ -56,6 +64,10 @@ var proyectoSaludApp = angular.module('proyectoSaludApp', [
       .when('/variable', {
         templateUrl: 'views/variable.html',
         controller: 'VariableCtrl'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
       })
       .otherwise({
         redirectTo: '/'
