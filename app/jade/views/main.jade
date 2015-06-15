@@ -9,14 +9,17 @@
         img.img-responsive.first-slide(ng-src="{{slider[0].image}}")
         .carousel-caption
           p {{slider[0].title}}
+          a(ng-click='logout()') LOGOUT
       .item
         img.img-responsive.second-slide(ng-src="{{slider[1].image}}")
         .carousel-caption
           p {{slider[1].title}}
+          a(ng-click='logout()') LOGOUT
       .item
         img.img-responsive.third-slide(ng-src="{{slider[2].image}}")
         .carousel-caption
           p {{slider[2].title}}
+          a(ng-click='logout()') LOGOUT
     a.left.carousel-control(href='#myCarousel', role="button", data-slide='prev')
       span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
       span.sr-only Previous
@@ -25,6 +28,7 @@
       span.sr-only Next
   br
   br
+  a.btn.btn-default(role="button", ng-click='logout()') SALIR
   .container-fluid
   .row
     .col-md-4

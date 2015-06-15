@@ -71,7 +71,7 @@ angular.module('proyectoSaludApp')
         {field: 'str_destinado_a', displayName: 'Destinado a', width: '7%'},
         {field: 'dt_fecha_creacion', displayName: 'Fecha de creación', width: '4%'},
         {field: 'str_descripcion', displayName: 'Descripcion', width: '38%', visible: false},
-        {field: 'srt_instrucciones', displayName: 'Instrucciones', width: '10%', visible: false},
+        {field: 'str_instrucciones', displayName: 'Instrucciones', width: '10%', visible: false},
         {field: 'dt_fecha_modificacion', displayName: 'Fecha modificacion', width: '11%', visible: false},
         {field: 'str_estado', displayName: 'Estado', width: '4%'},
         {field: 'remove', displayName:'Acción', cellTemplate: removeTemplate, width: '4%'}

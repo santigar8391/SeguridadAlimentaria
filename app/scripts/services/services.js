@@ -30,7 +30,7 @@ proyectoSaludApp.factory('MyAPIServiceFactory', ["$http", function ($http) {
     loginSvc.login = function(user){
         return $http({
             method: 'POST',
-            skipAuthorization: false,
+            skipAuthorization: true,
             url: '/api/login',
             data: user
             }).success(function(msg){
@@ -85,4 +85,24 @@ proyectoSaludApp.factory('MyAPIServiceFactory', ["$http", function ($http) {
                 //return $http.delete(url);
             }
         };
-});
+})
+
+.factory('authInterceptor', function($rootScope, $q, $localStorage){
+       return {
+          request: function(config){
+            config.headers = config.headers || {};
+              if($localStorage.token){
+                config.headers.Authorization = 'Bearer ' + $localStorage.token;
+              }
+            return config;
+          },
+           response: function(response){
+            if(response.status == 401 || response.status === 403){
+                alert('Usuario Fallo al autenticarse.');
+                //$location.path('/signin');
+            }
+               return response || $q.when(response);
+           }
+       };
+    });
+

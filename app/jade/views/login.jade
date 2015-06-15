@@ -1,0 +1,15 @@
+.container
+    .row
+        .col-lg-4
+        .col-lg-4
+            form.form-signin
+                h2.form-signin-heading Porfavor autentifiquese.
+                label.sr-only(for='nick') Email address
+                input#inputEmail.form-control(type='text', placeholder='Email address o nick', required='', autofocus='', ng-model='usuario.nick')
+                label.sr-only(for='password') Password
+                input#inputPassword.form-control(type='password', placeholder='Password', required='', ng-model='usuario.password')
+                .checkbox
+                    label
+                        input(type='checkbox', value='remember-me')
+                        |  Remember me
+                button.btn.btn-lg.btn-primary.btn-block(type='submit', ng-click='login(usuario)') Sign in

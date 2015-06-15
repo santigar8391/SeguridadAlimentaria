@@ -30,7 +30,14 @@ angular.module('proyectoSaludApp')
         {id:6, name:'lili'},
         {id:7, name:'y mas'}
       ];
-/*
+
+        $scope.rango = {
+            "minimo": 1,
+            "maximo": 5,
+            "valorSeleccionado": 1
+        };
+
+
     //GRIDOPTIONS CONFIGURACION
       $scope.gridOptions = {
         data: $scope.gridData,
@@ -46,7 +53,7 @@ angular.module('proyectoSaludApp')
                                                                                     field: 'Genero', displayName: 'Genero+'
                                                                                   });
                                                                                 };
-*/
+
 
       $scope.respuesta = {
         tipoRespuesta: ""
@@ -70,8 +77,20 @@ angular.module('proyectoSaludApp')
                                                                             },
                                                                             {
                                                                               value:4,
+                                                                              type: "range"
+                                                                            },
+                                                                          {
+                                                                              value:5,
+                                                                              type: "date"
+                                                                          },
+                                                                          {
+                                                                              value:6,
+                                                                              type: "time"
+                                                                          },
+                                                                          {
+                                                                              value:7,
                                                                               type: "Matriz"
-                                                                            }
+                                                                          }
                                                                           ];
 
 //Objeto tipo respuesta
@@ -87,19 +106,21 @@ angular.module('proyectoSaludApp')
                                                                     $scope.tester = function(scope){
                                                                       $scope.variableSeleccionada = scope.id;
                                                                       $scope.arrayRespuesta1[0].section = scope.id;
-                                                                      console.log(scope);
                                                                     };
                                                               //variable global contadora para obtener el id de la preguntar y poder referenciar de manera correcta a las respuestas.
-                                                                                var contador = 2;
+                                                                                var contador = 1;
                                                                                 var numEscala = 1;
+                                                                                var numId = 1;
 
 //Objeto [] para insertar las opciones respuesta
       $scope.arrayRespuesta1 = [
         {
           int_id_padre: contador,
           title: "",
+          title2: "",
           type: $scope.respuesta.tipoRespuesta.type,
           numEscala:numEscala++,
+          numId:numId++,
           valor: false,
           section: $scope.variableSeleccionada,
           nodes: []
@@ -111,8 +132,8 @@ angular.module('proyectoSaludApp')
                                                           //-----------------------------------------------------------
                                                                 $scope.tabularValido = function(data){
                                                                   var numTabular = parseInt(data);
-                                                                  for(var i=arrayRespuesta.length - 1; i>=0; i--){
-                                                                    if(numTabular == arrayRespuesta[i].numEscala){
+                                                                  for(var i=$scope.arrayRespuesta1.length - 1; i>=0; i--){
+                                                                    if(numTabular == $scope.arrayRespuesta1[i].numEscala){
                                                                       return "Tabular duplicado. No valido!";
                                                                     }
                                                                   }
@@ -124,8 +145,10 @@ angular.module('proyectoSaludApp')
             {
               int_id_padre: contador,
               title: respuestaNueva.descripcionRespuesta,
+              title2: "",
               type: respuestaNueva.tipoRespuesta.type,
               numEscala:numEscala++,
+              numId:numId++,
               valor: false,
               section: $scope.variableSeleccionada,
               nodes: []
@@ -137,9 +160,12 @@ angular.module('proyectoSaludApp')
                                                           var arrayRespuestaLocal = $scope.arrayRespuesta1; //array local donde se almacena las respuestas pre-insertadas --se lo puede quitar y hacerle directamente
                                                           $scope.data.push(
                                                               {
-                                                                id: contador,
+                                                                id_encuesta: $scope.encuesta.int_id,
+                                                                id_pregunta: contador,
+                                                                obligatoriedad: preguntaNueva.obligatoriedadPregunta,
+                                                                ayuda: preguntaNueva.ayudaPregunta,
                                                                 section: $scope.variableSeleccionada,
-                                                                type: null,
+                                                                type: $scope.respuesta.tipoRespuesta.type,
                                                                 int_id_padre: null,
                                                                 title: preguntaNueva.descripcionPregunta,
                                                                 codigo: preguntaNueva.codigoPregunta,
@@ -154,19 +180,25 @@ angular.module('proyectoSaludApp')
                                                               respuesta.valor = true;
                                                             }
                                                             respuesta['codigo'] = preguntaNueva.codigoPregunta;
+                                                              respuesta.numEscala = $scope.rango.maximo;
+                                                              respuesta.numId = $scope.rango.minimo;
                                                             $scope.data[$scope.data.length-1].nodes.push(respuesta);
                                                             });
                                                           contador++; //aunmenta en 1 el contador para preparar la siguiente pregunta.
                                                           numEscala = 1;
+                                                          numId = 1;
                                                           $scope.arrayRespuesta1.splice(0, $scope.arrayRespuesta1.length); //Elimina todos las opciones de respuestas de la pregunta vigente para la nueva pregunta en cuestion.
                                                           $scope.pregunta.codigoPregunta = null;
+                                                            $scope.pregunta.ayudaPregunta = null;
                                                           $scope.respuesta.correcta = null;
                                                           $scope.arrayRespuesta1.push(
                                                             {
                                                               int_id_padre: contador,
                                                               title: "",
+                                                              title2: "",
                                                               type: $scope.respuesta.tipoRespuesta.type,
                                                               numEscala:numEscala++,
+                                                              numId:numId++,
                                                               valor: false,
                                                               section: $scope.variableSeleccionada,
                                                               nodes: []
@@ -174,6 +206,21 @@ angular.module('proyectoSaludApp')
                                                             }
                                                           )
                                                         };
+        $scope.guardar = function(){
+            $http({
+                method: 'POST',
+                url: '/api/pregunta/guardar',
+                data: $scope.data
+            }).success(function(data) {
+                    alert('Succeful en $scope.guardar en script/pregunta.js');
+            }).error(function() {
+                alert('Error en $scope.guardar en script/pregunta.js');
+            });
+        };
+
+
+
+
 //Funcion que remueve una opcion de respuesta una vez en el array de las preguntas ya ingresadas.
       $scope.remove = function(scope) {
         console.log(scope.remove());

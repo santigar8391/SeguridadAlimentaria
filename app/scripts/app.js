@@ -14,15 +14,12 @@ var proyectoSaludApp = angular.module('proyectoSaludApp', [
   'angularModalService',
   'ui.tree',
   'xeditable',
-  'angular-jwt'
+  'angular-jwt',
+  'ngStorage'
 ])
   .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider) {
 
-      jwtInterceptorProvider.tokenGetter = function(){
-        return window.localStorage.getItem('token');
-      } ;
-
-      $httpProvider.interceptors.push('jwtInterceptor');
+      $httpProvider.interceptors.push('authInterceptor');
 
       $routeProvider
       .when('/', {
@@ -70,7 +67,7 @@ var proyectoSaludApp = angular.module('proyectoSaludApp', [
         controller: 'LoginCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/error404'
       });
   })
 .run(function(editableOptions) {

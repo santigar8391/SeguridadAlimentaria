@@ -25,7 +25,7 @@
 
     .col-lg-6
         //INICIA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA
-        h2 EXÁMEN
+        h2 PREGUNTAS
         script(type='text/ng-template', id='nodes_renderer.html')
             section(id="{{variableSeleccionada}}", ng-if="node.section == variableSeleccionada")
                 div(ng-class="{'panel panel-default': node.nodes && node.nodes.length > 0}")
@@ -36,14 +36,21 @@
                             span.glyphicon.glyphicon-plus
 
                     div(ng-if="node.nodes && node.nodes.length == 0")
-                        input(type="{{node.type}}", name="{{node.codigo}}", value="{{node.codigo}}")
-                        a.pull-right.btn.btn-clipboard.btn-xs(title="Eliminar", data-nodrag="", ng-click="remove(this)")
+                        input(type="{{node.type}}", name="{{node.codigo}}", value="{{node.codigo}}", ng-if="node.type == 'checkbox' || node.type == 'radio'")
+                        input(type="{{node.type}}", name="{{node.codigo}}", ng-if="node.type == 'text'")
+                        input.input-lg(type="{{node.type}}", min="{{rango.minimo}}", max="{{rango.maximo}}", ng-model="dato.valor", step="1",
+                        ng-if="node.type == 'range'")
+                        input(type="{{node.type}}", ng-model="dato.valor",
+                        ng-if="node.type == 'date'")
+                        input.small(type="{{node.type}}", ng-if="node.type == 'time'")
+                        //a.pull-right.btn.btn-clipboard.btn-xs(title="Eliminar", data-nodrag="", ng-click="remove(this)")
                             span.glyphicon.glyphicon-remove
-                        a.pull-right.btn.btn-clipboard.btn-xs(title="Editar", data-toggle='modal', data-target='#editarProductoModal', data-nodrag="", ng-click="", style="margin-right: 8px;")
+                        a.pull-right.btn.btn-clipboard.btn-xs(title="Editar", data-toggle='modal', data-target='#editarProductoModal', data-nodrag="", ng-click="", style="margin-right: 8px;", ng-if="node.type == 'checkbox' || node.type == 'radio'")
                             span.glyphicon.glyphicon-pencil(aria-hidden='true')
                         |  {{node.title}}
+                        p.pull-right {{node.title2}}
                     ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
-                        li(ng-repeat="node in node.nodes", ui-tree-node="", ng-include="'nodes_renderer.html'")
+                        li(ng-repeat="node in node.nodes", ng-include="'nodes_renderer.html'")
 
         #tree-root(ui-tree="")
             ol(ui-tree-nodes="", ng-model="data")
@@ -65,24 +72,45 @@
             .panel-body
                 ul(ng-repeat="dato in arrayRespuesta1")
                     //*************TABULAR****************
-                    a.pull-left.btn.btn-clipboard.btn-xs(title="editarNumEscala",  editable-text="dato.numEscala", onbeforesave="tabularValido($data)",
-                    data-toggle='modal', data-target='#editarProductoModal', data-nodrag="", ng-click="", style="margin-right: 8px;")
+                    a.pull-left.btn.btn-clipboard.btn-xs(title="editarNumEscala", editable-text="dato.numEscala", onbeforesave="tabularValido($data)",
+                    ng-if="respuesta.tipoRespuesta.type == 'checkbox' || respuesta.tipoRespuesta.type == 'radio'")
                         | {{dato.numEscala || "Requiere tabular"}} &nbsp
                         span.glyphicon.glyphicon-pencil(aria-hidden='true')
+
 
                     //*************INPUT Y OPCION RESPUESTA****************
                     //RADIO BUTTON
                     input(type="{{respuesta.tipoRespuesta.type}}", name="{{pregunta.codigoPregunta}}", ng-value="dato.numEscala",
                     ng-model="respuesta.correcta", ng-if="respuesta.tipoRespuesta.type == 'radio'")
+
                     //CHECKED
                     input(type="{{respuesta.tipoRespuesta.type}}", ng-model="dato.valor",
                     ng-if="respuesta.tipoRespuesta.type == 'checkbox'")
 
+                    //RANGE
+                    input.small(type="number", name="numMinimo", ng-model="rango.minimo", min="0", max="99", step="1", placeholder="", maxlength="2", required, ng-if="respuesta.tipoRespuesta.type == 'range'")
+                    strong(ng-if="respuesta.tipoRespuesta.type == 'range'") {{dato.valor}}
+                    input.small.pull-right(type="number", name="numMaximo", ng-model="rango.maximo", min="0", max="99", step="1", placeholder="", maxlength="2", required, ng-if="respuesta.tipoRespuesta.type == 'range'")
+                    input.input-lg(type="{{respuesta.tipoRespuesta.type}}", min="{{rango.minimo}}", max="{{rango.maximo}}", ng-model="dato.valor", step="1",
+                    ng-if="respuesta.tipoRespuesta.type == 'range'")
+
+                    //FECHA - DATE
+                    input.small(type="{{respuesta.tipoRespuesta.type}}", ng-if="respuesta.tipoRespuesta.type == 'date'")
+
+                    //HORA - TIME
+                    input.small(type="{{respuesta.tipoRespuesta.type}}", ng-if="respuesta.tipoRespuesta.type == 'time'")
+
                     //PENCIL RESPUESTA
-                    span(ng-if="respuesta.tipoRespuesta.type == 'checkbox' || respuesta.tipoRespuesta.type == 'radio'")
+                    span(ng-if="respuesta.tipoRespuesta.type == 'checkbox' || respuesta.tipoRespuesta.type == 'radio' || respuesta.tipoRespuesta.type == 'range'")
                         span(editable-text="dato.title", e-form="descripcionRespuesta1")
                             |  {{dato.title || "Ingresar opcion de respuesta..."}}
                         a.btn.btn-clipboard.btn-xs(title="EditarRespuesta", ng-click="descripcionRespuesta1.$show()", ng-hide="descripcionRespuesta1.$visible", style="margin-right: 8px;",)
+                            span.glyphicon.glyphicon-pencil(aria-hidden='true')
+
+                    span.pull-right(ng-if="respuesta.tipoRespuesta.type == 'range'")
+                        span(editable-text="dato.title2", e-form="descripcionRespuesta2")
+                            |  {{dato.title2 || "Ingresar opcion de respuesta..."}}
+                        a.btn.btn-clipboard.btn-xs(title="EditarRespuesta", ng-click="descripcionRespuesta2.$show()", ng-hide="descripcionRespuesta2.$visible", style="margin-right: 8px;",)
                             span.glyphicon.glyphicon-pencil(aria-hidden='true')
                     //TEXTO
                     textarea(rows=2, cols=70, type="{{respuesta.tipoRespuesta.type || 'radio'}}", name="{{pregunta.codigoPregunta}}", ng-value="dato.numEscala",
@@ -101,6 +129,15 @@
                     | {{pregunta.codigoPregunta || "Igresar código de pregunta"}}
                 a.btn.btn-clipboard.btn-xs(title="Editar", ng-click="codigoPregunta.$show()", ng-hide="codigoPregunta.$visible")
                     span.glyphicon.glyphicon-pencil(aria-hidden="true")
+                br
+                span(editable-text="pregunta.ayudaPregunta", e-form="ayudaPregunta", ng-model="pregunta.ayudaPregunta")
+                    | {{pregunta.ayudaPregunta || "Ayuda!"}}
+                a.btn.btn-clipboard.btn-xs(title="Editar", ng-click="ayudaPregunta.$show()", ng-hide="ayudaPregunta.$visible")
+                    span.glyphicon.glyphicon-pencil(aria-hidden="true")
+                //CHECKED
+                br
+                input(type="checkbox", ng-model="pregunta.obligatoriedadPregunta")
+                spam Obligatoria?
             //-----------------------------------------------------------------------------------------------------------
         //FINALIZA EL INGRESO DE PREGUNTAS
         br
@@ -110,6 +147,12 @@
         button.btn.btn-primary.btn-xs.pull-right(type="button", data-toggle="", data-target="", ng-click="addColumna()")
             i.glyphicon.glyphicon-plus-sign
             | tester
+
+        br
+        br
+        button.btn.btn-primary.btn-xs.pull-right(type="button", data-toggle="", data-target="", ng-click="guardar()")
+            i.glyphicon.glyphicon-plus-sign
+            | GUARDAR TODO
         //FINALIZA LA VISUALIZACION PREVIA DE LAS PREGUNTAS A INGRESAR.
     .col-lg-4
         .modal-header

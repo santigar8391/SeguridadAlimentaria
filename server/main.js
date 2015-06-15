@@ -21,8 +21,10 @@ var model_grupo = require('./routes/route_grupo');
 var model_producto = require('./routes/route_producto');
 var model_encuesta = require('./routes/route_encuesta');
 var model_variable = require('./routes/route_variable');
+var model_pregunta = require('./routes/route_pregunta');
 
 var mySecretKey = 'mySecretKey';
+var mySecretKeyAdmin = 'otraSecretKey'
 
 //var users = require('./routes/users');
 
@@ -51,14 +53,38 @@ router.use(function timeLog(req, res, next) {
 });
 
 
-router.get('/', model_producto.getlistado);
+router.get('/', ensureAuthorized, model_producto.getlistado);
 router.post('/editar/', model_producto.editarProducto);
 router.post('/guardar', model_producto.insertarProducto);
 router.post('/eliminar', model_producto.eliminarProducto);
 app.use('/api/producto', router);
 
 
-routerGrupo.get('/', model_grupo.getlistadoGrupo);
+function ensureAuthorized(req, res, next) {
+    var bearerToken;
+    var token;
+    var bearerHeader = req.headers["authorization"];
+    if (typeof bearerHeader !== 'undefined') {
+        var bearer = bearerHeader.split(" ");
+        bearerToken = bearer[0];
+        token = bearer[1];
+        jwt.verify(token, mySecretKeyAdmin, function(err, decoded){
+            if(err){
+                res.status(401);
+            }
+            else{
+                //res.status(200).json(decoded);
+                next();
+            }
+        });
+    }
+    else {
+        res.send(403);
+    }
+}
+
+
+routerGrupo.get('/', ensureAuthorized, model_grupo.getlistadoGrupo);
 routerGrupo.post('/guardar', model_grupo.insertarGrupo);
 routerGrupo.get('/grupoPuro', model_grupo.getlistado);
 app.use('/api/grupo', routerGrupo);
@@ -78,6 +104,11 @@ app.post('/api/variable/guardar', model_variable.insertarVariable);
 app.get('/api/variablePuro', model_variable.getlistado);
 app.post('/api/variable/eliminar', model_variable.eliminar);
 
+app.post('/api/pregunta/guardar', model_pregunta.insertarPregunta);
+
+
+
+
 app.post('/api/login', function(req, res, next){
 
     var usuario = {
@@ -86,13 +117,19 @@ app.post('/api/login', function(req, res, next){
         password: '123456'
     };
 
+    var usuarioAdmin = {
+        nombre: 'Hermes',
+        nick: 'admin',
+        password: '123456'
+    };
+/*
     if(!(req.body.nick === 'hermessanc' && req.body.password === '123456')){
-        res.status(500).json({
+        res.status(401).json({
             msg: 'Error en el /api/login obteniedo comparando al usuario PASO1'
         });
-    };
+    }
 
-    /*
+
     if(!user){
         res.status(404).json({
             msg: 'Error en el /api/login no se encontrado el recurso trama con mongo PASO2'
@@ -100,14 +137,26 @@ app.post('/api/login', function(req, res, next){
     }
     */
 
-    var token = jwt.sign(usuario, mySecretKey, {expiresInMinutes: 1440});
-    return res.status(200).json(
-        {
-            success: true,
-            message: 'Enjoy your token!',
-            token: token
+    if(req.body.nick === 'hermessanc' && req.body.password === '123456'){
+        var token = jwt.sign(usuario, mySecretKey, {expiresInMinutes: 1440});
+        return res.status(200).json(
+            {
+                success: true,
+                message: 'Enjoy your token!',
+                token: token
+            });
+    }
+    else{
+        if(req.body.nick === 'admin' && req.body.password === '123456'){
+            var token = jwt.sign(usuarioAdmin, mySecretKeyAdmin, {expiresInMinutes: 1440});
+            return res.status(200).json(
+                {
+                    success: true,
+                    message: 'Enjoy your token!',
+                    token: token
+                });
         }
-    );
+    }
 });
 
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('proyectoSaludApp')
-  .controller('MainCtrl', function ($scope, $http) {
+  .controller('MainCtrl', function ($scope, $http, $localStorage) {
     $http.get('/api/awesomeThings').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
     });
@@ -22,5 +22,10 @@ angular.module('proyectoSaludApp')
         image: baseUrl+"/sports/"
       }
     ];
+
+      $scope.logout = function(){
+        delete $localStorage.token;
+      };
+
 
   });
