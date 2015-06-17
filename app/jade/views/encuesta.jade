@@ -154,11 +154,11 @@
                             .input-group
                                 .input-group-addon
                                     i.glyphicon.glyphicon-bookmark
-                                input#fechaCreacion.form-control(type="date", name="fechaCreacion", ng-model="encuestaNueva.fechaCreacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                input#fechaCreacion.form-control(type="date", name="fechaCreacion", ng-model="encuestaNueva.fechaCreacion", ng-value="encuestaNueva.fechaCreacion | date:'dd/MM/yyyy'", placeholder="Descripción o nombre del producto", maxlength="40", required")
                                 span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.fechaCreacion.$invalid && nuevoEncuestaModal.fechaCreacion.$touched")
                             span.help-block(ng-if="nuevoEncuestaModal.fechaCreacion.$error.$invalid && nuevoEncuestaModal.fechaCreacion.$touched") Campo inválido.
                             span.help-block(ng-if="nuevoEncuestaModal.fechaCreacion.$error.required && nuevoEncuestaModal.fechaCreacion.$touched") La descripción es requerida.
-
+                            //p {{encuestaNueva.fechaCreacion | date:'yyyy-MM-dd h:mm:ss'}}
                     .row
                         //Input de la   fecha de modificacion de la Encuesta
                         .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.fechaModificacion.$invalid && nuevoEncuestaModal.fechaModificacion.$dirty }")
@@ -283,7 +283,7 @@
                             .input-group
                                 .input-group-addon
                                     i.glyphicon.glyphicon-bookmark
-                                input#fechaCreacion.form-control(type="date", name="fechaCreacion", ng-model="encuestaEditar.fechaCreacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                input#fechaCreacion.form-control(type="date", name="fechaCreacion", ng-model="encuestaEditar.fechaCreacion", placeholder="Descripción o nombre del producto", maxlength="40", required, enable="false")
                                 span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.fechaCreacion.$invalid && editarEncuestaModal.fechaCreacion.$touched")
                             span.help-block(ng-if="editarEncuestaModal.fechaCreacion.$error.$invalid && editarEncuestaModal.fechaCreacion.$touched") Campo inválido.
                             span.help-block(ng-if="editarEncuestaModal.fechaCreacion.$error.required && editarEncuestaModal.fechaCreacion.$touched") La descripción es requerida.
@@ -295,7 +295,7 @@
                             .input-group
                                 .input-group-addon
                                     i.glyphicon.glyphicon-bookmark
-                                input#fechaModificacion.form-control(type="date", name="fechaModificacion", ng-model="encuestaEditar.fechaModificacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
+                                input#fechaModificacion.form-control(type="date", name="fechaModificacion", ng-model="encuestaEditar.fechaModificacion", placeholder="Descripción o nombre del producto", maxlength="40", required, enable="false")
                                 span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="editarEncuestaModal.fechaModificacion.$invalid && editarEncuestaModal.fechaModificacion.$touched")
                             span.help-block(ng-if="editarEncuestaModal.fechaModificacion.$error.$invalid && editarEncuestaModal.fechaModificacion.$touched") Campo inválido.
                             span.help-block(ng-if="editarEncuestaModal.fechaModificacion.$error.required && editarEncuestaModal.fechaModificacion.$touched") La descripción es requerida.

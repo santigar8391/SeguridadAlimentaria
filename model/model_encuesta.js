@@ -42,7 +42,7 @@ exports.db_get_listado = function(cb) {
 //exports.db_insertar = function(id_grupo, desc_producto, cb) {
 exports.db_insertar = function(encuestaNueva, cb) {
     console.log(encuestaNueva+'!!!!!!!!!!!!');
-    client.query("INSERT INTO encuesta (str_titulo, str_descripcion, str_objetivo, str_destinado_a, srt_instrucciones, dt_fecha_creacion, dt_fecha_modificacion,"
+    client.query("INSERT INTO encuesta (str_titulo, str_descripcion, str_objetivo, str_destinado_a, str_instrucciones, dt_fecha_creacion, dt_fecha_modificacion,"
     +"str_estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
         [encuestaNueva.titulo, encuestaNueva.descripcion, encuestaNueva.objetivo, encuestaNueva.destinadoA, encuestaNueva.instrucciones, encuestaNueva.fechaCreacion, encuestaNueva.fechaModificacion, encuestaNueva.estado])
         .on('error', function(err) {

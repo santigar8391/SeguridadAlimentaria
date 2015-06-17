@@ -22,6 +22,7 @@ var model_producto = require('./routes/route_producto');
 var model_encuesta = require('./routes/route_encuesta');
 var model_variable = require('./routes/route_variable');
 var model_pregunta = require('./routes/route_pregunta');
+var model_vistaEncuesta = require('./routes/route_vistaEncuesta');
 
 var mySecretKey = 'mySecretKey';
 var mySecretKeyAdmin = 'otraSecretKey'
@@ -70,7 +71,9 @@ function ensureAuthorized(req, res, next) {
         token = bearer[1];
         jwt.verify(token, mySecretKeyAdmin, function(err, decoded){
             if(err){
-                res.status(401);
+                //res.status(401);
+                //res.redirect('/views/error404.html');
+                res.end();
             }
             else{
                 //res.status(200).json(decoded);
@@ -122,7 +125,7 @@ app.post('/api/login', function(req, res, next){
         nick: 'admin',
         password: '123456'
     };
-/*
+    /*
     if(!(req.body.nick === 'hermessanc' && req.body.password === '123456')){
         res.status(401).json({
             msg: 'Error en el /api/login obteniedo comparando al usuario PASO1'
@@ -160,10 +163,7 @@ app.post('/api/login', function(req, res, next){
 });
 
 
-app.post('/api/info', function(req, res, next){
-
-
-});
+app.get('/api/vistaEncuesta/obtenertodo', model_vistaEncuesta.getlistadovistaEncuesta);
 
 
 

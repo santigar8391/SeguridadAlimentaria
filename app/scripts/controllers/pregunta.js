@@ -22,13 +22,13 @@ angular.module('proyectoSaludApp')
       ];
     //GRID-DATA
       $scope.gridData =[
-        {id:1, name:'Hermes'},
-        {id:2, name:'Dario'},
-        {id:3, name:'Sanchez'},
-        {id:4, name:'Bermeo'},
-        {id:5, name:'Pirulais'},
-        {id:6, name:'lili'},
-        {id:7, name:'y mas'}
+        {id:1, name:'a'},
+        {id:2, name:'b'},
+        {id:3, name:'c'},
+        {id:4, name:'d'},
+        {id:5, name:'e'},
+        {id:6, name:'f'},
+        {id:7, name:'g'}
       ];
 
         $scope.rango = {
@@ -111,6 +111,7 @@ angular.module('proyectoSaludApp')
                                                                                 var contador = 1;
                                                                                 var numEscala = 1;
                                                                                 var numId = 1;
+                                                                                var numIdPregunta = 1;
 
 //Objeto [] para insertar las opciones respuesta
       $scope.arrayRespuesta1 = [
@@ -167,6 +168,7 @@ angular.module('proyectoSaludApp')
                                                                 section: $scope.variableSeleccionada,
                                                                 type: $scope.respuesta.tipoRespuesta.type,
                                                                 int_id_padre: null,
+                                                                numId:numIdPregunta++,
                                                                 title: preguntaNueva.descripcionPregunta,
                                                                 codigo: preguntaNueva.codigoPregunta,
                                                                 nodes: []
@@ -180,8 +182,11 @@ angular.module('proyectoSaludApp')
                                                               respuesta.valor = true;
                                                             }
                                                             respuesta['codigo'] = preguntaNueva.codigoPregunta;
-                                                              respuesta.numEscala = $scope.rango.maximo;
-                                                              respuesta.numId = $scope.rango.minimo;
+
+                                                              if(respuesta.type == 'range'){
+                                                                  respuesta.numEscala = $scope.rango.maximo;
+                                                                  respuesta.numId = $scope.rango.minimo;
+                                                              }
                                                             $scope.data[$scope.data.length-1].nodes.push(respuesta);
                                                             });
                                                           contador++; //aunmenta en 1 el contador para preparar la siguiente pregunta.

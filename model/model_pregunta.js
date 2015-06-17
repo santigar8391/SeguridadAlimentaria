@@ -83,6 +83,15 @@ var tipoPregunta = null;
     if(preguntaNueva.type === 'text'){
         tipoPregunta = 1;
     }
+    if(preguntaNueva.type === 'range'){
+        tipoPregunta = 5;
+    }
+    if(preguntaNueva.type === 'date'){
+        tipoPregunta = 6;
+    }
+    if(preguntaNueva.type === 'time'){
+        tipoPregunta = 7;
+    }
     if(preguntaNueva.obligatoriedad){
         obligatoriedad = 1;
     }

@@ -4,13 +4,12 @@ angular.module('proyectoSaludApp')
   .controller('EncuestaCtrl', function($scope, $http, MyAPIServiceFactory, datosEncuestaPregunta) {
     $http.get('/api/encuesta').success(function(awesomeThings) {
       $scope.listadoEncuesta = awesomeThings;
-
         MyAPIServiceFactory.get().success(function(todos) {
             $scope.data = todos;
         }).error(function(error) {
             alert('Failed to load TODOs');
         });
-
+        $scope.encuestaNueva.fechaCreacion = $scope.encuestaNueva.fechaModificacion = $scope.encuestaEditar.fechaModificacion = new Date();
     });
 
       //Template para visualizar los botones de editar y eliminar para cada registro de productos
@@ -36,6 +35,12 @@ angular.module('proyectoSaludApp')
           fechaModificacion: '',
           estado: ''
       };
+
+        $scope.encuestaNueva = {
+            "fechaCreacion": null,
+            "fechaModificacion": null
+        };
+
 
 //Este es un conjunto de parametros de comportamiento del ng-grid
     $scope.gridOptions = {

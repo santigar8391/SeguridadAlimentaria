@@ -28,9 +28,8 @@ exports.db_insertar = function(respuestaNueva, id_pregunta, cb) {
         correcto = 0;
         console.log('OK!!');
     }
-    console.log('Llego al model_respuesta/db_insertar con estos datos'+ respuestaNueva.numId +' y '+ respuestaNueva.valor +' y '+id_pregunta+
-    ' Y ' +respuestaNueva.type+' y '+ respuestaNueva.numEscala, correcto);
-
+    console.log('Llego al model_respuesta/db_insertar con estos datos'+ respuestaNueva.type+' y '+ respuestaNueva.valor +' y '+id_pregunta);
+    if(respuestaNueva.type === 'checkbox' || respuestaNueva.type === 'radio'){
         console.log('Llego antes de insertar!!!!!!');
         client.query("INSERT INTO test (int_id, int_id_pregunta, str_descripcion, int_valor, int_correcto, str_desc_campo) VALUES (?, ?, ?, ?, ?, ?);",
             [respuestaNueva.numId, id_pregunta, respuestaNueva.title, respuestaNueva.numEscala, correcto, 'NULL'])
@@ -41,4 +40,19 @@ exports.db_insertar = function(respuestaNueva, id_pregunta, cb) {
                 console.log('Exito en model_respuesta/db_insertar!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                 cb(true);
             });
+    }else{
+        if(respuestaNueva.type === 'range'){
+            console.log('Llego antes de insertar!!!!!!');
+            client.query("INSERT INTO escala (int_id_pregunta, str_desc_inicio, str_desc_fin, int_inicio, int_fin) VALUES (?, ?, ?, ?, ?);",
+                [id_pregunta, respuestaNueva.title, respuestaNueva.title2, respuestaNueva.numId , respuestaNueva.numEscala])
+                .on('error', function(err) {
+                    console.log('Result error: ' + inspect(err));
+                })
+                .on('end', function() {
+                    console.log('Exito en model_respuesta/db_insertar EScala');
+                    cb(true);
+                });
+        }
+        console.log('Error en model_respuesta/db_insertar por el else NO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    }
 };

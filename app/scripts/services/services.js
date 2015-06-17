@@ -23,7 +23,7 @@ proyectoSaludApp.factory('MyAPIServiceFactory', ["$http", function ($http) {
   };
 }])
 
-.service('loginService', function($http){
+.service('loginService', function($http, $location){
 
     var loginSvc = {};
 
@@ -37,6 +37,7 @@ proyectoSaludApp.factory('MyAPIServiceFactory', ["$http", function ($http) {
             alert('alert en el loginService'+msg.success);
         }).error(function (e) {
             alert(JSON.stringify(e.msg));
+            $location.path('/erro404');
         });
 
     };
