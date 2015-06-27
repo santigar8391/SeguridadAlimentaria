@@ -19,12 +19,12 @@
           <li ng-repeat="node in dataNav" ng-include="'variable_renderer.html'"></li>
         </ul>
       </div>
+      <h3>Comportamiento de los datos
+        <div class="info">{{info}}</div>
+        <pre class="code">{{ data | json }}</pre>
+      </h3>
+      <!-- FINALIZA VISUALIZACION DE VARIABLES-->
     </ul>
-    <h3>Comportamiento de los datos
-      <div class="info">{{info}}</div>
-      <pre class="code">{{ data | json }}</pre>
-    </h3>
-    <!-- FINALIZA VISUALIZACION DE VARIABLES-->
   </nav>
   <div class="col-lg-6">
     <!--INICIA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA-->

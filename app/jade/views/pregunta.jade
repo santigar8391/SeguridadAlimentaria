@@ -18,11 +18,11 @@
                 ul.nav.nav-stacked(ng-model="data")
                     li(ng-repeat="node in dataNav", ng-include="'variable_renderer.html'")
 
-        h3 Comportamiento de los datos
-            .info {{info}}
-            pre.code.
-                {{ data | json }}
-        // FINALIZA VISUALIZACION DE VARIABLES
+            h3 Comportamiento de los datos
+                .info {{info}}
+                pre.code.
+                    {{ data | json }}
+            // FINALIZA VISUALIZACION DE VARIABLES
 
 
 

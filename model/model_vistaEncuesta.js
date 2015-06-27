@@ -42,7 +42,7 @@ exports.db_get_listadoPregunta = function(cb) {
 
 exports.db_get_listadoTest = function(cb) {
     var data = [];
-    client.query("select int_id, int_id_pregunta, str_descripcion, int_valor, int_correcto, str_desc_campo from test;")
+    client.query("select t.int_id, t.int_id_pregunta, t.str_descripcion, t.int_valor, t.int_correcto, t.str_desc_campo, p.int_id_tipo_pregunta from test as t inner join pregunta as p on p.int_id = t.int_id_pregunta;")
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);
@@ -62,7 +62,7 @@ exports.db_get_listadoTest = function(cb) {
 
 exports.db_get_listadoEscala = function(cb) {
     var data = [];
-    client.query("SELECT int_id_pregunta, str_desc_inicio, str_desc_fin, int_inicio, int_fin  from escala;")
+    client.query("SELECT int_id_pregunta, str_desc_inicio, str_desc_fin, int_inicio, int_fin, p.int_id_tipo_pregunta from escala as e inner join pregunta as p on p.int_id = e.int_id_pregunta;")
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);

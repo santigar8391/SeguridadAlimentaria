@@ -229,3 +229,82 @@ a:focus {
 .bs-docs-sidebar .nav>.active>ul.nav {
   display: block;
 }
+
+.animate-show {
+  line-height: 20px;
+  opacity: 1;
+  padding: 10px;
+  /*border: 1px solid black;*/
+  background: white;
+}
+
+.animate-show.ng-hide-add.ng-hide-add-active,
+.animate-show.ng-hide-remove.ng-hide-remove-active {
+  -webkit-transition: all linear 0.5s;
+  transition: all linear 0.5s;
+}
+
+.animate-show.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}
+
+.check-element {
+  padding: 10px;
+  /*border: 1px solid black;*/
+  background: white;
+}
+
+
+
+.papel_rayado {
+  border: 1px solid #CDCDCD;
+  box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.5);
+  font: 10pt/20px monospace;
+  margin: 10px auto;
+  min-height: 200px;
+  padding: 62px 8% 35px 8%;
+  position: relative;
+  text-align: justify;
+  width: 60%;
+  /* gradients - second red border, first red border, top white space, blue lines */
+  background-image:  -webkit-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -webkit-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -webkit-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -webkit-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
+  background-image:  -moz-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -moz-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -moz-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -moz-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
+  background-image:  -ms-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -ms-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -ms-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -ms-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
+  background-image:  -o-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -o-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -o-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -o-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
+  background-image:  linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
+  background-size: 1px, 1px, auto, auto 20px;
+  background-repeat: repeat-y, repeat-y, no-repeat, repeat;
+  background-position: 90% 0px, 10% 0px, 0px 0px, 0px 0px;
+}
+.papel_rayado:before, .papel_rayado:after {
+  border-radius: 10px;
+  background: rgba(255,255,255,1);
+  box-shadow:
+  inset 2px 2px 5px rgba(125,125,125,1),
+  2px 50.1em 5px rgba(255,255,255,1), 0px 50em rgba(125,125,125,.75),
+  2px 90.1em 5px rgba(255,255,255,1), 0px 90em rgba(125,125,125,.5),
+  2px 130.1em 5px rgba(255,255,255,1), 0px 130em rgba(125,125,125,.25);
+  content: "";
+  display: block;
+  height: 20px;
+  left: 4%;
+  position: absolute;
+  top: 35px;
+  width: 20px;
+  z-index: 10;
+}
+.papel_rayado:after {top: 87%;}
+
+.papel_rayado:focus {
+  outline: none;
+}
+.papel_rayado h4 {
+  color: red;
+  font-size: 35px;
+  margin-bottom: 20px;
+  margin-top: 18px;
+}
+
+

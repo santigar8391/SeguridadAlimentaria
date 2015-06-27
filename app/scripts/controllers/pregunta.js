@@ -279,9 +279,6 @@ angular.module('proyectoSaludApp')
         var scope = getRootNodesScope();
         scope.expandAll();
       };
-//Datos de pruebas iniciales.
-      $scope.data = [];
 
-//Datos de prueba para hacer el navBar
-
+        $scope.data = [];
     });

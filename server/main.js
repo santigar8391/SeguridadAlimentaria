@@ -21,6 +21,9 @@ var model_grupo = require('./routes/route_grupo');
 var model_producto = require('./routes/route_producto');
 var model_encuesta = require('./routes/route_encuesta');
 var model_variable = require('./routes/route_variable');
+var model_canton = require('./routes/route_canton');
+var model_parroquia = require('./routes/route_parroquia');
+var model_comunidad = require('./routes/route_comunidad');
 var model_pregunta = require('./routes/route_pregunta');
 var model_vistaEncuesta = require('./routes/route_vistaEncuesta');
 
@@ -109,8 +112,23 @@ app.post('/api/variable/eliminar', model_variable.eliminar);
 
 app.post('/api/pregunta/guardar', model_pregunta.insertarPregunta);
 
+app.get('/api/canton', model_canton.getlistado);
+/* app.post('/api/variable/guardar', model_variable.insertarVariable);
+app.get('/api/variablePuro', model_variable.getlistado);
+app.post('/api/variable/eliminar', model_variable.eliminar);
+*/
 
+app.get('/api/parroquia', model_parroquia.getlistado);
+/* app.post('/api/variable/guardar', model_variable.insertarVariable);
+ app.get('/api/variablePuro', model_variable.getlistado);
+ app.post('/api/variable/eliminar', model_variable.eliminar);
+ */
 
+app.get('/api/comunidad', model_comunidad.getlistado);
+/* app.post('/api/variable/guardar', model_variable.insertarVariable);
+ app.get('/api/variablePuro', model_variable.getlistado);
+ app.post('/api/variable/eliminar', model_variable.eliminar);
+ */
 
 app.post('/api/login', function(req, res, next){
 

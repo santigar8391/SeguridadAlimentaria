@@ -23,6 +23,85 @@ proyectoSaludApp.factory('MyAPIServiceFactory', ["$http", function ($http) {
   };
 }])
 
+    .service('datosEncuestaPregunta', function(){
+
+        var datosCompartir;
+        var variablesCompartir;
+        return {
+            get: function (encuesta, variables) {
+                datosCompartir = encuesta;
+                variablesCompartir = variables;
+            },
+            out: function () {
+                return datosCompartir;
+            },
+            out2: function () {
+                return variablesCompartir;
+            },
+            delete: function(id) {
+                //var url = '/todos/' + id;
+                //return $http.delete(url);
+            }
+        };
+    })
+
+
+    .service('datosvistaEncuestaCanton', function($http){
+        return {
+            get: function () {
+                return $http.get('/api/canton');
+            },
+            out: function () {
+                return datosCompartir;
+            },
+            out2: function () {
+                return variablesCompartir;
+            },
+            delete: function(id) {
+                //var url = '/todos/' + id;
+                //return $http.delete(url);
+            }
+        };
+    })
+
+    .service('datosvistaEncuestaParroquia', function($http){
+        return {
+            get: function () {
+                return $http.get('/api/parroquia');
+            },
+            out: function () {
+                return datosCompartir;
+            },
+            out2: function () {
+                return variablesCompartir;
+            },
+            delete: function(id) {
+                //var url = '/todos/' + id;
+                //return $http.delete(url);
+            }
+        };
+    })
+
+
+    .service('datosvistaEncuestaComunidad', function($http){
+        return {
+            get: function () {
+                return $http.get('/api/comunidad');
+            },
+            out: function () {
+                return datosCompartir;
+            },
+            out2: function () {
+                return variablesCompartir;
+            },
+            delete: function(id) {
+                //var url = '/todos/' + id;
+                //return $http.delete(url);
+            }
+        };
+    })
+
+
 .service('loginService', function($http, $location){
 
     var loginSvc = {};
@@ -62,30 +141,6 @@ proyectoSaludApp.factory('MyAPIServiceFactory', ["$http", function ($http) {
 
     };
     return requestSvc;
-})
-
-
-
-.service('datosEncuestaPregunta', function(){
-
-        var datosCompartir;
-        var variablesCompartir;
-        return {
-            get: function (encuesta, variables) {
-                datosCompartir = encuesta;
-                variablesCompartir = variables;
-            },
-            out: function () {
-                return datosCompartir;
-            },
-            out2: function () {
-                return variablesCompartir;
-            },
-            delete: function(id) {
-                //var url = '/todos/' + id;
-                //return $http.delete(url);
-            }
-        };
 })
 
 .factory('authInterceptor', function($rootScope, $q, $localStorage){
