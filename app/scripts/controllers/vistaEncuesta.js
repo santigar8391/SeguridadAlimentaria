@@ -32,6 +32,36 @@ angular.module('proyectoSaludApp')
       });
 
       //PARA LA RESPUESTA ACTUAL.
+      $scope.trueFalse = function(node){
+        $scope.respuesta.seleccion = node.respuesta;
+        loopAsignarRespuesta(node);
+      };
+
+      var loopAsignarRespuesta = function(currentNode){
+        //currentNode.respuesta = true;
+        var i, j;
+        alert('entro en el loop'+ JSON.stringify(currentNode));
+        for (i = 0; i < $scope.preguntas[2].length; i += 1) {
+          console.log('Longitud de las preguntas ' +$scope.preguntas[2].length);
+          if($scope.preguntas[2][i].int_id == currentNode.int_id_pregunta){
+
+            for (j = 0; j < $scope.preguntas[2][i].nodes.length; j+= 1) {
+
+              if($scope.preguntas[2][i].nodes[j].int_id != $scope.respuesta.seleccion){
+                $scope.preguntas[2][i].nodes[j].respuesta = false;
+              }
+            }
+          }
+        }
+      };
+
+
+
+      $scope.respuesta = {
+        'seleccion': ''
+      }
+
+
 
       //PARA LA FECHA ACTUAL.
       $scope.fechaActual = {
@@ -99,7 +129,7 @@ angular.module('proyectoSaludApp')
         $scope.visible = false;
         */
         console.log('En el tester viendo que mismo: '+ JSON.stringify(index));
-        $scope.visible = false;
+        $scope.visible = true;
       };
 
       $scope.seleccionarEncuesta = function(encuesta)
@@ -107,17 +137,22 @@ angular.module('proyectoSaludApp')
         console.log('Encuesta seleccionada: '+ JSON.stringify(encuesta));
         $scope.todo(encuesta);
         //$scope.preguntas.push(encuesta);
-        //$scope.visible = false;
+        $scope.visible = false;
       };
 
       $scope.visible = true;
       $scope.preguntas = [];
       $scope.longitud = 0;
 
+      $scope.numeroFamilia = 0;
+
       $scope.todo = function(encuesta) {
         $http({
           method: 'GET',
-          url: '/api/vistaEncuesta/obtenertodo'
+          url: '/api/vistaEncuesta/obtenertodo',
+          params:{
+            intId: encuesta.int_id
+          }
         }).success(function(exito){
           $scope.preguntas.push(encuesta);
           $scope.preguntas.push($scope.fechaActual);

@@ -1,60 +1,68 @@
 br
 .row
-    select(ng-model='modeloCanton')
-        option(ng-repeat='canton in listadoCanton', value='{{canton.int_id}}', ng-selected='$first') {{canton.str_descripcion}}
-    br
-    select(ng-model='modeloParroquia')
-        option(ng-repeat='parroquia in listadoParroquia', value='{{parroquia.int_id}}', ng-selected='$first') {{parroquia.str_descripcion}}
-    br
-    select(ng-model='modeloComunidad')
-        option(ng-repeat='comunidad in listadoComunidad', value='{{comunidad.int_id}}', ng-selected='$first') {{comunidad.str_descripcion}}
-    br
-
-    div.gridStyles.check-element.animate-show(ng-grid="gridOptions", ng-show="visible")
-    div.gridStyles.check-element.animate-show(ng-hide="visible")
-        h2 PREGUNTAS
-            .papel_rayado(contenteditable)
-                label.pull-right {{preguntas[1].fecha | date: "yyyy-MM-dd 'at' h:mm:ssa"}}
+    .cl-lg-3(ng-hide="visible")
+        center
+            label(for="nombreCanton") Canton:
+            select(ng-model='modeloCanton', name="nombreCanton")
+                option(ng-repeat='canton in listadoCanton', value='{{canton.int_id}}', ng-selected='$first') {{canton.str_descripcion}}
+            label(for="nombreParroquia") Parroquia:
+            select(ng-model='modeloParroquia', name="nombreParroquia")
+                option(ng-repeat='parroquia in listadoParroquia', value='{{parroquia.int_id}}', ng-selected='$first') {{parroquia.str_descripcion}}
+            label(for="nombreComunidad") Comunidad:
+            select(ng-model='modeloComunidad', name="nombreComunidad")
+                option(ng-repeat='comunidad in listadoComunidad', value='{{comunidad.int_id}}', ng-selected='$first') {{comunidad.str_descripcion}}
+            label(for="numeroFamilia") Familia:
+            input(type="number", name="numeroFamilia", ng-required="true", ng-model="numeroFamilia")
+    .cl-lg-6(ng-show="visible")
+        div.gridStyles.check-element.animate-show(ng-grid="gridOptions")
+    .cl-lg-3(ng-hide="visible")
+        .papel_rayado(contenteditable)
+            center
                 h3 {{preguntas[0].str_titulo}}
                 label {{preguntas[0].str_objetivo}}
                 p {{preguntas[0].str_destinado_a}}
                 p {{preguntas[0].str_descripcion}}
                 p {{preguntas[0].str_instrucciones}}
+                label {{preguntas[1].fecha | date: "yyyy-MM-dd 'at' h:mm:ssa"}}
+            br
+            br
+            script(type='text/ng-template', id='nodes_renderer.html')
+                div(ng-if="node.nodes && node.int_id_padre == null")
+                    | {{node.int_numero}}
+                    | {{node.str_enunciado}}
+                    i.glyphicon.glyphicon-question-sign(ng-if="node.nodes && node.int_id_padre == null")
+                    span(ng-if="node.int_obligatoria == 1", style="color: red") *
+                    //a.pull-right.btn.btn-clipboard.btn-xs(title="Agregar respuesta", data-nodrag="", ng-click="newSubItem(this)", style="margin-right: 8px;")
+                    //    span.glyphicon.glyphicon-plus
 
-                script(type='text/ng-template', id='nodes_renderer.html')
-                    div(ng-if="node.nodes && node.int_id_padre == null", ui-tree-handle="")
-                        i.glyphicon.glyphicon-question-sign(ng-if="node.nodes && node.int_id_padre == null")
-                        |  {{node.str_enunciado}}
-                        a.pull-right.btn.btn-clipboard.btn-xs(title="Agregar respuesta", data-nodrag="", ng-click="newSubItem(this)", style="margin-right: 8px;")
-                            span.glyphicon.glyphicon-plus
+                div(ng-if="node.nodes.length == 0")
+                    input(type="{{node.int_id_tipo_pregunta}}", name="{{node.int_id_padre}}", ng-value="node.int_id", ng-if="node.int_id_tipo_pregunta == 'radio'",
+                    ng-model="node.respuesta", ng-change="trueFalse(node)")
+                    input(type="{{node.int_id_tipo_pregunta}}", name="{{node.int_id_padre}}", value="{{node.int_id}}", ng-if="node.int_id_tipo_pregunta == 'checkbox'",
+                    ng-model="node.respuesta")
+                    textarea(rows="2", cols="65", ng-model="node.respuesta", ng-if="node.int_id_tipo_pregunta == 'text'")
+                    input(type="{{node.int_id_tipo_pregunta}}", ng-if="node.int_id_tipo_pregunta == 'time'", ng-model='node.respuesta')
+                    input(type="{{node.int_id_tipo_pregunta}}", ng-if="node.int_id_tipo_pregunta == 'date'", ng-model='node.respuesta')
+                    input.input-lg(type="{{node.int_id_tipo_pregunta}}", min="{{node.int_inicio}}", max="{{node.int_fin}}", step="1", ng-if="node.int_id_tipo_pregunta == 'range'",
+                    ng-model='node.respuesta')
+                    //a.pull-right.btn.btn-clipboard.btn-xs(title="Editar", data-toggle='modal', data-target='#editarProductoModal', data-nodrag="",
+                    //ng-click="tester(node)", style="margin-right: 8px;")
+                    //    span.glyphicon.glyphicon-pencil(aria-hidden='true')
+                    |  {{node.str_descripcion}}
+                    p.pull-left {{node.str_desc_inicio}} {{node.int_inicio}}
+                    p.pull-right {{node.str_desc_fin}} {{node.int_fin}}
+                    br(ng-if="node.int_id_tipo_pregunta == 'range'")
+                    p(ng-if="node.int_id_tipo_pregunta == 'range'")
+                        strong Su respuesta: {{node.respuesta}}
+                    br(ng-if="node.int_id_tipo_pregunta == 'range'")
+                ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
+                    li(ng-repeat="node in node.nodes", ng-include="'nodes_renderer.html'")
+            #tree-root(ui-tree="", data-drag-enabled="false")
+                ol(ui-tree-nodes="", ng-model="preguntas[2]")
+                    li(ng-repeat="node in preguntas[2] | orderBy:['int_numero','int_id_variable']", ui-tree-node="", ng-include="'nodes_renderer.html'")
+            //FINALIZA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA
 
-                    div(ng-if="node.nodes.length == 0")
-                        input(type="{{node.int_id_tipo_pregunta}}", name="{{node.int_id_padre}}", value="{{node.int_id}}", ng-if="node.int_id_tipo_pregunta == 'radio'",
-                        ng-model="node.respuesta")
-                        input(type="{{node.int_id_tipo_pregunta}}", name="{{node.str_descripcion}}", value="{{node.int_id}}", ng-if="node.int_id_tipo_pregunta == 'checkbox'",
-                        ng-model="node.respuesta")
-                        textarea(rows="2", cols="65" ,ng-if="node.int_id_tipo_pregunta == 'text'")
-                        input(type="{{node.int_id_tipo_pregunta}}", ng-if="node.int_id_tipo_pregunta == 'time'", ng-model='node.respuesta')
-                        input(type="{{node.int_id_tipo_pregunta}}", ng-if="node.int_id_tipo_pregunta == 'date'", ng-model='node.respuesta')
-                        input.input-lg(type="{{node.int_id_tipo_pregunta}}", min="{{node.int_inicio}}", max="{{node.int_fin}}", step="1", ng-if="node.int_id_tipo_pregunta == 'range'",
-                        ng-model='node.respuesta')
-                        a.pull-right.btn.btn-clipboard.btn-xs(title="Editar", data-toggle='modal', data-target='#editarProductoModal', data-nodrag="",
-                        ng-click="tester(node)", style="margin-right: 8px;")
-                            span.glyphicon.glyphicon-pencil(aria-hidden='true')
-                        |  {{node.str_descripcion}}
-                        p.pull-left {{node.str_desc_inicio}} {{node.int_inicio}}
-                        p.pull-right {{node.str_desc_fin}} {{node.int_fin}}
-                        br(ng-if="node.int_id_tipo_pregunta == 'range'")
-                        p(ng-if="node.int_id_tipo_pregunta == 'range'")
-                            strong Su respuesta: {{node.respuesta}}
-                        br(ng-if="node.int_id_tipo_pregunta == 'range'")
-                    ol(ui-tree-nodes="", ng-model="node.nodes", ng-class="{hidden: collapsed}")
-                        li(ng-repeat="node in node.nodes", ng-include="'nodes_renderer.html'")
-                #tree-root(ui-tree="")
-                    ol(ui-tree-nodes="", ng-model="preguntas[2]")
-                        li(ng-repeat="node in preguntas[2]", ui-tree-node="", ng-include="'nodes_renderer.html'")
-                //FINALIZA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA
-        a(ng-click="todo()") Ver toda las preguntas e hijos.
+        //a(ng-click="todo()") Ver toda las preguntas e hijos.
         h3 Comportamiento de los datos
         .info {{info}}
         pre.code.

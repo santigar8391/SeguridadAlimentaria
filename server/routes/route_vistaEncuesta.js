@@ -18,13 +18,13 @@ var padreNombre = 'int_id_padre';
 var nombreRespuesta = 'respuesta';
 
 
-exports.getlistadovistaEncuesta = function(req, res, next) {
+exports.getlistadovistaEncuesta = function(req, res) {
     data_vistaEncuesta.connect();
-    data_vistaEncuesta.db_get_listadoPregunta(function (datos) {
+    data_vistaEncuesta.db_get_listadoPregunta(req,res,function (datos) {
         limpiaDatos();
         for(i=datos.length - 1; i>=0; i--){
             datos[i][padreNombre]= null;
-            datos[i][nombreRespuesta]= false;
+            datos[i][nombreRespuesta]= '';
             datos[i][childrenNombre]=[];
 
             row=datos[i];
@@ -41,7 +41,7 @@ exports.getlistadovistaEncuesta = function(req, res, next) {
         }
     });
 
-    data_vistaEncuesta.db_get_listadoEscala(function (datos) {
+    data_vistaEncuesta.db_get_listadoEscala(req, res,function (datos) {
         for(i=datos.length - 1; i>=0; i--){
             datos[i][padreNombre] = datos[i].int_id_pregunta;
             datos[i][nombreRespuesta]= false;
@@ -60,7 +60,7 @@ exports.getlistadovistaEncuesta = function(req, res, next) {
     });
 
 
-    data_vistaEncuesta.db_get_listadoTest(function (datos) {
+    data_vistaEncuesta.db_get_listadoTest(req, res, function (datos) {
         for(i=datos.length - 1; i>=0; i--){
             datos[i][padreNombre] = datos[i].int_id_pregunta;
             datos[i][nombreRespuesta]= false;

@@ -267,16 +267,7 @@ a:focus {
   padding: 62px 8% 35px 8%;
   position: relative;
   text-align: justify;
-  width: 60%;
-  /* gradients - second red border, first red border, top white space, blue lines */
-  background-image:  -webkit-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -webkit-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -webkit-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -webkit-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
-  background-image:  -moz-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -moz-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -moz-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -moz-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
-  background-image:  -ms-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -ms-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -ms-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -ms-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
-  background-image:  -o-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -o-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -o-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -o-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
-  background-image:  linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
-  background-size: 1px, 1px, auto, auto 20px;
-  background-repeat: repeat-y, repeat-y, no-repeat, repeat;
-  background-position: 90% 0px, 10% 0px, 0px 0px, 0px 0px;
+  width: 85%;
 }
 .papel_rayado:before, .papel_rayado:after {
   border-radius: 10px;
@@ -299,12 +290,6 @@ a:focus {
 
 .papel_rayado:focus {
   outline: none;
-}
-.papel_rayado h4 {
-  color: red;
-  font-size: 35px;
-  margin-bottom: 20px;
-  margin-top: 18px;
 }
 
 

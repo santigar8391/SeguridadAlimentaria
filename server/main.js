@@ -181,7 +181,7 @@ app.post('/api/login', function(req, res, next){
 });
 
 
-app.get('/api/vistaEncuesta/obtenertodo', model_vistaEncuesta.getlistadovistaEncuesta);
+app.get('/api/vistaEncuesta/obtenertodo/', model_vistaEncuesta.getlistadovistaEncuesta);
 
 
 

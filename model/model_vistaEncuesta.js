@@ -20,9 +20,11 @@ exports.connect = function() {
 }
 
 // obtiene todos los elementos de la tabla "grupo"
-exports.db_get_listadoPregunta = function(cb) {
+exports.db_get_listadoPregunta = function(req,res,cb) {
     var data = [];
-    client.query("SELECT int_id, int_id_encuesta, int_id_variable, int_id_tipo_pregunta, int_numero, str_enunciado, str_ayuda, int_obligatoria FROM pregunta;")
+    client.query("SELECT p.int_id, p.int_id_encuesta, p.int_id_variable, p.int_id_tipo_pregunta, p.int_numero, p.str_enunciado, p.str_ayuda, " +
+    "p.int_obligatoria, v.int_id as int_id_variable, v.int_id_padre as int_id_padre_variable,v.str_descripcion as str_descripcion_variable, " +
+    "v.flt_numero FROM pregunta as p inner join variable as v on p.int_id_variable=v.int_id WHERE p.int_id_encuesta=? AND v.str_estado = ?", [req.query.intId, 'ACTIVO'])
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);
@@ -40,9 +42,12 @@ exports.db_get_listadoPregunta = function(cb) {
         });
 };
 
-exports.db_get_listadoTest = function(cb) {
+//
+exports.db_get_listadoTest = function(req,res,cb) {
     var data = [];
-    client.query("select t.int_id, t.int_id_pregunta, t.str_descripcion, t.int_valor, t.int_correcto, t.str_desc_campo, p.int_id_tipo_pregunta from test as t inner join pregunta as p on p.int_id = t.int_id_pregunta;")
+    client.query("select t.int_id, t.int_id_pregunta, t.str_descripcion, t.int_valor, t.int_correcto, t.str_desc_campo, p.int_id_tipo_pregunta " +
+    "from test as t inner join pregunta as p on p.int_id = t.int_id_pregunta AND p.int_id_encuesta = ?", [req.query.intId])
+
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);
@@ -60,9 +65,10 @@ exports.db_get_listadoTest = function(cb) {
         });
 };
 
-exports.db_get_listadoEscala = function(cb) {
+exports.db_get_listadoEscala = function(req, res, cb) {
     var data = [];
-    client.query("SELECT int_id_pregunta, str_desc_inicio, str_desc_fin, int_inicio, int_fin, p.int_id_tipo_pregunta from escala as e inner join pregunta as p on p.int_id = e.int_id_pregunta;")
+    client.query("SELECT int_id_pregunta, str_desc_inicio, str_desc_fin, int_inicio, int_fin, p.int_id_tipo_pregunta from escala as e inner join pregunta " +
+    "as p on p.int_id = e.int_id_pregunta AND p.int_id_encuesta = ?", [req.query.intId])
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);
