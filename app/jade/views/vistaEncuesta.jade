@@ -27,6 +27,7 @@ br
             br
             br
             script(type='text/ng-template', id='nodes_renderer.html')
+                p() {{node.str_descripcion_variable}}
                 div(ng-if="node.nodes && node.int_id_padre == null")
                     | {{node.int_numero}}
                     | {{node.str_enunciado}}
@@ -61,8 +62,9 @@ br
                 ol(ui-tree-nodes="", ng-model="preguntas[2]")
                     li(ng-repeat="node in preguntas[2] | orderBy:['int_numero','int_id_variable']", ui-tree-node="", ng-include="'nodes_renderer.html'")
             //FINALIZA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA
-
-        //a(ng-click="todo()") Ver toda las preguntas e hijos.
+        center
+            a.btn.btn-success( ng-click="") Guardar
+            a.btn.btn-success.pull-left( ng-click="") Cancelar
         h3 Comportamiento de los datos
         .info {{info}}
         pre.code.

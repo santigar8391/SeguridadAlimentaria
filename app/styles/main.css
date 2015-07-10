@@ -267,7 +267,7 @@ a:focus {
   padding: 62px 8% 35px 8%;
   position: relative;
   text-align: justify;
-  width: 85%;
+  width: 75%;
 }
 .papel_rayado:before, .papel_rayado:after {
   border-radius: 10px;

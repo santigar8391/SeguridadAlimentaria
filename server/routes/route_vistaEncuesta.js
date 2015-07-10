@@ -102,7 +102,7 @@ var loopChildrens = function(rows, parent, bandera){
             if(row.int_id_padre == parent.int_id){
                 parent.nodes.push(row);
                 //console.log("PROBANDO JSON-->"+ JSON.stringify(parent));
-                loopChildrens(rows, row,0);
+                //loopChildrens(rows, row,0);
             }
         });
     }

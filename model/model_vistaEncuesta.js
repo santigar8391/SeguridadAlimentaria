@@ -67,7 +67,7 @@ exports.db_get_listadoTest = function(req,res,cb) {
 
 exports.db_get_listadoEscala = function(req, res, cb) {
     var data = [];
-    client.query("SELECT int_id_pregunta, str_desc_inicio, str_desc_fin, int_inicio, int_fin, p.int_id_tipo_pregunta from escala as e inner join pregunta " +
+    client.query("SELECT e.int_id_pregunta, e.str_desc_inicio, e.str_desc_fin, e.int_inicio, e.int_fin, p.int_id_tipo_pregunta from escala as e inner join pregunta " +
     "as p on p.int_id = e.int_id_pregunta AND p.int_id_encuesta = ?", [req.query.intId])
         .on('result', function(res) {
             res.on('row', function(row) {
