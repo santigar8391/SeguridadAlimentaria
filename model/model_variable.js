@@ -21,7 +21,7 @@ exports.connect = function() {
 // obtiene todos los elementos de la tabla "grupo"
 exports.db_get_listado = function(cb) {
     var data = [];
-    client.query("SELECT int_id as id, int_id_padre, flt_numero, str_descripcion as title, str_estado FROM variable;")
+    client.query("SELECT int_id as id, int_id_padre, flt_numero, str_descripcion as title, str_estado FROM variable WHERE str_estado = 'ACTIVO';")
         .on('result', function(res) {
             res.on('row', function(row) {
                 data.push(row);

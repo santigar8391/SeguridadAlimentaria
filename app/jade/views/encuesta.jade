@@ -37,7 +37,7 @@
                         a.btn.btn-clipboard.btn-xs(ng-if="node.nodes && node.nodes.length > 0", data-nodrag="", ng-click="toggle(this)")
                             span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}")
                         | {{node.title}}
-                        a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="remove2(this)", data-toggle="modal", data-target="#eliminarVariableModal")
+                        //a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="remove2(this)", data-toggle="modal", data-target="#eliminarVariableModal")
                             span.glyphicon.glyphicon-remove
                         a.pull-right.btn.btn-clipboard.btn-xs(data-nodrag="", ng-click="newSubItem(this)", data-toggle="modal", data-target="#nuevoSubVariableModal", style="margin-right: 8px;")
                             span.glyphicon.glyphicon-plus
@@ -149,28 +149,9 @@
                             span.help-block(ng-if="nuevoEncuestaModal.instrucciones.$error.required && nuevoEncuestaModal.instrucciones.$touched") La descripción es requerida.
                     .row
                         //Input de la fecha de creacion de la Encuesta
-                        .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.fechaCreacion.$invalid && nuevoEncuestaModal.fechaCreacion.$dirty }")
-                            label(for="fechaCreacion") FECHA DE CREACION
-                            .input-group
-                                .input-group-addon
-                                    i.glyphicon.glyphicon-bookmark
-                                input#fechaCreacion.form-control(type="date", name="fechaCreacion", ng-model="encuestaNueva.fechaCreacion", ng-value="encuestaNueva.fechaCreacion | date:'dd/MM/yyyy'", placeholder="Descripción o nombre del producto", maxlength="40", required")
-                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.fechaCreacion.$invalid && nuevoEncuestaModal.fechaCreacion.$touched")
-                            span.help-block(ng-if="nuevoEncuestaModal.fechaCreacion.$error.$invalid && nuevoEncuestaModal.fechaCreacion.$touched") Campo inválido.
-                            span.help-block(ng-if="nuevoEncuestaModal.fechaCreacion.$error.required && nuevoEncuestaModal.fechaCreacion.$touched") La descripción es requerida.
-                            //p {{encuestaNueva.fechaCreacion | date:'yyyy-MM-dd h:mm:ss'}}
+                        input#fechaCreacion.form-control(type="hidden", name="fechaCreacion", ng-model="encuestaNueva.fechaCreacion", ng-value="encuestaNueva.fechaCreacion | date:'dd/MM/yyyy'", placeholder="Descripción o nombre del producto", maxlength="40", required)
                     .row
-                        //Input de la   fecha de modificacion de la Encuesta
-                        .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.fechaModificacion.$invalid && nuevoEncuestaModal.fechaModificacion.$dirty }")
-                            label(for="fechaModificacion") FECHA DE MODIFICACION
-                            .input-group
-                                .input-group-addon
-                                    i.glyphicon.glyphicon-bookmark
-                                input#fechaModificacion.form-control(type="date", name="fechaModificacion", ng-model="encuestaNueva.fechaModificacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
-                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-if="nuevoEncuestaModal.fechaModificacion.$invalid && nuevoEncuestaModal.fechaModificacion.$touched")
-                            span.help-block(ng-if="nuevoEncuestaModal.fechaModificacion.$error.$invalid && nuevoEncuestaModal.fechaModificacion.$touched") Campo inválido.
-                            span.help-block(ng-if="nuevoEncuestaModal.fechaModificacion.$error.required && nuevoEncuestaModal.fechaModificacion.$touched") La descripción es requerida.
-
+                        input#fechaModificacion.form-control(type="hidden", name="fechaModificacion", ng-model="encuestaNueva.fechaModificacion", placeholder="Descripción o nombre del producto", maxlength="40", required)
                     .row
                         //Input de la descripcion de la Encuesta
                         .form-group.col-sm-10(ng-class="{'has-error': nuevoEncuestaModal.estado.$invalid && nuevoEncuestaModal.estado.$dirty }")

@@ -2,21 +2,24 @@ br
 .row
     .cl-lg-3(ng-hide="visible")
         center
-            label(for="nombreCanton") Canton:
-            select(ng-model='modeloCanton', name="nombreCanton")
-                option(ng-repeat='canton in listadoCanton', value='{{canton.int_id}}', ng-selected='$first') {{canton.str_descripcion}}
+            //select(ng-model="tipoPreguntaModel", ng-options="tipoPregunta as tipoPregunta.strDescripcion for tipoPregunta in listadoTipoPregunta")
+                option(value="") [Tipo Pregunta]
+            label(for="nombreCanton", ng-options="canton as canton.str descipcion") Canton:
+            select(ng-model='modeloCanton', ng-options="canton as canton.str_descripcion for canton in listadoCanton")
+                option(value="") [Escoger canton]
             label(for="nombreParroquia") Parroquia:
-            select(ng-model='modeloParroquia', name="nombreParroquia")
-                option(ng-repeat='parroquia in listadoParroquia', value='{{parroquia.int_id}}', ng-selected='$first') {{parroquia.str_descripcion}}
+            select(ng-model='modeloParroquia', ng-options="parroquia as parroquia.str_descripcion for parroquia in listadoParroquia")
+                option(value="") [Escoger parroquia]
             label(for="nombreComunidad") Comunidad:
-            select(ng-model='modeloComunidad', name="nombreComunidad")
-                option(ng-repeat='comunidad in listadoComunidad', value='{{comunidad.int_id}}', ng-selected='$first') {{comunidad.str_descripcion}}
+            select(ng-model='modeloComunidad', ng-options="comunidad as comunidad.str_descripcion for comunidad in listadoComunidad")
+                option(value="") [Escoger comunidad]
             label(for="numeroFamilia") Familia:
-            input(type="number", name="numeroFamilia", ng-required="true", ng-model="numeroFamilia")
+            input(type="number", name="numeroFamilia", ng-required="true", ng-model="numeroFamilia.numero")
+            a.btn.btn-success(ng-click="asignarRecursosEncuesta()") OK
     .cl-lg-6(ng-show="visible")
         div.gridStyles.check-element.animate-show(ng-grid="gridOptions")
     .cl-lg-3(ng-hide="visible")
-        .papel_rayado(contenteditable)
+        .papel_rayado(contenteditable, ng-show="visibleEncuesta")
             center
                 h3 {{preguntas[0].str_titulo}}
                 label {{preguntas[0].str_objetivo}}
@@ -29,8 +32,8 @@ br
             script(type='text/ng-template', id='nodes_renderer.html')
                 p() {{node.str_descripcion_variable}}
                 div(ng-if="node.nodes && node.int_id_padre == null")
-                    | {{node.int_numero}}
-                    | {{node.str_enunciado}}
+                    strong {{node.int_numero}}
+                    strong {{node.str_enunciado}}
                     i.glyphicon.glyphicon-question-sign(ng-if="node.nodes && node.int_id_padre == null")
                     span(ng-if="node.int_obligatoria == 1", style="color: red") *
                     //a.pull-right.btn.btn-clipboard.btn-xs(title="Agregar respuesta", data-nodrag="", ng-click="newSubItem(this)", style="margin-right: 8px;")
@@ -63,8 +66,8 @@ br
                     li(ng-repeat="node in preguntas[2] | orderBy:['int_numero','int_id_variable']", ui-tree-node="", ng-include="'nodes_renderer.html'")
             //FINALIZA PARTE DE LA VISUALIZACION DE LA ENCUESTA YA FORMADA
         center
-            a.btn.btn-success( ng-click="") Guardar
-            a.btn.btn-success.pull-left( ng-click="") Cancelar
+            a.btn.btn-success(ng-click="") Guardar
+            a.btn.btn-success.pull-left(ng-click="ingresarRespuesta()") Cancelar
         h3 Comportamiento de los datos
         .info {{info}}
         pre.code.

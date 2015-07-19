@@ -28,7 +28,7 @@ var model_pregunta = require('./routes/route_pregunta');
 var model_vistaEncuesta = require('./routes/route_vistaEncuesta');
 
 var mySecretKey = 'mySecretKey';
-var mySecretKeyAdmin = 'otraSecretKey'
+var mySecretKeyAdmin = 'otraSecretKey';
 
 //var users = require('./routes/users');
 
@@ -96,7 +96,7 @@ routerGrupo.get('/grupoPuro', model_grupo.getlistado);
 app.use('/api/grupo', routerGrupo);
 
 
-app.get('/api/frecuencia', model_frecuencia.getlistado);
+app.route('/api/frecuencia').get(model_frecuencia.getlistado);
 app.post('/api/frecuencia/guardar', model_frecuencia.insertar);
 
 app.get('/api/unidad', model_unidad.getlistado);
@@ -134,7 +134,7 @@ app.post('/api/login', function(req, res, next){
 
     var usuario = {
         nombre: 'Hermes',
-        nick: 'hermessanc',
+        nick: 'user',
         password: '123456'
     };
 
@@ -182,6 +182,7 @@ app.post('/api/login', function(req, res, next){
 
 
 app.get('/api/vistaEncuesta/obtenertodo/', model_vistaEncuesta.getlistadovistaEncuesta);
+app.post('/api/vistaEncuesta/ingresar', model_vistaEncuesta.insertar_pregunta_resuelta);
 
 
 

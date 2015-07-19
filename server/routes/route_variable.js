@@ -96,18 +96,26 @@ exports.insertarVariable = function(req,res){
 
 exports.eliminar = function(req,res) {
     data_variable.connect();
-    console.log("En el route_variable/eliminar"+ req.query.variable);
+    console.log(req.query.variable.length);
     try {
-
-        for (i = 0; i < req.query.variable.length; i += 1) {
-            data_variable.db_eliminar(req.query.variable[i],function(bandera){
-                console.log("Bandera: "+bandera);
+        if(req.query.bandera == 0)
+        {
+            for (i = 0; i < req.query.variable.length; i++) {
+                console.log('--------------------------------->'+req.query.variable[i]);
+                data_variable.db_eliminar(req.query.variable[i],function(bandera){
+                    console.log("Bandera 0: "+bandera);
+                });
+            }
+        }else{
+            data_variable.db_eliminar(req.query.variable,function(bandera){
+                console.log("Bandera 1: "+bandera);
             });
         }
-        res.end();
+       res.end();
     } catch (e) {
-        res.redirect('#/');
+        res.redirect('/api/#/');
         console.log(e);
-        console.log("Número de variable = " + id_variable + " , descripcion " + desc_prod);
+        //console.log("Número de variable = " + id_variable + " , descripcion " + desc_prod);
     }
+    res.end();
 };

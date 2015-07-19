@@ -1,15 +1,31 @@
 'use strict';
 
-angular.module('proyectoSaludApp')
-  .controller('VistaencuestaCtrl', function ($scope, $http, datosvistaEncuestaCanton, datosvistaEncuestaParroquia, datosvistaEncuestaComunidad) {
-    $http.get('/api/encuesta').success(function(awesomeThings) {
+  angular.module('proyectoSaludApp')
+    .controller('VistaencuestaCtrl', function ($scope, $http, datosvistaEncuestaCanton, datosvistaEncuestaParroquia, datosvistaEncuestaComunidad) {
+      $http.get('/api/encuesta').success(function(awesomeThings) {
       $scope.listadoEncuesta = awesomeThings;
     });
+        $scope.visibleEncuesta = false;
+
+        $scope.modeloCanton = null;
+        $scope.modeloParroquia = null;
+        $scope.modeloComunidad = null;
+        $scope.numeroFamilia = {"numero":0};
+
+        $scope.asignarRecursosEncuesta = function(){
+          alert(JSON.stringify($scope.modeloCanton) + JSON.stringify($scope.modeloParroquia) + JSON.stringify($scope.modeloComunidad) + $scope.numeroFamilia);
+          $scope.preguntas.push($scope.modeloCanton);
+          $scope.preguntas.push($scope.modeloParroquia);
+          $scope.preguntas.push($scope.modeloComunidad);
+          $scope.preguntas.push($scope.numeroFamilia);
+          $scope.visibleEncuesta = true;
+        };
+
 
       datosvistaEncuestaCanton.get().success(function(datos){
         $scope.listadoCanton = datos;
         //PARA UBICAR EN PRIMERA POSICION EL SELECT CON LOS OPTIONS.
-        $scope.modeloCanton = $scope.listadoCanton[0].str_descripcion;
+        //$scope.modeloCanton = $scope.listadoCanton[0].str_descripcion;
         console.log($scope.modeloCanton);
       }).error(function(err){
         console.log('Error en el servicio datosvistaEncuestaCanton!!! mensaje de log en controlador vistaEncuesta');
@@ -18,7 +34,7 @@ angular.module('proyectoSaludApp')
 
       datosvistaEncuestaParroquia.get().success(function(datos){
         $scope.listadoParroquia = datos;
-        $scope.modeloParroquuia = $scope.listadoParroquia[0].str_descripcion;
+        //$scope.modeloParroquuia = $scope.listadoParroquia[0].str_descripcion;
       }).error(function(err){
         console.log('Error en el servicio datosvistaEncuestaParroquia!!! mensaje de log en controlador vistaEncuesta');
       });
@@ -26,12 +42,12 @@ angular.module('proyectoSaludApp')
 
       datosvistaEncuestaComunidad.get().success(function(datos){
         $scope.listadoComunidad = datos;
-        $scope.modeloComunidad = $scope.listadoComunidad[0].str_descripcion;
+        //$scope.modeloComunidad = $scope.listadoComunidad[0].str_descripcion;
       }).error(function(err){
         console.log('Error en el servicio datosvistaEncuestaComunidad!!! mensaje de log en controlador vistaEncuesta');
       });
 
-      //PARA LA RESPUESTA ACTUAL.
+      //PARA LA RESPUESTA ACTUAL DE LAS RESPUESTAS RADIO BUTTON.
       $scope.trueFalse = function(node){
         $scope.respuesta.seleccion = node.respuesta;
         loopAsignarRespuesta(node);
@@ -46,7 +62,6 @@ angular.module('proyectoSaludApp')
           if($scope.preguntas[2][i].int_id == currentNode.int_id_pregunta){
 
             for (j = 0; j < $scope.preguntas[2][i].nodes.length; j+= 1) {
-
               if($scope.preguntas[2][i].nodes[j].int_id != $scope.respuesta.seleccion){
                 $scope.preguntas[2][i].nodes[j].respuesta = false;
               }
@@ -54,21 +69,14 @@ angular.module('proyectoSaludApp')
           }
         }
       };
-
-
-
       $scope.respuesta = {
         'seleccion': ''
-      }
-
-
+      };
 
       //PARA LA FECHA ACTUAL.
       $scope.fechaActual = {
        'fecha':  new Date()
       };
-
-
 
       //Template para visualizar los botones de editar y eliminar para cada registro de productos
       var removeTemplate =
@@ -80,7 +88,7 @@ angular.module('proyectoSaludApp')
       //Este es un objeto con campos necesarios para recoger los datos a ser editados y se modificaran a medida que los editen.
       //(Se utilizara en la funcion edicion!)
 
-//Este es un conjunto de parametros de comportamiento del ng-grid
+    //Este es un conjunto de parametros de comportamiento del ng-grid
       $scope.gridOptions = {
         data: 'listadoEncuesta',
         selectedItems: $scope.seleccion,
@@ -96,17 +104,7 @@ angular.module('proyectoSaludApp')
         multiSelect: false,
         afterSelectionChange: function (theRow, evt) {
           console.log('id desde afterSelectionChange: '+theRow.entity.int_id);
-              /*
-              $scope.encuestaEditar.id = theRow.entity.int_id,
-              $scope.encuestaEditar.titulo = theRow.entity.str_titulo,
-              $scope.encuestaEditar.descripcion = theRow.entity.str_descripcion,
-              $scope.encuestaEditar.objetivo = theRow.entity.str_objetivo,
-              $scope.encuestaEditar.destinadoA = theRow.entity.str_destinado_a,
-              $scope.encuestaEditar.instrucciones = theRow.entity.str_instrucciones,
-              $scope.encuestaEditar.fechaCreacion = theRow.entity.dt_fecha_creacion,
-              $scope.encuestaEditar.fechaModificacion = theRow.entity.dt_fecha_modificacion,
-              $scope.encuestaEditar.estado = theRow.entity.str_estado
-              */
+
         },
 
         columnDefs: [
@@ -144,7 +142,7 @@ angular.module('proyectoSaludApp')
       $scope.preguntas = [];
       $scope.longitud = 0;
 
-      $scope.numeroFamilia = 0;
+
 
       $scope.todo = function(encuesta) {
         $http({
@@ -161,12 +159,22 @@ angular.module('proyectoSaludApp')
           $scope.longitud = $scope.preguntas.length;
           console.log('Longitud: '+$scope.longitud);
         }).error(function(err){
-
         });
       };
 
-
-
+        $scope.ingresarRespuesta = function () {
+          $http({
+            method: 'POST',
+            url: '/api/vistaEncuesta/ingresar',
+            data: $scope.preguntas
+              })
+              .success(function(dato){
+                alert('ingreso de respuesta exitoso.');
+              })
+              .error(function(err){
+                alert('Error en el ingreso de las respuestas desde el controlador vistaEncuesta en la funcion ingresarRespuesta');
+              })
+        };
 
 //Funcion que remueve una opcion de respuesta una vez en el array de las preguntas ya ingresadas.
       $scope.remove = function(scope) {

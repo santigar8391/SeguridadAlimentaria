@@ -134,9 +134,9 @@ proyectoSaludApp.factory('MyAPIServiceFactory', ["$http", function ($http) {
             skipAuthorization: false,
             url: '/api/producto/info'
         }).success(function(msg){
-            alert('alert en el loginService'+msg.success);
+            //alert('alert en el loginService'+msg.success);
         }).error(function (e) {
-            alert(JSON.stringify(e.msg));
+            //alert(JSON.stringify(e.msg));
         });
 
     };
@@ -154,7 +154,7 @@ proyectoSaludApp.factory('MyAPIServiceFactory', ["$http", function ($http) {
           },
            response: function(response){
             if(response.status == 401 || response.status === 403){
-                alert('Usuario Fallo al autenticarse.');
+                // alert('Usuario Fallo al autenticarse.');
                 //$location.path('/signin');
             }
                return response || $q.when(response);

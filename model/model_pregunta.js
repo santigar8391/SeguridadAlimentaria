@@ -7,7 +7,7 @@ var Client = require('mariasql');
 
 var client = new Client();
 
-// genera la conexión a la base de datos "proyectoSeguridad"
+//genera la conexión a la base de datos "proyectoSeguridad"
 exports.connect = function() {
     client.connect({
         host: '127.0.0.1',

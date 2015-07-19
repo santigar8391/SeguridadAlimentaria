@@ -53,21 +53,37 @@ angular.module('proyectoSaludApp')
 
 
       $scope.eliminar = function (){
-        $http({
-          method: 'POST',
-          url: '/api/variable/eliminar',
-          params:
-          {
-            variable: idVariableEliminar
-          }
-        }).success(function(data) {
-          //aqui un mensaje
-          //$scope.update();
-          alert('Exito al eliminar el reggistro');
-        }).error(function() {
-          alert('Error al eliminar el reggistro');
-          //aqui un mensaje
-        });
+        if(idVariableEliminarSola == null){
+          $http({
+            method: 'POST',
+            url: '/api/variable/eliminar',
+            params:
+            {
+              variable: idVariableEliminar,
+              bandera: 0
+            }
+          }).success(function(data) {
+            $scope.update();
+          }).error(function() {
+
+          });
+        }
+        else{
+          $http({
+            method: 'POST',
+            url: '/api/variable/eliminar',
+            params:
+            {
+              variable: idVariableEliminarSola,
+              bandera: 1
+            }
+          }).success(function(data) {
+            $scope.update();
+          }).error(function() {
+          });
+          idVariableEliminarSola = null;
+        }
+
       };
 
 
@@ -94,20 +110,27 @@ angular.module('proyectoSaludApp')
       };
 
       var idVariableEliminar = [];
+      var idVariableEliminarSola;
 
       $scope.remove2 = function(scope) {
+        idVariableEliminarSola = null;
+        idVariableEliminar.splice(0, idVariableEliminar.length);
         var nodeData = scope.$modelValue;
         $scope.variableEliminar = nodeData;
         idVariableEliminar.push($scope.variableEliminar.id);
-        loopEliminar($scope.variableEliminar);
+        if(nodeData.nodes.length == 0)
+        {
+          idVariableEliminarSola = $scope.variableEliminar.id;
+        }
+        else{
+          loopEliminar($scope.variableEliminar);
+        }
       };
 
 
       var loopEliminar = function(currentNode){
         var i,
             currentChild;
-          // Use a for loop instead of forEach to avoid nested functions
-          // Otherwise "return" will not work properly
           for (i = 0; i < currentNode.nodes.length; i += 1) {
             currentChild = currentNode.nodes[i];
             idVariableEliminar.push(currentChild.id);
