@@ -15,7 +15,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
     yeoman: {
       // configurable paths
-      app: require('./bower.json').appPath || 'app',
+      app: require('./app/bower.json').appPath || 'app',
       dist: 'dist'
     },
     watch: {
