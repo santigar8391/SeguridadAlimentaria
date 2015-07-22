@@ -233,3 +233,23 @@ angular.module('proyectoSaludApp')
 
   });
 
+
+
+exports.db_insertar = function(equiposObj, cb) {
+
+  for(var i=equiposObj.length - 1; i>=0; i--){
+    if(equiposObj[i].respuesta == true){
+      client.query("INSERT INTO equipos (nombre_eq, num_jugadores,grupo) VALUES (?, ?, ?);",
+        [equiposObj.nombre_eq, equiposObj.num_jugadores,equiposObj.grupo])
+        .on('error', function(err) {
+          console.log('Result error: ' + inspect(err));
+        })
+        .on('end', function() {
+          console.log('Result finished successfully');
+          cb(true);
+          console.log('LOS DATOS SE HAN INSERTADO CORRECTAMENTE');
+        });
+    }
+  }
+  
+};
