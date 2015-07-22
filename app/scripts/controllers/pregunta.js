@@ -15,38 +15,34 @@ angular.module('proyectoSaludApp')
         $scope.dataNav = datosEncuestaPregunta.out2();
       });
 
-    //UBICACION DE COLUMNAS
-      $scope.columnas = [
-        {field: 'id', displayName: 'Id'},
-        {field: 'name', displayName: 'Name'}
-      ];
-    //GRID-DATA
-      $scope.gridData =[
-        {id:1, name:'a'},
-        {id:2, name:'b'},
-        {id:3, name:'c'},
-        {id:4, name:'d'},
-        {id:5, name:'e'},
-        {id:6, name:'f'},
-        {id:7, name:'g'}
-      ];
+        $scope.$watch('respuesta.tipoRespuesta', function(newValue, oldValue) { //Estar escuchando el cambio en el select de tipo pregunta..
+            numEscala = 1;
+            numId = 1;
+            $scope.arrayRespuesta1.splice(0, $scope.arrayRespuesta1.length); //Elimina todos las opciones de respuestas de la pregunta vigente para la nueva pregunta en cuestion.
+            $scope.pregunta.codigoPregunta = null;
+            $scope.pregunta.ayudaPregunta = null;
+            $scope.respuesta.correcta = null;
+            $scope.arrayRespuesta1.push(
+                {
+                    int_id_padre: contador,
+                    title: "",
+                    title2: "",
+                    type: $scope.respuesta.tipoRespuesta.type,
+                    numEscala:numEscala++,
+                    numId:numId++,
+                    valor: false,
+                    section: $scope.variableSeleccionada,
+                    nodes: []
+                })
+        });
+
+            //UBICACION DE COLUMNA
 
         $scope.rango = {
             "minimo": 1,
             "maximo": 5,
             "valorSeleccionado": 1
         };
-
-
-    //GRIDOPTIONS CONFIGURACION
-      $scope.gridOptions = {
-        data: $scope.gridData,
-        enableSorting: false,
-        columnDefs: $scope.columnas,
-        onRegisterApi: function(gridApi) {
-          $scope.gridApi = gridApi;
-        }
-      };
 
                                                                                 $scope.addColumna = function(){
                                                                                   $scope.columnas.push({
@@ -86,10 +82,6 @@ angular.module('proyectoSaludApp')
                                                                           {
                                                                               value:6,
                                                                               type: "time"
-                                                                          },
-                                                                          {
-                                                                              value:7,
-                                                                              type: "Matriz"
                                                                           }
                                                                           ];
 
@@ -207,7 +199,6 @@ angular.module('proyectoSaludApp')
                                                               valor: false,
                                                               section: $scope.variableSeleccionada,
                                                               nodes: []
-
                                                             }
                                                           )
                                                         };

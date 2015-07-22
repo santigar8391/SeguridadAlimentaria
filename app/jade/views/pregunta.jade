@@ -35,7 +35,8 @@
                     .panel-heading(ng-if="node.nodes && node.nodes.length > 0", ui-tree-handle="")
                         i.glyphicon.glyphicon-question-sign(ng-if="node.nodes && node.nodes.length > 0")
                         |  {{node.title}}
-                        a.pull-right.btn.btn-clipboard.btn-xs(title="Agregar respuesta", data-nodrag="", ng-click="newSubItem(this)", style="margin-right: 8px;")
+                        a.pull-right.btn.btn-clipboard.btn-xs(title="Agregar respuesta", data-nodrag="", ng-click="newSubItem(this)", style="margin-right: 8px;",
+                        ng-if="node.type == 'checkbox' || node.type == 'radio'")
                             span.glyphicon.glyphicon-plus
 
                     div(ng-if="node.nodes && node.nodes.length == 0")
@@ -66,11 +67,12 @@
             .panel-heading
                 br
                 i.glyphicon.glyphicon-question-sign
-                span(editable-text="pregunta.descripcionPregunta", e-form="descripcionPregunta")
+                input#textinput.form-control.input-md(ng-model="pregunta.descripcionPregunta")
+                //span(editable-text="pregunta.descripcionPregunta", e-form="descripcionPregunta")
                     |   {{pregunta.descripcionPregunta || "Ingresar enunciado..."}}
-                a.btn.btn-clipboard.btn-xs(title="Editar", ng-click="descripcionPregunta.$show()", ng-hide="descripcionPregunta.$visible", style="margin-right: 8px;")
+                //a.btn.btn-clipboard.btn-xs(title="Editar", ng-click="descripcionPregunta.$show()", ng-hide="descripcionPregunta.$visible", style="margin-right: 8px;")
                     span.glyphicon.glyphicon-pencil(aria-hidden='true')
-                a.pull-right.btn.btn-clipboard.btn-xs(title="addRespuesta", ng-click="addOpcionRespuesta(respuesta)")
+                a.pull-right.btn.btn-clipboard.btn-xs(title="addRespuesta", ng-click="addOpcionRespuesta(respuesta)", ng-if="respuesta.tipoRespuesta.value == 1 || respuesta.tipoRespuesta.value == 2")
                     span.glyphicon.glyphicon-plus
             .panel-body
                 ul(ng-repeat="dato in arrayRespuesta1")
@@ -79,7 +81,6 @@
                     ng-if="respuesta.tipoRespuesta.type == 'checkbox' || respuesta.tipoRespuesta.type == 'radio'")
                         | {{dato.numEscala || "Requiere tabular"}} &nbsp
                         span.glyphicon.glyphicon-pencil(aria-hidden='true')
-
 
                     //*************INPUT Y OPCION RESPUESTA****************
                     //RADIO BUTTON
@@ -102,25 +103,29 @@
 
                     //HORA - TIME
                     input.small(type="{{respuesta.tipoRespuesta.type}}", ng-if="respuesta.tipoRespuesta.type == 'time'")
+                    .row
+                        .col-xs-3
+                            input#textinput.form-control.input-md(ng-if="respuesta.tipoRespuesta.type == 'checkbox' || respuesta.tipoRespuesta.type == 'radio' || respuesta.tipoRespuesta.type == 'range'",
+                            ng-model="dato.title")
+                        .col-xs-6
+                        .col-xs-3
+                            input#textinput.form-control.input-md(ng-if="respuesta.tipoRespuesta.type == 'range'", ng-model="dato.title2")
 
-                    //PENCIL RESPUESTA
-                    span(ng-if="respuesta.tipoRespuesta.type == 'checkbox' || respuesta.tipoRespuesta.type == 'radio' || respuesta.tipoRespuesta.type == 'range'")
-                        span(editable-text="dato.title", e-form="descripcionRespuesta1")
-                            |  {{dato.title || "Ingresar opcion de respuesta..."}}
-                        a.btn.btn-clipboard.btn-xs(title="EditarRespuesta", ng-click="descripcionRespuesta1.$show()", ng-hide="descripcionRespuesta1.$visible", style="margin-right: 8px;",)
-                            span.glyphicon.glyphicon-pencil(aria-hidden='true')
+                    //PENCIL RESPUESTa
+                        span(ng-if="respuesta.tipoRespuesta.type == 'checkbox' || respuesta.tipoRespuesta.type == 'radio' || respuesta.tipoRespuesta.type == 'range'")
+                            span(editable-text="dato.title", e-form="descripcionRespuesta1")
+                                |  {{dato.title || "Ingresar opcion de respuesta..."}}
+                            a.btn.btn-clipboard.btn-xs(title="EditarRespuesta", ng-click="descripcionRespuesta1.$show()", ng-hide="descripcionRespuesta1.$visible", style="margin-right: 8px;",)
+                                span.glyphicon.glyphicon-pencil(aria-hidden='true')
 
-                    span.pull-right(ng-if="respuesta.tipoRespuesta.type == 'range'")
-                        span(editable-text="dato.title2", e-form="descripcionRespuesta2")
-                            |  {{dato.title2 || "Ingresar opcion de respuesta..."}}
-                        a.btn.btn-clipboard.btn-xs(title="EditarRespuesta", ng-click="descripcionRespuesta2.$show()", ng-hide="descripcionRespuesta2.$visible", style="margin-right: 8px;",)
-                            span.glyphicon.glyphicon-pencil(aria-hidden='true')
+                        span.pull-right(ng-if="respuesta.tipoRespuesta.type == 'range'")
+                            span(editable-text="dato.title2", e-form="descripcionRespuesta2")
+                                |  {{dato.title2 || "Ingresar opcion de respuesta..."}}
+                            a.btn.btn-clipboard.btn-xs(title="EditarRespuesta", ng-click="descripcionRespuesta2.$show()", ng-hide="descripcionRespuesta2.$visible", style="margin-right: 8px;",)
+                                span.glyphicon.glyphicon-pencil(aria-hidden='true')
                     //TEXTO
                     textarea(rows=2, cols=70, type="{{respuesta.tipoRespuesta.type || 'radio'}}", name="{{pregunta.codigoPregunta}}", ng-value="dato.numEscala",
                     ng-model="respuesta.correcta", ng-if="respuesta.tipoRespuesta.type == 'text'")
-
-                    //MATRIZ
-                    .gridStyles(ui-grid="gridOptions", ui-grid-edit, ui-grid-selection, ng-if="respuesta.tipoRespuesta.type == 'Matriz'")
 
                     //*************SELECT TIPO DE PREGUNTA****************
                 select.pull-right(ng-model="respuesta.tipoRespuesta", ng-options="tipo.type for tipo in objTipoPregunta", id="tipoRespuesta")
@@ -133,9 +138,10 @@
                 a.btn.btn-clipboard.btn-xs(title="Editar", ng-click="codigoPregunta.$show()", ng-hide="codigoPregunta.$visible")
                     span.glyphicon.glyphicon-pencil(aria-hidden="true")
                 br
-                span(editable-text="pregunta.ayudaPregunta", e-form="ayudaPregunta", ng-model="pregunta.ayudaPregunta")
+                textarea#textinput.form-control.input-md(ng-model="pregunta.ayudaPregunta")
+                //span(editable-text="pregunta.ayudaPregunta", e-form="ayudaPregunta", ng-model="pregunta.ayudaPregunta")
                     | {{pregunta.ayudaPregunta || "Ayuda!"}}
-                a.btn.btn-clipboard.btn-xs(title="Editar", ng-click="ayudaPregunta.$show()", ng-hide="ayudaPregunta.$visible")
+                //a.btn.btn-clipboard.btn-xs(title="Editar", ng-click="ayudaPregunta.$show()", ng-hide="ayudaPregunta.$visible")
                     span.glyphicon.glyphicon-pencil(aria-hidden="true")
                 //CHECKED
                 br
