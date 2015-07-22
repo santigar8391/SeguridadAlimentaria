@@ -9,6 +9,7 @@ exports.getlistado = function (req, res) {
   });
 };
 
+
 //++++++++++++++EDITA UN PRODUCTO++++++++++++++++++++++
 exports.editarProducto = function(req, res){
   console.log("LLegue a la Funcion EDITAR DE CONTROLLERPRODUCTO");
